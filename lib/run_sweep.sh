@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# run_sweep.sh — Parameter sweep to find optimal configurations
+# run_sweep.sh — Parameter sweep using llama-bench to find optimal configurations
 # Tests different combinations of GPU layers, context sizes, batch sizes, etc.
 
 set -euo pipefail
@@ -7,14 +7,9 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(dirname "$SCRIPT_DIR")"
 
-# Source helpers
-source "$SCRIPT_DIR/run_bench.sh"
-
 # Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
 CYAN='\033[0;36m'
 NC='\033[0m'
 
@@ -32,7 +27,7 @@ QUICK_THREAD_COUNTS=(0)
 
 run_parameter_sweep() {
     local model_path="$1"
-    local sweep_mode="${2:-quick}"  # quick or full
+    local sweep_mode="${2:-quick}"
     local output_dir="${3:-$ROOT_DIR/results/sweeps}"
     local flash_attention="${4:-true}"
 
@@ -53,7 +48,6 @@ run_parameter_sweep() {
         thread_counts=("${QUICK_THREAD_COUNTS[@]}")
     fi
 
-    # Calculate total combinations
     local total=$(( ${#gpu_layers[@]} * ${#context_sizes[@]} * ${#batch_sizes[@]} * ${#thread_counts[@]} ))
     local current=0
 
@@ -72,9 +66,9 @@ run_parameter_sweep() {
     mkdir -p "$output_dir"
 
     local results_file="$output_dir/${model_name}_sweep.jsonl"
-    : > "$results_file"  # Clear/create file
+    : > "$results_file"
 
-    local best_gen_rate=0
+    local best_tg_rate=0
     local best_config=""
 
     for ngl in "${gpu_layers[@]}"; do
@@ -86,51 +80,58 @@ run_parameter_sweep() {
 
                     echo -e "${CYAN}[$current/$total]${NC} Testing: $config"
 
-                    # Run a quick bench with the short prompt
-                    local result
-                    if result=$(run_prompt_bench "$model_path" "$ROOT_DIR/prompts/short.txt" \
-                        "$ngl" "$ctx" "$batch" "$threads" "$flash_attention" 128 2>/dev/null); then
+                    # Build llama-bench args — quick test: pp128 + tg128 only
+                    local args=(-m "$model_path" -ngl "$ngl" -p 128 -n 128)
 
-                        # Extract generation rate
-                        local gen_rate
-                        gen_rate=$(echo "$result" | python3 -c "
-import sys, json
-try:
-    d = json.load(sys.stdin)
-    print(d.get('generation_rate', 0))
-except:
-    print(0)
-" 2>/dev/null || echo "0")
+                    if [[ "$flash_attention" == "true" ]]; then
+                        args+=(-fa 1)
+                    fi
+                    if [[ "$threads" -gt 0 ]]; then
+                        args+=(-t "$threads")
+                    fi
 
-                        local prompt_rate
-                        prompt_rate=$(echo "$result" | python3 -c "
-import sys, json
-try:
-    d = json.load(sys.stdin)
-    print(d.get('prompt_eval_rate', 0))
-except:
-    print(0)
-" 2>/dev/null || echo "0")
+                    # Run llama-bench with JSON output
+                    local json_output
+                    if json_output=$(llama-bench "${args[@]}" -o json 2>/dev/null); then
+                        # Parse results
+                        local rates
+                        rates=$(echo "$json_output" | python3 -c "
+import json, sys
+data = json.load(sys.stdin)
+pp = tg = 0
+for r in data:
+    if r.get('n_prompt', 0) > 0: pp = r.get('avg_ts', 0)
+    if r.get('n_gen', 0) > 0: tg = r.get('avg_ts', 0)
+print(f'{pp:.1f} {tg:.1f}')
+" 2>/dev/null || echo "0 0")
 
-                        echo "    → Generation: ${gen_rate} tok/s | Prompt eval: ${prompt_rate} tok/s"
+                        local pp_rate tg_rate
+                        pp_rate=$(echo "$rates" | awk '{print $1}')
+                        tg_rate=$(echo "$rates" | awk '{print $2}')
+
+                        echo "    → tg128: ${tg_rate} tok/s | pp128: ${pp_rate} tok/s"
 
                         # Save to JSONL
-                        python3 -c "
+                        echo "$json_output" | python3 -c "
 import json, sys
-result = json.loads('''$result''')
-result['parameters'] = {
-    'n_gpu_layers': $ngl,
-    'context_size': $ctx,
-    'batch_size': $batch,
-    'threads': $threads,
-    'flash_attention': $( [[ "$flash_attention" == "true" ]] && echo "True" || echo "False" )
+data = json.load(sys.stdin)
+entry = {
+    'parameters': {
+        'n_gpu_layers': $ngl, 'context_size': $ctx,
+        'batch_size': $batch, 'threads': $threads,
+        'flash_attention': $( [[ "$flash_attention" == "true" ]] && echo "True" || echo "False" )
+    },
+    'speed': {}
 }
-print(json.dumps(result))
+for r in data:
+    if r.get('n_prompt', 0) > 0: entry['speed']['pp128'] = round(r['avg_ts'], 2)
+    if r.get('n_gen', 0) > 0: entry['speed']['tg128'] = round(r['avg_ts'], 2)
+print(json.dumps(entry))
 " >> "$results_file" 2>/dev/null
 
-                        # Track best config
-                        if python3 -c "exit(0 if $gen_rate > $best_gen_rate else 1)" 2>/dev/null; then
-                            best_gen_rate="$gen_rate"
+                        # Track best
+                        if python3 -c "exit(0 if $tg_rate > $best_tg_rate else 1)" 2>/dev/null; then
+                            best_tg_rate="$tg_rate"
                             best_config="$config"
                         fi
                     else
@@ -147,28 +148,22 @@ print(json.dumps(result))
     echo "═══════════════════════════════════════════════════"
     echo "  Results: $results_file"
     echo "  Best config: $best_config"
-    echo "  Best generation speed: ${best_gen_rate} tok/s"
+    echo "  Best tg128 speed: ${best_tg_rate} tok/s"
     echo "═══════════════════════════════════════════════════"
 
-    # Generate summary
     generate_sweep_summary "$results_file"
 }
 
-# Analyze sweep results and find Pareto-optimal configs
 generate_sweep_summary() {
     local results_file="$1"
 
-    python3 << 'PYEOF'
-import json
-import sys
+    python3 - "$results_file" << 'PYEOF'
+import json, sys
 
-results_file = sys.argv[1] if len(sys.argv) > 1 else ""
-if not results_file:
-    results_file = """$1"""
-
+results_file = sys.argv[1]
 results = []
 try:
-    with open(results_file.strip(), 'r') as f:
+    with open(results_file, 'r') as f:
         for line in f:
             line = line.strip()
             if line:
@@ -181,44 +176,43 @@ if not results:
     print("No results to analyze")
     sys.exit(0)
 
-# Sort by generation rate
-results.sort(key=lambda x: x.get('generation_rate', 0), reverse=True)
+results.sort(key=lambda x: x.get('speed', {}).get('tg128', 0), reverse=True)
 
-print("\n  Top 5 Configurations by Generation Speed:")
+print("\n  Top 5 Configurations by tg128 Speed:")
 print("  ─────────────────────────────────────────────")
 for i, r in enumerate(results[:5]):
     p = r.get('parameters', {})
-    print(f"  {i+1}. {r.get('generation_rate', 0):.1f} tok/s | "
+    s = r.get('speed', {})
+    print(f"  {i+1}. tg128={s.get('tg128', 0):.1f} tok/s  pp128={s.get('pp128', 0):.1f} tok/s | "
           f"ngl={p.get('n_gpu_layers', '?')} ctx={p.get('context_size', '?')} "
           f"batch={p.get('batch_size', '?')} threads={p.get('threads', '?')}")
 
-# Find Pareto frontier (speed vs context size)
 print("\n  Recommended Profiles:")
 print("  ─────────────────────────────────────────────")
 
-# Max speed (any context)
 if results:
     r = results[0]
     p = r.get('parameters', {})
-    print(f"  Max Speed:    {r.get('generation_rate', 0):.1f} tok/s | "
+    s = r.get('speed', {})
+    print(f"  Max Speed:    tg128={s.get('tg128', 0):.1f} tok/s | "
           f"ngl={p.get('n_gpu_layers', '?')} ctx={p.get('context_size', '?')} "
           f"batch={p.get('batch_size', '?')}")
 
-# Best with large context
 large_ctx = [r for r in results if r.get('parameters', {}).get('context_size', 0) >= 8192]
 if large_ctx:
     r = large_ctx[0]
     p = r.get('parameters', {})
-    print(f"  Long Context: {r.get('generation_rate', 0):.1f} tok/s | "
+    s = r.get('speed', {})
+    print(f"  Long Context: tg128={s.get('tg128', 0):.1f} tok/s | "
           f"ngl={p.get('n_gpu_layers', '?')} ctx={p.get('context_size', '?')} "
           f"batch={p.get('batch_size', '?')}")
 
-# CPU only (ngl=0)
 cpu_only = [r for r in results if r.get('parameters', {}).get('n_gpu_layers', 99) == 0]
 if cpu_only:
     r = cpu_only[0]
     p = r.get('parameters', {})
-    print(f"  CPU Only:     {r.get('generation_rate', 0):.1f} tok/s | "
+    s = r.get('speed', {})
+    print(f"  CPU Only:     tg128={s.get('tg128', 0):.1f} tok/s | "
           f"ngl=0 ctx={p.get('context_size', '?')} "
           f"batch={p.get('batch_size', '?')}")
 PYEOF

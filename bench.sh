@@ -107,6 +107,49 @@ usage() {
 EOF
 }
 
+# ─── HuggingFace CLI helper ─────────────────────────────────────────
+# Supports both new `hf` CLI and legacy `huggingface-cli`
+# Searches common pip install locations if not on PATH
+_find_hf_cmd() {
+    # Check PATH first
+    for cmd in hf huggingface-cli; do
+        if command -v "$cmd" &>/dev/null; then
+            echo "$cmd"
+            return 0
+        fi
+    done
+    # Search common pip bin locations
+    local search_dirs=(
+        "$HOME/.local/bin"
+        "$HOME/Library/Python/3.9/bin"
+        "$HOME/Library/Python/3.10/bin"
+        "$HOME/Library/Python/3.11/bin"
+        "$HOME/Library/Python/3.12/bin"
+        "$HOME/Library/Python/3.13/bin"
+        "/opt/homebrew/bin"
+        "/usr/local/bin"
+    )
+    for dir in "${search_dirs[@]}"; do
+        for cmd in hf huggingface-cli; do
+            if [[ -x "$dir/$cmd" ]]; then
+                echo "$dir/$cmd"
+                return 0
+            fi
+        done
+    done
+    return 1
+}
+
+hf_cmd() {
+    local hf_bin
+    if ! hf_bin=$(_find_hf_cmd); then
+        log_error "Neither 'hf' nor 'huggingface-cli' found"
+        echo "  Install: pip3 install huggingface-hub" >&2
+        return 1
+    fi
+    "$hf_bin" "$@"
+}
+
 # ─── Parse YAML ────────────────────────────────────────────────────
 parse_models() {
     python3 "$LIB_DIR/parse_yaml.py" "$SCRIPT_DIR/models.yaml" 2>/dev/null
@@ -194,9 +237,9 @@ check_dependencies() {
         ok=false
     fi
 
-    if ! command -v huggingface-cli &>/dev/null; then
-        log_warn "huggingface-cli not found (needed for downloading models)"
-        echo "  Install: pip install huggingface-hub"
+    if ! _find_hf_cmd &>/dev/null; then
+        log_warn "HuggingFace CLI not found (needed for downloading models)"
+        echo "  Install: pip3 install huggingface-hub"
     fi
 
     if [[ "$RUN_QUALITY" == "true" ]] && ! command -v llama-perplexity &>/dev/null; then
@@ -222,9 +265,11 @@ preflight() {
     if [[ "$HW_POWER_SOURCE" == "battery" ]]; then
         log_warn "Running on battery — results may be inconsistent."
         log_warn "Plug in for accurate benchmarks."
-        echo ""
-        read -rp "  [C]ontinue / [Q]uit: " choice
-        [[ "$choice" =~ [Qq] ]] && exit 0
+        if [[ -t 0 ]]; then
+            echo ""
+            read -rp "  [C]ontinue / [Q]uit: " choice
+            [[ "$choice" =~ [Qq] ]] && exit 0
+        fi
         echo ""
     fi
 
@@ -258,7 +303,7 @@ print(m.get('file_pattern', '').replace('{quant}', '$quant'))
     # Check cache
     mkdir -p "$CACHE_DIR"
     if [[ -f "$CACHE_DIR/$file_pattern" ]]; then
-        log_ok "Cached: $file_pattern"
+        log_ok "Cached: $file_pattern" >&2
         echo "$CACHE_DIR/$file_pattern"
         return 0
     fi
@@ -274,16 +319,17 @@ for s in m.get('sources', []):
 " 2>/dev/null)
 
     # Try each source
+    # NOTE: This function returns the path via stdout. All logs go to stderr.
     while IFS= read -r source_line; do
         [[ -z "$source_line" ]] && continue
         local repo="${source_line%%:*}"
         local gated="${source_line#*:}"
 
         if [[ "$gated" == "true" ]]; then
-            if ! huggingface-cli whoami &>/dev/null 2>&1; then
-                log_warn "$repo requires HuggingFace login"
-                echo "  1. Accept license at https://huggingface.co/$repo"
-                echo "  2. Run: huggingface-cli login"
+            if ! hf_cmd whoami &>/dev/null 2>&1; then
+                log_warn "$repo requires HuggingFace login" >&2
+                echo "  1. Accept license at https://huggingface.co/$repo" >&2
+                echo "  2. Run: huggingface-cli login" >&2
                 read -rp "  [S]kip / [R]etry / [Q]uit: " choice
                 case "$choice" in
                     [Ss]) continue ;;
@@ -292,17 +338,24 @@ for s in m.get('sources', []):
             fi
         fi
 
-        log_info "Downloading $file_pattern from $repo..."
-        if huggingface-cli download "$repo" "$file_pattern" \
-            --local-dir "$CACHE_DIR" \
-            --local-dir-use-symlinks False 2>&1; then
+        log_info "Downloading $file_pattern from $repo..." >&2
+        local dl_output
+        if dl_output=$(hf_cmd download "$repo" "$file_pattern" --local-dir "$CACHE_DIR" 2>&1); then
             if [[ -f "$CACHE_DIR/$file_pattern" ]]; then
-                log_ok "Downloaded: $file_pattern"
+                log_ok "Downloaded: $file_pattern" >&2
                 echo "$CACHE_DIR/$file_pattern"
                 return 0
             fi
+            # hf download may return the cached path directly
+            local resolved_path
+            resolved_path=$(echo "$dl_output" | tail -1)
+            if [[ -f "$resolved_path" ]]; then
+                log_ok "Downloaded: $resolved_path" >&2
+                echo "$resolved_path"
+                return 0
+            fi
         fi
-        log_warn "Source failed, trying next..."
+        log_warn "Source failed, trying next..." >&2
     done <<< "$sources"
 
     log_error "Failed to download $model_id"
@@ -346,9 +399,9 @@ bench_single_model() {
     raw_output=$(llama-bench "${bench_args[@]}" 2>&1) || true
     echo "$raw_output"
 
-    # Run again with JSON for data capture
+    # Run again with JSON for data capture (stderr suppressed — only JSON on stdout)
     local json_output
-    json_output=$(llama-bench "${bench_args[@]}" -o json 2>&1) || true
+    json_output=$(llama-bench "${bench_args[@]}" -o json 2>/dev/null) || true
 
     # Phase 2: Memory measurement
     echo ""
@@ -384,7 +437,7 @@ bench_single_model() {
     result_path=$(save_result \
         "$hw_json" "$model_id" "$model_name" "$model_params" "$quant" "$model_path" \
         "$N_GPU_LAYERS" "$FLASH_ATTENTION" "$THREADS" \
-        "$json_output" "$peak_mem" "$quality_json" "$raw_output" 2>/dev/null) || true
+        "$json_output" "$peak_mem" "$quality_json" 2>/dev/null) || true
 
     echo ""
     echo "═══════════════════════════════════════════════════════════════"
@@ -466,8 +519,10 @@ print(m.get('file_pattern','').replace('{quant}','$quant'))" 2>/dev/null)
     echo "  Disk available: ${HW_DISK_AVAILABLE_GB}GB"
     echo "═══════════════════════════════════════════════════════════════"
     echo ""
-    read -rp "  Proceed? [Y/n]: " choice
-    [[ "$choice" =~ [Nn] ]] && exit 0
+    if [[ -t 0 ]]; then
+        read -rp "  Proceed? [Y/n]: " choice
+        [[ "$choice" =~ [Nn] ]] && exit 0
+    fi
 }
 
 # ─── Run benchmarks for model list ────────────────────────────────
@@ -587,23 +642,23 @@ main() {
             ;;
         bench_all)
             preflight
-            local -a models
-            mapfile -t models < <(get_models_to_bench "all")
+            local -a models=()
+            while IFS= read -r line; do models+=("$line"); done < <(get_models_to_bench "all")
             show_plan "${models[@]}"
             run_benchmarks "${models[@]}"
             ;;
         bench_auto)
             preflight
-            local -a models
-            mapfile -t models < <(get_models_to_bench "auto")
+            local -a models=()
+            while IFS= read -r line; do models+=("$line"); done < <(get_models_to_bench "auto")
             [[ ${#models[@]} -eq 0 ]] && { log_error "No models fit in ${HW_TOTAL_RAM_GB}GB RAM"; exit 1; }
             show_plan "${models[@]}"
             run_benchmarks "${models[@]}"
             ;;
         bench_tag)
             preflight
-            local -a models
-            mapfile -t models < <(get_models_to_bench "tag:$TAG")
+            local -a models=()
+            while IFS= read -r line; do models+=("$line"); done < <(get_models_to_bench "tag:$TAG")
             [[ ${#models[@]} -eq 0 ]] && { log_error "No models with tag '$TAG'"; exit 1; }
             show_plan "${models[@]}"
             run_benchmarks "${models[@]}"
@@ -622,8 +677,8 @@ main() {
                 log_info "Custom model: $CUSTOM_REPO ($guess)"
 
                 mkdir -p "$CACHE_DIR"
-                if huggingface-cli download "$CUSTOM_REPO" "$guess" \
-                    --local-dir "$CACHE_DIR" --local-dir-use-symlinks False 2>&1; then
+                if hf_cmd download "$CUSTOM_REPO" "$guess" \
+                    --local-dir "$CACHE_DIR" 2>&1; then
                     bench_single_model "custom-$repo_name" "$CACHE_DIR/$guess" "$custom_quant" "$repo_name" "?"
                 else
                     log_error "Download failed. Check repo name and quant type."

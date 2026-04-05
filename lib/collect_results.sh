@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # collect_results.sh — Save and display benchmark results (v2 schema)
-# Results are JSON files organized by hardware and model.
+# Results stored in: results/{generation}/raw/{chip}_{cpu}c-{gpu}g_{ram}gb/
 
 set -euo pipefail
 
@@ -14,13 +14,31 @@ NC='\033[0m'
 log_info() { echo -e "${BLUE}[INFO]${NC} $*"; }
 log_ok()   { echo -e "${GREEN}[OK]${NC} $*"; }
 
-# Generate sanitized directory name from hardware
-get_hardware_dir_name() {
-    local chip="$1"
-    local ram="$2"
-    local machine="$3"
-    local name="$machine $chip ${ram}GB"
-    echo "$name" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/--*/-/g' | sed 's/^-//;s/-$//'
+# Build folder path from hardware info
+# Format: results/{generation}/raw/{chip}_{cpu}c-{gpu}g_{ram}gb/
+get_result_dir() {
+    local chip="$1"       # e.g., "Apple M5" or "Apple M4 Pro"
+    local cpu_cores="$2"
+    local gpu_cores="$3"
+    local ram_gb="$4"
+
+    # Parse generation and variant from chip name
+    # "Apple M5" -> generation=m5, variant=base
+    # "Apple M4 Pro" -> generation=m4, variant=pro
+    local cleaned
+    cleaned=$(echo "$chip" | sed 's/Apple //i' | tr '[:upper:]' '[:lower:]')
+
+    local generation variant folder_name
+    if echo "$cleaned" | grep -qE '(pro|max|ultra)'; then
+        generation=$(echo "$cleaned" | awk '{print $1}')
+        variant=$(echo "$cleaned" | awk '{print $2}')
+        folder_name="${generation}-${variant}_${cpu_cores}c-${gpu_cores}g_${ram_gb}gb"
+    else
+        generation=$(echo "$cleaned" | awk '{print $1}')
+        folder_name="${generation}_${cpu_cores}c-${gpu_cores}g_${ram_gb}gb"
+    fi
+
+    echo "$ROOT_DIR/results/$generation/raw/$folder_name"
 }
 
 # Save a benchmark result as JSON
@@ -37,10 +55,9 @@ save_result() {
     local speed_json="${10}"
     local peak_mem="${11}"
     local quality_json="${12:-{}}"
-    local raw_output="${13:-}"
 
     python3 << PYEOF
-import json, os
+import json, os, re
 from datetime import datetime, timezone
 
 hw = json.loads('''$hw_json''')
@@ -52,10 +69,13 @@ try:
     bench_results = json.loads(speed_raw)
     if isinstance(bench_results, list):
         for r in bench_results:
-            test = r.get("test", "")
-            tps = r.get("t/s", 0)
-            if test and tps:
-                speed[test] = round(float(tps), 2)
+            n_prompt = r.get("n_prompt", 0)
+            n_gen = r.get("n_gen", 0)
+            avg_ts = r.get("avg_ts", 0)
+            if n_prompt > 0 and avg_ts:
+                speed[f"pp{n_prompt}"] = round(float(avg_ts), 2)
+            elif n_gen > 0 and avg_ts:
+                speed[f"tg{n_gen}"] = round(float(avg_ts), 2)
     elif isinstance(bench_results, dict):
         speed = bench_results
 except:
@@ -109,13 +129,25 @@ result = {
 if quality:
     result["quality"] = quality
 
-raw = """$raw_output"""
-if raw:
-    result["llama_bench_raw"] = raw
+# Determine output directory using chip info
+chip = hw.get("chip", "unknown")
+cpu_cores = hw.get("cpu_cores", 0)
+gpu_cores = hw.get("gpu_cores", "0")
+ram_gb = hw.get("total_ram_gb", 0)
 
-# Save to file
-hw_dir = "$( get_hardware_dir_name "${HW_CHIP:-unknown}" "${HW_TOTAL_RAM_GB:-0}" "${HW_MAC_MODEL:-unknown}" )"
-output_dir = os.path.join("$ROOT_DIR", "results", hw_dir, "$model_id")
+# Parse generation and variant
+cleaned = re.sub(r'(?i)apple\s*', '', chip).strip().lower()
+parts = cleaned.split()
+generation = parts[0] if parts else "unknown"
+variant = parts[1] if len(parts) > 1 else "base"
+
+if variant and variant != "base":
+    folder_name = f"{generation}-{variant}_{cpu_cores}c-{gpu_cores}g_{ram_gb}gb"
+else:
+    variant = "base"
+    folder_name = f"{generation}_{cpu_cores}c-{gpu_cores}g_{ram_gb}gb"
+
+output_dir = os.path.join("$ROOT_DIR", "results", generation, variant, "raw", folder_name)
 os.makedirs(output_dir, exist_ok=True)
 
 filename = f"${model_id}_${quant}_ngl${n_gpu_layers}.json"
@@ -128,19 +160,16 @@ print(filepath)
 PYEOF
 }
 
-# Print summary table
+# Print summary table from all results
 print_results_summary() {
-    python3 << 'PYEOF'
-import json, os, glob
+    python3 - "$ROOT_DIR" << 'PYEOF'
+import json, os, glob, sys
 
-results_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "results")
-if not os.path.exists(results_dir):
-    results_dir = "results"
+root_dir = sys.argv[1] if len(sys.argv) > 1 else "."
+results_dir = os.path.join(root_dir, "results")
 
 all_results = []
-for fp in glob.glob(os.path.join(results_dir, "**", "*.json"), recursive=True):
-    if "schema" in fp or "sweep" in fp:
-        continue
+for fp in glob.glob(os.path.join(results_dir, "*", "*", "raw", "**", "*.json"), recursive=True):
     try:
         with open(fp) as f:
             all_results.append(json.load(f))
@@ -149,7 +178,7 @@ for fp in glob.glob(os.path.join(results_dir, "**", "*.json"), recursive=True):
 
 if not all_results:
     print("  No results found. Run ./bench.sh --model <id> to generate benchmarks.")
-    return
+    sys.exit(0)
 
 by_hw = {}
 for r in all_results:

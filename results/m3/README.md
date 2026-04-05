@@ -1,0 +1,16 @@
+# Apple M3 Benchmarks
+
+Select your M3 chip variant:
+
+| Variant | Configurations | Models Tested | Status |
+|---------|----------------|---------------|--------|
+| [M3](base/) | - | - | Awaiting contributions |
+| [M3 Pro](pro/) | - | - | Awaiting contributions |
+| [M3 Max](max/) | - | - | Awaiting contributions |
+| [M3 Ultra](ultra/) | - | - | Awaiting contributions |
+
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) for how to add your results.
+
+---
+
+*Auto-generated — run `python3 scripts/generate_results.py` to regenerate.*

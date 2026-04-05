@@ -2,73 +2,56 @@
 
 Community-driven benchmark database for running LLMs locally on Apple Silicon Macs.
 
-**Goal:** Build a comprehensive, reproducible performance database so anyone can look up how fast a given LLM runs on their specific MacBook — and find the optimal settings for it.
+**Goal:** Build a comprehensive, reproducible performance database so anyone can look up how fast a given LLM runs on their specific Mac — and find the optimal settings for it.
 
-## How It Works
+## Benchmark Results
 
-We use **`llama-bench`** as the core benchmark — it's standardized, content-agnostic, and fully reproducible. It measures raw token processing and generation speed at fixed token counts (pp128, pp256, pp512, tg128, tg256). No custom prompts, no subjectivity, no need to ever re-benchmark if test cases change.
+Browse results by chip generation:
 
-Optionally, **`llama-perplexity`** measures quality loss from quantization using the WikiText-2 dataset — another fixed, public benchmark.
+| Generation | Link | Status |
+|------------|------|--------|
+| **Apple M1** | [View results](results/m1/) | Awaiting contributions |
+| **Apple M2** | [View results](results/m2/) | Awaiting contributions |
+| **Apple M3** | [View results](results/m3/) | Awaiting contributions |
+| **Apple M4** | [View results](results/m4/) | Awaiting contributions |
+| **Apple M5** | [View results](results/m5/) | 1 config, 4 models |
+
+Each generation page contains separate tables for every variant (base, Pro, Max, Ultra) and hardware configuration (CPU cores, GPU cores, RAM).
+
+> Full results index with cross-generation comparison: [results/README.md](results/README.md)
 
 ## Quick Start
 
 ```bash
-git clone https://github.com/user/mac-llm-bench.git
+git clone https://github.com/enescingoz/mac-llm-bench.git
 cd mac-llm-bench
 
 # Install dependencies
 brew install llama.cpp
-pip install huggingface-hub     # for model downloads
+pip3 install huggingface-hub
 
-# Run a quick smoke test (~1GB download)
+# Run a quick smoke test (~0.8GB download)
 ./bench.sh --quick
-
-# Benchmark a specific model
-./bench.sh --model gemma-3-4b
 
 # Benchmark all models that fit in your RAM
 ./bench.sh --auto
 
-# Find optimal parameters
-./bench.sh --model gemma-3-4b --sweep
+# Regenerate result tables after benchmarking
+python3 scripts/generate_results.py
 ```
 
-## What It Measures
+## How It Works
+
+We use **`llama-bench`** as the core benchmark — standardized, content-agnostic, and fully reproducible. It measures raw token processing and generation speed at fixed token counts (pp128, pp256, pp512, tg128, tg256). No custom prompts, no subjectivity, no need to ever re-benchmark if test cases change.
 
 | Metric | Source | Description |
 |--------|--------|-------------|
-| **pp128/pp256/pp512** (tok/s) | `llama-bench` | Prompt processing speed at 128/256/512 tokens |
-| **tg128/tg256** (tok/s) | `llama-bench` | Text generation speed at 128/256 tokens |
+| **pp128/pp256/pp512** (tok/s) | `llama-bench` | Prompt processing speed |
+| **tg128/tg256** (tok/s) | `llama-bench` | Text generation speed |
 | **Peak Memory** (GB) | `/usr/bin/time` | Maximum RAM usage |
-| **Perplexity** | `llama-perplexity` | Quality metric on WikiText-2 (optional) |
-
-All speed metrics come from `llama-bench` — a standardized, content-agnostic benchmark built into llama.cpp. The test sizes (128/256/512 tokens) are fixed and will never change, so all results are always comparable.
-
-## Benchmark Results
-
-> Results are contributed by the community. See [CONTRIBUTING.md](CONTRIBUTING.md) to add yours.
-
-### Apple M5 (32GB) — MacBook Air
-
-| Model | Quant | pp256 tok/s | tg128 tok/s | Memory GB |
-|-------|-------|-------------|-------------|-----------|
-| *Run `./bench.sh --auto` to contribute!* |
-
-### Apple M4 Pro (48GB)
-
-| Model | Quant | pp256 tok/s | tg128 tok/s | Memory GB |
-|-------|-------|-------------|-------------|-----------|
-| *Awaiting contributions* |
-
-### Apple M3 Max (64GB)
-
-| Model | Quant | pp256 tok/s | tg128 tok/s | Memory GB |
-|-------|-------|-------------|-------------|-----------|
-| *Awaiting contributions* |
+| **Perplexity** | `llama-perplexity` | Quality on WikiText-2 (optional) |
 
 ## Initial Model Set: Gemma 3
-
-We start with the Gemma 3 family as the initial benchmark set — a clean size ladder (1B, 4B, 12B, 27B) that covers tiny to large models, all ungated (no HuggingFace login required):
 
 | Model | Params | Default Quant | Min RAM |
 |-------|--------|---------------|---------|
@@ -77,36 +60,65 @@ We start with the Gemma 3 family as the initial benchmark set — a clean size l
 | gemma-3-12b | 12B | Q4_K_M | 8 GB |
 | gemma-3-27b | 27B | Q4_K_M | 16 GB |
 
-More model families (Llama, Qwen, Mistral, DeepSeek, Phi) can be added by the community via PR. See [CONTRIBUTING.md](CONTRIBUTING.md).
+All ungated — no HuggingFace login required. More model families can be added via PR.
+
+## Apple Silicon Coverage
+
+We aim to cover every Apple Silicon configuration:
+
+```
+M1 / M2 / M3 / M4 / M5
+  × base / Pro / Max / Ultra
+    × various CPU/GPU core counts
+      × various RAM sizes (8GB – 256GB)
+```
+
+Results are organized by generation → variant → hardware config. See [CONTRIBUTING.md](CONTRIBUTING.md) for how to add your machine.
 
 ## Parameter Optimization
 
-Beyond raw speed, find the **optimal settings** for each model on your hardware:
+Find optimal settings for each model on your hardware:
 
 ```bash
 ./bench.sh --model gemma-3-4b --sweep        # Quick sweep
 ./bench.sh --model gemma-3-4b --sweep-full   # Exhaustive sweep
 ```
 
-Sweeps test combinations of: GPU layers (`-ngl`), context size, batch size, and thread count. The output shows the best config for max speed, long context, and CPU-only operation.
+## Project Structure
+
+```
+mac-llm-bench/
+├── bench.sh                        # Main CLI
+├── models.yaml                     # Model registry
+├── requirements.txt                # Python dependencies
+├── lib/                            # Benchmark scripts
+├── scripts/
+│   └── generate_results.py         # Generates result tables from raw data
+├── results/
+│   ├── README.md                   # Auto-generated index
+│   ├── m1/ ... m5/                 # Per-generation results
+│   │   ├── README.md               # Auto-generated tables
+│   │   └── raw/                    # Raw JSON benchmark data
+│   │       └── {chip}_{cpu}c-{gpu}g_{ram}gb/
+│   │           └── {model}_{quant}_ngl{n}.json
+├── schemas/
+│   └── result.schema.json          # Result JSON format
+├── CONTRIBUTING.md                  # How to submit results
+└── GUIDE.md                        # User guide
+```
 
 ## Documentation
 
-- **[GUIDE.md](GUIDE.md)** — Detailed user guide
+- **[GUIDE.md](GUIDE.md)** — Detailed user guide for benchmarking
 - **[CONTRIBUTING.md](CONTRIBUTING.md)** — How to submit results and add models
-- **[models.yaml](models.yaml)** — Model registry
-- **[schemas/result.schema.json](schemas/result.schema.json)** — Result JSON format
+- **[results/](results/)** — All benchmark results
 
 ## Requirements
 
 - macOS on Apple Silicon (M1/M2/M3/M4/M5)
 - [llama.cpp](https://github.com/ggml-org/llama.cpp) — `brew install llama.cpp`
-- [huggingface-hub](https://pypi.org/project/huggingface-hub/) — `pip install huggingface-hub`
+- [huggingface-hub](https://pypi.org/project/huggingface-hub/) — `pip3 install huggingface-hub`
 - Python 3 (pre-installed on macOS)
-
-## Why llama-bench?
-
-Custom prompts create a comparability problem: change the prompt, and every result in the database becomes invalid. `llama-bench` avoids this entirely — it measures how fast the hardware processes N tokens, regardless of content. The token count is the only variable, and we fix that too (128, 256, 512). Results from today will be directly comparable to results from next year.
 
 ## License
 
