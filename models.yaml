@@ -1,0 +1,65 @@
+# Mac LLM Benchmark - Model Registry
+# Each model defines where to download, available quantizations, and requirements.
+# Sources are tried in order — ungated repos are preferred to avoid auth friction.
+#
+# Start with Gemma 3 family as the initial benchmark set.
+# Other model families can be added later by the community.
+
+models:
+  # ─── Google Gemma 3 Family (Initial Benchmark Set) ──────────────────
+  gemma-3-1b:
+    name: "Gemma 3 1B"
+    params: "1B"
+    sources:
+      - repo: "bartowski/google_gemma-3-1b-it-GGUF"
+        gated: false
+    quants: [Q4_K_M, Q6_K, Q8_0]
+    default_quant: Q4_K_M
+    file_pattern: "google_gemma-3-1b-it-{quant}.gguf"
+    min_ram: 4
+    tags: [google, gemma, tiny]
+
+  gemma-3-4b:
+    name: "Gemma 3 4B"
+    params: "4B"
+    sources:
+      - repo: "bartowski/google_gemma-3-4b-it-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
+    default_quant: Q4_K_M
+    file_pattern: "google_gemma-3-4b-it-{quant}.gguf"
+    min_ram: 4
+    tags: [google, gemma, small]
+
+  gemma-3-12b:
+    name: "Gemma 3 12B"
+    params: "12B"
+    sources:
+      - repo: "bartowski/google_gemma-3-12b-it-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
+    default_quant: Q4_K_M
+    file_pattern: "google_gemma-3-12b-it-{quant}.gguf"
+    min_ram: 8
+    tags: [google, gemma, medium]
+
+  gemma-3-27b:
+    name: "Gemma 3 27B"
+    params: "27B"
+    sources:
+      - repo: "bartowski/google_gemma-3-27b-it-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K]
+    default_quant: Q4_K_M
+    file_pattern: "google_gemma-3-27b-it-{quant}.gguf"
+    min_ram: 16
+    tags: [google, gemma, large]
+
+# ─── Quantization Reference ─────────────────────────────────────────
+# Q2_K   — 2-bit, smallest, lowest quality. For testing if a model loads at all.
+# Q3_K_M — 3-bit medium. Significant quality loss but much faster.
+# Q4_K_M — 4-bit medium. Best balance of speed/quality. Default for most benchmarks.
+# Q5_K_M — 5-bit medium. Slightly better quality, slightly slower.
+# Q6_K   — 6-bit. Near full quality, noticeably more RAM.
+# Q8_0   — 8-bit. Near-lossless quality, ~2x RAM of Q4.
+# F16    — Full 16-bit. Maximum quality, maximum RAM. Usually only for small models.

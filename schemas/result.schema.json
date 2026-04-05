@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Mac LLM Benchmark Result",
+  "description": "Schema for benchmark results. Core speed metrics come from llama-bench (standardized, content-agnostic). Optional quality metrics from llama-perplexity on WikiText-2.",
+  "type": "object",
+  "required": ["version", "timestamp", "hardware", "model", "runtime", "speed"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Schema version",
+      "const": "2.0"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of when the benchmark was run"
+    },
+    "hardware": {
+      "type": "object",
+      "required": ["model", "chip", "total_ram_gb", "cpu_cores", "gpu_cores", "os_version"],
+      "properties": {
+        "model": {
+          "type": "string",
+          "description": "MacBook model (e.g., MacBook Air)"
+        },
+        "chip": {
+          "type": "string",
+          "description": "Apple Silicon chip (e.g., Apple M5)"
+        },
+        "total_ram_gb": {
+          "type": "integer",
+          "description": "Total system RAM in GB"
+        },
+        "cpu_cores": {
+          "type": "integer",
+          "description": "Total CPU cores"
+        },
+        "gpu_cores": {
+          "type": "string",
+          "description": "Number of GPU cores"
+        },
+        "os_version": {
+          "type": "string",
+          "description": "macOS version"
+        },
+        "power_source": {
+          "type": "string",
+          "enum": ["battery", "ac_power", "unknown"]
+        }
+      }
+    },
+    "model": {
+      "type": "object",
+      "required": ["name", "params", "quant"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Model name"
+        },
+        "id": {
+          "type": "string",
+          "description": "Model ID from registry"
+        },
+        "params": {
+          "type": "string",
+          "description": "Parameter count (e.g., 7B)"
+        },
+        "quant": {
+          "type": "string",
+          "description": "Quantization type (e.g., Q4_K_M)"
+        },
+        "file_size_gb": {
+          "type": "number",
+          "description": "GGUF file size in GB"
+        }
+      }
+    },
+    "runtime": {
+      "type": "object",
+      "required": ["name", "version"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "const": "llama.cpp"
+        },
+        "version": {
+          "type": "string",
+          "description": "llama.cpp version/build string"
+        }
+      }
+    },
+    "parameters": {
+      "type": "object",
+      "description": "llama.cpp parameters used",
+      "properties": {
+        "n_gpu_layers": { "type": "integer" },
+        "flash_attention": { "type": "boolean" },
+        "threads": { "type": "integer" }
+      }
+    },
+    "speed": {
+      "type": "object",
+      "description": "Core speed metrics from llama-bench. Keys are test configs like pp128, pp256, pp512, tg128, tg256.",
+      "properties": {
+        "pp128": {
+          "type": "number",
+          "description": "Prompt processing speed at 128 tokens (tok/s)"
+        },
+        "pp256": {
+          "type": "number",
+          "description": "Prompt processing speed at 256 tokens (tok/s)"
+        },
+        "pp512": {
+          "type": "number",
+          "description": "Prompt processing speed at 512 tokens (tok/s)"
+        },
+        "tg128": {
+          "type": "number",
+          "description": "Text generation speed at 128 tokens (tok/s)"
+        },
+        "tg256": {
+          "type": "number",
+          "description": "Text generation speed at 256 tokens (tok/s)"
+        }
+      }
+    },
+    "memory": {
+      "type": "object",
+      "description": "Memory usage metrics",
+      "properties": {
+        "peak_rss_gb": {
+          "type": "number",
+          "description": "Peak resident set size in GB"
+        },
+        "model_size_gb": {
+          "type": "number",
+          "description": "Model size in memory in GB"
+        }
+      }
+    },
+    "quality": {
+      "type": "object",
+      "description": "Optional quality metrics from llama-perplexity on WikiText-2",
+      "properties": {
+        "perplexity": {
+          "type": "number",
+          "description": "Perplexity on WikiText-2 (lower = better)"
+        },
+        "perplexity_std": {
+          "type": "number",
+          "description": "Standard deviation of perplexity"
+        }
+      }
+    },
+    "llama_bench_raw": {
+      "type": "string",
+      "description": "Raw llama-bench output for reproducibility"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Optional notes"
+    }
+  }
+}

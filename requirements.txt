@@ -1,0 +1,5 @@
+# Required
+huggingface-hub>=0.20.0    # Model downloads (huggingface-cli)
+
+# Optional but recommended
+pyyaml>=6.0                # Better YAML parsing (fallback parser works without it)

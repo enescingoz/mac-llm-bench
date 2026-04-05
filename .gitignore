@@ -1,0 +1,30 @@
+# Model cache - GGUFs are large, never commit them
+*.gguf
+cache/
+.cache/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+tmp/
+*.tmp
+*.log
+
+# Python (for analysis scripts)
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Node (if web dashboard added later)
+node_modules/
+.claude/
