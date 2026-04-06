@@ -1,0 +1,43 @@
+{
+  "version": "2.0",
+  "timestamp": "2026-04-06T16:59:28Z",
+  "hardware": {
+    "model": "MacBook Air",
+    "chip": "Apple M5",
+    "total_ram_gb": 32,
+    "available_ram_gb": 20.8,
+    "cpu_cores": 10,
+    "performance_cores": 4,
+    "efficiency_cores": 6,
+    "gpu_cores": "10",
+    "os_version": "26.4",
+    "power_source": "ac_power",
+    "disk_available_gb": 760
+  },
+  "model": {
+    "name": "Gemma 4 E2B",
+    "id": "gemma-4-e2b",
+    "params": "2B",
+    "quant": "Q4_K_M",
+    "file_size_gb": 3.22
+  },
+  "runtime": {
+    "name": "llama.cpp",
+    "version": "unknown"
+  },
+  "parameters": {
+    "n_gpu_layers": 99,
+    "flash_attention": true,
+    "threads": 0
+  },
+  "speed": {
+    "pp128": 930.58,
+    "pp256": 652.99,
+    "pp512": 628.27,
+    "tg128": 29.18,
+    "tg256": 29.06
+  },
+  "memory": {
+    "peak_rss_gb": 3.39
+  }
+}

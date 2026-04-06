@@ -14,7 +14,7 @@ Browse results by chip generation:
 | **Apple M2** | [View results](results/m2/) | Awaiting contributions |
 | **Apple M3** | [View results](results/m3/) | Awaiting contributions |
 | **Apple M4** | [View results](results/m4/) | Awaiting contributions |
-| **Apple M5** | [View results](results/m5/) | 1 config, 29 models |
+| **Apple M5** | [View results](results/m5/) | 1 config, 37 models |
 
 Each generation page contains separate tables for every variant (base, Pro, Max, Ultra) and hardware configuration (CPU cores, GPU cores, RAM).
 
@@ -53,11 +53,13 @@ We use **`llama-bench`** as the core benchmark — standardized, content-agnosti
 
 ## Supported Models
 
-Currently benchmarking 8 model families (29 models total):
+Currently benchmarking 10 model families (37 models total):
 
 | Family | Models | Sizes |
 |--------|--------|-------|
+| **Gemma 4** (Google) | 4 models | E2B, E4B, 26B-A4B MoE, 31B |
 | **Gemma 3** (Google) | 4 models | 1B, 4B, 12B, 27B |
+| **Qwen 3.5** (Alibaba) | 4 models | 4B, 9B, 27B, 35B-A3B MoE |
 | **Qwen 3** (Alibaba) | 7 models | 0.6B, 1.7B, 4B, 8B, 14B, 32B, 30B-A3B MoE |
 | **Qwen 2.5 Coder** (Alibaba) | 3 models | 7B, 14B, 32B |
 | **QwQ** (Alibaba) | 1 model | 32B |

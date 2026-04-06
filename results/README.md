@@ -10,7 +10,7 @@ Browse by chip generation, then select your variant (base, Pro, Max, Ultra).
 | **M2** | - | - | - | [Awaiting contributions](m2/) |
 | **M3** | - | - | - | [Awaiting contributions](m3/) |
 | **M4** | - | - | - | [Awaiting contributions](m4/) |
-| **M5** | 1 | 1 | 29 | [View results](m5/) |
+| **M5** | 1 | 1 | 37 | [View results](m5/) |
 
 ## Quick Comparison
 
@@ -26,6 +26,10 @@ Best `tg128` (text generation, tok/s) per generation:
 | Gemma 3 1B | - | - | - | - | 46.6 |
 | Gemma 3 27B | - | - | - | - | 3.0 |
 | Gemma 3 4B | - | - | - | - | 16.5 |
+| Gemma 4 26B-A4B MoE | - | - | - | - | 16.2 |
+| Gemma 4 31B | - | - | - | - | 5.5 |
+| Gemma 4 E2B | - | - | - | - | 29.2 |
+| Gemma 4 E4B | - | - | - | - | 7.6 |
 | Llama 3.1 8B Instruct | - | - | - | - | 10.8 |
 | Llama 3.2 1B Instruct | - | - | - | - | 59.4 |
 | Llama 3.2 3B Instruct | - | - | - | - | 24.1 |
@@ -47,6 +51,10 @@ Best `tg128` (text generation, tok/s) per generation:
 | Qwen 3 32B | - | - | - | - | 2.5 |
 | Qwen 3 4B | - | - | - | - | 16.5 |
 | Qwen 3 8B | - | - | - | - | 9.1 |
+| Qwen 3.5 27B | - | - | - | - | 4.4 |
+| Qwen 3.5 35B-A3B MoE | - | - | - | - | 31.3 |
+| Qwen 3.5 4B | - | - | - | - | 29.4 |
+| Qwen 3.5 9B | - | - | - | - | 13.2 |
 
 *Best tg128 across all variants within each generation.*
 

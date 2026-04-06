@@ -140,6 +140,104 @@ models:
     min_ram: 20
     tags: [qwen, large, general, moe, trending]
 
+  # ─── Qwen 3.5 Family ───────────────────────────────────────────────
+  qwen3.5-4b:
+    name: "Qwen 3.5 4B"
+    params: "4B"
+    sources:
+      - repo: "unsloth/Qwen3.5-4B-GGUF"
+        gated: false
+    quants: [Q4_K_M, Q6_K, Q8_0]
+    default_quant: Q4_K_M
+    file_pattern: "Qwen3.5-4B-{quant}.gguf"
+    min_ram: 4
+    tags: [qwen, small, general, multimodal, trending]
+
+  qwen3.5-9b:
+    name: "Qwen 3.5 9B"
+    params: "9B"
+    sources:
+      - repo: "unsloth/Qwen3.5-9B-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
+    default_quant: Q4_K_M
+    file_pattern: "Qwen3.5-9B-{quant}.gguf"
+    min_ram: 8
+    tags: [qwen, medium, general, multimodal, trending]
+
+  qwen3.5-27b:
+    name: "Qwen 3.5 27B"
+    params: "27B"
+    sources:
+      - repo: "unsloth/Qwen3.5-27B-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K]
+    default_quant: Q4_K_M
+    file_pattern: "Qwen3.5-27B-{quant}.gguf"
+    min_ram: 18
+    tags: [qwen, large, general, multimodal, trending]
+
+  qwen3.5-35b-a3b:
+    name: "Qwen 3.5 35B-A3B MoE"
+    params: "35B"
+    sources:
+      - repo: "unsloth/Qwen3.5-35B-A3B-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M]
+    default_quant: Q4_K_M
+    file_pattern: "Qwen3.5-35B-A3B-{quant}.gguf"
+    min_ram: 24
+    tags: [qwen, large, general, multimodal, moe, trending]
+
+  # ─── Google Gemma 4 Family ────────────────────────────────────────
+  gemma-4-e2b:
+    name: "Gemma 4 E2B"
+    params: "2B"
+    sources:
+      - repo: "bartowski/google_gemma-4-E2B-it-GGUF"
+        gated: false
+    quants: [Q4_K_M, Q6_K, Q8_0]
+    default_quant: Q4_K_M
+    file_pattern: "google_gemma-4-E2B-it-{quant}.gguf"
+    min_ram: 4
+    tags: [google, gemma, tiny, multimodal, trending]
+
+  gemma-4-e4b:
+    name: "Gemma 4 E4B"
+    params: "4B"
+    sources:
+      - repo: "bartowski/google_gemma-4-E4B-it-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
+    default_quant: Q4_K_M
+    file_pattern: "google_gemma-4-E4B-it-{quant}.gguf"
+    min_ram: 4
+    tags: [google, gemma, small, multimodal, trending]
+
+  gemma-4-26b-a4b:
+    name: "Gemma 4 26B-A4B MoE"
+    params: "26B"
+    sources:
+      - repo: "bartowski/google_gemma-4-26B-A4B-it-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K]
+    default_quant: Q4_K_M
+    file_pattern: "google_gemma-4-26B-A4B-it-{quant}.gguf"
+    min_ram: 18
+    tags: [google, gemma, large, multimodal, moe, trending]
+
+  gemma-4-31b:
+    name: "Gemma 4 31B"
+    params: "31B"
+    sources:
+      - repo: "bartowski/google_gemma-4-31B-it-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K]
+    default_quant: Q4_K_M
+    file_pattern: "google_gemma-4-31B-it-{quant}.gguf"
+    min_ram: 20
+    tags: [google, gemma, large, multimodal, trending]
+
   # ─── Qwen 2.5 Coder Family ─────────────────────────────────────────
   qwen2.5-coder-7b:
     name: "Qwen 2.5 Coder 7B"

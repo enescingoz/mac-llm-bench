@@ -1,0 +1,43 @@
+{
+  "version": "2.0",
+  "timestamp": "2026-04-06T17:56:45Z",
+  "hardware": {
+    "model": "MacBook Air",
+    "chip": "Apple M5",
+    "total_ram_gb": 32,
+    "available_ram_gb": 21.4,
+    "cpu_cores": 10,
+    "performance_cores": 4,
+    "efficiency_cores": 6,
+    "gpu_cores": "10",
+    "os_version": "26.4",
+    "power_source": "ac_power",
+    "disk_available_gb": 760
+  },
+  "model": {
+    "name": "Qwen 3.5 4B",
+    "id": "qwen3.5-4b",
+    "params": "4B",
+    "quant": "Q4_K_M",
+    "file_size_gb": 2.55
+  },
+  "runtime": {
+    "name": "llama.cpp",
+    "version": "unknown"
+  },
+  "parameters": {
+    "n_gpu_layers": 99,
+    "flash_attention": true,
+    "threads": 0
+  },
+  "speed": {
+    "pp128": 631.69,
+    "pp256": 631.2,
+    "pp512": 628.01,
+    "tg128": 29.35,
+    "tg256": 21.87
+  },
+  "memory": {
+    "peak_rss_gb": 2.74
+  }
+}
