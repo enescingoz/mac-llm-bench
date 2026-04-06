@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# run_bench.sh — Core benchmark using llama-bench (standardized, content-agnostic)
+# run_bench_gguf.sh — GGUF benchmark using llama-bench (standardized, content-agnostic)
 # Also supports optional perplexity measurement via llama-perplexity.
 
 set -euo pipefail

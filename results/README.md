@@ -10,7 +10,7 @@ Browse by chip generation, then select your variant (base, Pro, Max, Ultra).
 | **M2** | - | - | - | [Awaiting contributions](m2/) |
 | **M3** | - | - | - | [Awaiting contributions](m3/) |
 | **M4** | - | - | - | [Awaiting contributions](m4/) |
-| **M5** | 1 | 1 | 37 | [View results](m5/) |
+| **M5** | 1 | 1 | 41 | [View results](m5/) |
 
 ## Quick Comparison
 
@@ -55,6 +55,10 @@ Best `tg128` (text generation, tok/s) per generation:
 | Qwen 3.5 35B-A3B MoE | - | - | - | - | 31.3 |
 | Qwen 3.5 4B | - | - | - | - | 29.4 |
 | Qwen 3.5 9B | - | - | - | - | 13.2 |
+| Qwen3-0.6B-4bit | - | - | - | - | 259.1 |
+| Qwen3-8B-4bit | - | - | - | - | 24.0 |
+| Qwen3.5-4B-4bit | - | - | - | - | 48.7 |
+| gemma-3-1b-it-4bit | - | - | - | - | 176.7 |
 
 *Best tg128 across all variants within each generation.*
 

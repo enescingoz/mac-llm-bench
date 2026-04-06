@@ -57,7 +57,11 @@ def parse_chip_folder(folder_name):
 
 
 def load_all_results():
-    """Load all results: {generation: {variant: {config_folder: [results]}}}"""
+    """Load all results: {generation: {variant: {config_folder: [results]}}}
+
+    Structure: results/{gen}/{variant}/raw/{chip_folder}/{runtime}/*.json
+    where runtime is 'gguf' or 'mlx'.
+    """
     data = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
 
     for gen in GENERATIONS:
@@ -71,13 +75,24 @@ def load_all_results():
                     continue
                 folder_name = os.path.basename(chip_dir)
 
-                for json_file in sorted(glob.glob(os.path.join(chip_dir, "*.json"))):
-                    try:
-                        with open(json_file) as f:
-                            result = json.load(f)
-                        data[gen][variant][folder_name].append(result)
-                    except (json.JSONDecodeError, IOError):
+                # Scan runtime subfolders (gguf/, mlx/)
+                for runtime_dir in sorted(glob.glob(os.path.join(chip_dir, "*"))):
+                    if not os.path.isdir(runtime_dir):
                         continue
+                    runtime = os.path.basename(runtime_dir)
+
+                    for json_file in sorted(glob.glob(os.path.join(runtime_dir, "*.json"))):
+                        try:
+                            with open(json_file) as f:
+                                result = json.load(f)
+                            # Tag with runtime if not already present
+                            if "runtime" in result and "name" in result["runtime"]:
+                                result["_runtime_tag"] = runtime
+                            else:
+                                result["_runtime_tag"] = runtime
+                            data[gen][variant][folder_name].append(result)
+                        except (json.JSONDecodeError, IOError):
+                            continue
 
     return data
 
@@ -104,9 +119,17 @@ def variant_display(gen, variant):
 
 def render_results_table(results):
     """Render a markdown benchmark table from a list of result dicts."""
+    # Check if we have multiple runtimes
+    runtimes = set(r.get("_runtime_tag", "gguf") for r in results)
+    show_runtime = len(runtimes) > 1
+
     lines = []
-    lines.append("| Model | Quant | pp128 | pp256 | pp512 | tg128 | tg256 | Memory |")
-    lines.append("|-------|-------|------:|------:|------:|------:|------:|-------:|")
+    if show_runtime:
+        lines.append("| Model | Runtime | Quant | pp128 | pp256 | pp512 | tg128 | tg256 | Memory |")
+        lines.append("|-------|---------|-------|------:|------:|------:|------:|------:|-------:|")
+    else:
+        lines.append("| Model | Quant | pp128 | pp256 | pp512 | tg128 | tg256 | Memory |")
+        lines.append("|-------|-------|------:|------:|------:|------:|------:|-------:|")
 
     results.sort(key=lambda r: r.get("speed", {}).get("tg128", 0), reverse=True)
 
@@ -114,6 +137,7 @@ def render_results_table(results):
         m = r.get("model", {})
         s = r.get("speed", {})
         mem = r.get("memory", {})
+        runtime = r.get("_runtime_tag", "gguf").upper()
 
         name = m.get("name", "?")
         quant = m.get("quant", "?")
@@ -124,9 +148,14 @@ def render_results_table(results):
         tg256 = f"{s['tg256']:.1f}" if "tg256" in s else "-"
         peak_mem = f"{mem['peak_rss_gb']:.2f}" if "peak_rss_gb" in mem else "-"
 
-        lines.append(
-            f"| {name} | {quant} | {pp128} | {pp256} | {pp512} | {tg128} | {tg256} | {peak_mem} |"
-        )
+        if show_runtime:
+            lines.append(
+                f"| {name} | {runtime} | {quant} | {pp128} | {pp256} | {pp512} | {tg128} | {tg256} | {peak_mem} |"
+            )
+        else:
+            lines.append(
+                f"| {name} | {quant} | {pp128} | {pp256} | {pp512} | {tg128} | {tg256} | {peak_mem} |"
+            )
 
     return "\n".join(lines)
 

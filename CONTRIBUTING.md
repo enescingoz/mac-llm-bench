@@ -20,13 +20,13 @@ git clone https://github.com/enescingoz/mac-llm-bench.git
 cd mac-llm-bench
 
 # Option A: All models that fit in RAM (recommended)
-./bench.sh --auto
+./bench_gguf.sh --auto
 
 # Option B: Specific model
-./bench.sh --model gemma-3-4b
+./bench_gguf.sh --model gemma-3-4b
 
 # Option C: Low disk space — download, bench, delete, repeat
-./bench.sh --auto --streaming
+./bench_gguf.sh --auto --streaming
 ```
 
 ### 2. Regenerate Tables
@@ -40,7 +40,7 @@ This reads all raw JSON files and regenerates the README.md tables in each `resu
 ### 3. Check Results
 
 ```bash
-./bench.sh --results
+./bench_gguf.sh --results
 ```
 
 Your results are saved as JSON in:

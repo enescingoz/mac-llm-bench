@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ╔═══════════════════════════════════════════════════════════════════╗
-# ║  Mac LLM Bench — Benchmark LLMs on Apple Silicon                ║
+# ║  Mac LLM Bench (GGUF) — Benchmark LLMs using llama.cpp          ║
 # ║  Core benchmark: llama-bench (standardized, content-agnostic)   ║
 # ║  Optional quality: llama-perplexity on WikiText-2               ║
 # ╚═══════════════════════════════════════════════════════════════════╝
@@ -57,7 +57,7 @@ usage() {
   Mac LLM Bench — Benchmark LLMs on Apple Silicon
 
   USAGE:
-    ./bench.sh [OPTIONS]
+    ./bench_gguf.sh [OPTIONS]
 
   MODEL SELECTION:
     --model <id>          Benchmark a specific model from the registry
@@ -95,14 +95,14 @@ usage() {
     --help                Show this help
 
   EXAMPLES:
-    ./bench.sh --quick                              # Quick test
-    ./bench.sh --model gemma-3-4b                   # One model
-    ./bench.sh --model gemma-3-4b --quant Q8_0      # Specific quant
-    ./bench.sh --model gemma-3-4b --sweep           # Find optimal params
-    ./bench.sh --model gemma-3-4b --quality         # Speed + quality
-    ./bench.sh --auto                               # All that fit in RAM
-    ./bench.sh --auto --streaming                   # Low disk space mode
-    ./bench.sh --model-path ~/my-model.gguf         # Local file
+    ./bench_gguf.sh --quick                              # Quick test
+    ./bench_gguf.sh --model gemma-3-4b                   # One model
+    ./bench_gguf.sh --model gemma-3-4b --quant Q8_0      # Specific quant
+    ./bench_gguf.sh --model gemma-3-4b --sweep           # Find optimal params
+    ./bench_gguf.sh --model gemma-3-4b --quality         # Speed + quality
+    ./bench_gguf.sh --auto                               # All that fit in RAM
+    ./bench_gguf.sh --auto --streaming                   # Low disk space mode
+    ./bench_gguf.sh --model-path ~/my-model.gguf         # Local file
 
 EOF
 }
@@ -421,7 +421,7 @@ bench_single_model() {
     if [[ "$RUN_QUALITY" == "true" ]]; then
         echo ""
         log_info "Phase 3/3: Quality benchmark (perplexity on WikiText-2)"
-        source "$LIB_DIR/run_bench.sh"
+        source "$LIB_DIR/run_bench_gguf.sh"
         quality_json=$(run_perplexity "$model_path" "$N_GPU_LAYERS" "$FLASH_ATTENTION" 2>/dev/null || echo "{}")
     else
         echo ""
@@ -555,7 +555,7 @@ run_benchmarks() {
 
         # Sweep or bench
         if [[ -n "$SWEEP_MODE" ]]; then
-            source "$LIB_DIR/run_sweep.sh"
+            source "$LIB_DIR/run_sweep_gguf.sh"
             run_parameter_sweep "$model_path" "$SWEEP_MODE"
         else
             bench_single_model "$model_id" "$model_path" "$quant" "$model_name" "$model_params"
@@ -602,7 +602,7 @@ parse_args() {
             --help|-h)    usage; exit 0 ;;
             *)
                 log_error "Unknown option: $1"
-                echo "  Run ./bench.sh --help for usage"
+                echo "  Run ./bench_gguf.sh --help for usage"
                 exit 1 ;;
         esac
     done
