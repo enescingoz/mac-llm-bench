@@ -226,6 +226,55 @@ models:
     min_ram: 20
     tags: [deepseek, large, reasoning, trending]
 
+  # ─── Mistral Family ───────────────────────────────────────────────
+  mistral-7b:
+    name: "Mistral 7B Instruct v0.3"
+    params: "7B"
+    sources:
+      - repo: "bartowski/Mistral-7B-Instruct-v0.3-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
+    default_quant: Q4_K_M
+    file_pattern: "Mistral-7B-Instruct-v0.3-{quant}.gguf"
+    min_ram: 8
+    tags: [mistral, medium, general]
+
+  mistral-nemo-12b:
+    name: "Mistral Nemo 12B"
+    params: "12B"
+    sources:
+      - repo: "bartowski/Mistral-Nemo-Instruct-2407-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
+    default_quant: Q4_K_M
+    file_pattern: "Mistral-Nemo-Instruct-2407-{quant}.gguf"
+    min_ram: 8
+    tags: [mistral, medium, general]
+
+  mistral-small-3.1-24b:
+    name: "Mistral Small 3.1 24B"
+    params: "24B"
+    sources:
+      - repo: "bartowski/mistralai_Mistral-Small-3.1-24B-Instruct-2503-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K]
+    default_quant: Q4_K_M
+    file_pattern: "mistralai_Mistral-Small-3.1-24B-Instruct-2503-{quant}.gguf"
+    min_ram: 16
+    tags: [mistral, large, general, multimodal, trending]
+
+  devstral-small-24b:
+    name: "Devstral Small 24B"
+    params: "24B"
+    sources:
+      - repo: "bartowski/mistralai_Devstral-Small-2505-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K]
+    default_quant: Q4_K_M
+    file_pattern: "mistralai_Devstral-Small-2505-{quant}.gguf"
+    min_ram: 16
+    tags: [mistral, large, coding, trending]
+
 # ─── Quantization Reference ─────────────────────────────────────────
 # Q2_K   — 2-bit, smallest, lowest quality. For testing if a model loads at all.
 # Q3_K_M — 3-bit medium. Significant quality loss but much faster.
