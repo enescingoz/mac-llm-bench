@@ -140,6 +140,56 @@ models:
     min_ram: 20
     tags: [qwen, large, general, moe, trending]
 
+  # ─── Qwen 2.5 Coder Family ─────────────────────────────────────────
+  qwen2.5-coder-7b:
+    name: "Qwen 2.5 Coder 7B"
+    params: "7B"
+    sources:
+      - repo: "bartowski/Qwen2.5-Coder-7B-Instruct-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
+    default_quant: Q4_K_M
+    file_pattern: "Qwen2.5-Coder-7B-Instruct-{quant}.gguf"
+    min_ram: 8
+    tags: [qwen, medium, coding, popular]
+
+  qwen2.5-coder-14b:
+    name: "Qwen 2.5 Coder 14B"
+    params: "14B"
+    sources:
+      - repo: "bartowski/Qwen2.5-Coder-14B-Instruct-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
+    default_quant: Q4_K_M
+    file_pattern: "Qwen2.5-Coder-14B-Instruct-{quant}.gguf"
+    min_ram: 12
+    tags: [qwen, medium, coding, popular]
+
+  qwen2.5-coder-32b:
+    name: "Qwen 2.5 Coder 32B"
+    params: "32B"
+    sources:
+      - repo: "bartowski/Qwen2.5-Coder-32B-Instruct-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K]
+    default_quant: Q4_K_M
+    file_pattern: "Qwen2.5-Coder-32B-Instruct-{quant}.gguf"
+    min_ram: 20
+    tags: [qwen, large, coding, popular]
+
+  # ─── QwQ Reasoning ────────────────────────────────────────────────
+  qwq-32b:
+    name: "QwQ 32B"
+    params: "32B"
+    sources:
+      - repo: "bartowski/Qwen_QwQ-32B-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K]
+    default_quant: Q4_K_M
+    file_pattern: "Qwen_QwQ-32B-{quant}.gguf"
+    min_ram: 20
+    tags: [qwen, large, reasoning, trending]
+
   # ─── Microsoft Phi-4 Family ────────────────────────────────────────
   phi-4-mini:
     name: "Phi 4 Mini 3.8B"
@@ -274,6 +324,43 @@ models:
     file_pattern: "mistralai_Devstral-Small-2505-{quant}.gguf"
     min_ram: 16
     tags: [mistral, large, coding, trending]
+
+  # ─── Meta Llama Family ─────────────────────────────────────────────
+  llama-3.2-1b:
+    name: "Llama 3.2 1B Instruct"
+    params: "1B"
+    sources:
+      - repo: "bartowski/Llama-3.2-1B-Instruct-GGUF"
+        gated: false
+    quants: [Q4_K_M, Q6_K, Q8_0]
+    default_quant: Q4_K_M
+    file_pattern: "Llama-3.2-1B-Instruct-{quant}.gguf"
+    min_ram: 4
+    tags: [meta, tiny, general]
+
+  llama-3.2-3b:
+    name: "Llama 3.2 3B Instruct"
+    params: "3B"
+    sources:
+      - repo: "bartowski/Llama-3.2-3B-Instruct-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
+    default_quant: Q4_K_M
+    file_pattern: "Llama-3.2-3B-Instruct-{quant}.gguf"
+    min_ram: 4
+    tags: [meta, small, general]
+
+  llama-3.1-8b:
+    name: "Llama 3.1 8B Instruct"
+    params: "8B"
+    sources:
+      - repo: "bartowski/Meta-Llama-3.1-8B-Instruct-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
+    default_quant: Q4_K_M
+    file_pattern: "Meta-Llama-3.1-8B-Instruct-{quant}.gguf"
+    min_ram: 8
+    tags: [meta, medium, general, popular]
 
 # ─── Quantization Reference ─────────────────────────────────────────
 # Q2_K   — 2-bit, smallest, lowest quality. For testing if a model loads at all.
