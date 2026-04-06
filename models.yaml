@@ -140,6 +140,43 @@ models:
     min_ram: 20
     tags: [qwen, large, general, moe, trending]
 
+  # ─── DeepSeek R1 Distill Family ────────────────────────────────────
+  deepseek-r1-distill-7b:
+    name: "DeepSeek R1 Distill 7B"
+    params: "7B"
+    sources:
+      - repo: "bartowski/DeepSeek-R1-Distill-Qwen-7B-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
+    default_quant: Q4_K_M
+    file_pattern: "DeepSeek-R1-Distill-Qwen-7B-{quant}.gguf"
+    min_ram: 8
+    tags: [deepseek, medium, reasoning, trending]
+
+  deepseek-r1-distill-14b:
+    name: "DeepSeek R1 Distill 14B"
+    params: "14B"
+    sources:
+      - repo: "bartowski/DeepSeek-R1-Distill-Qwen-14B-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
+    default_quant: Q4_K_M
+    file_pattern: "DeepSeek-R1-Distill-Qwen-14B-{quant}.gguf"
+    min_ram: 12
+    tags: [deepseek, medium, reasoning, trending]
+
+  deepseek-r1-distill-32b:
+    name: "DeepSeek R1 Distill 32B"
+    params: "32B"
+    sources:
+      - repo: "bartowski/DeepSeek-R1-Distill-Qwen-32B-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K]
+    default_quant: Q4_K_M
+    file_pattern: "DeepSeek-R1-Distill-Qwen-32B-{quant}.gguf"
+    min_ram: 20
+    tags: [deepseek, large, reasoning, trending]
+
 # ─── Quantization Reference ─────────────────────────────────────────
 # Q2_K   — 2-bit, smallest, lowest quality. For testing if a model loads at all.
 # Q3_K_M — 3-bit medium. Significant quality loss but much faster.

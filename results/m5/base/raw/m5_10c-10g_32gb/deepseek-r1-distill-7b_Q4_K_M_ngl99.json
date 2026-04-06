@@ -1,0 +1,43 @@
+{
+  "version": "2.0",
+  "timestamp": "2026-04-06T10:09:48Z",
+  "hardware": {
+    "model": "MacBook Air",
+    "chip": "Apple M5",
+    "total_ram_gb": 32,
+    "available_ram_gb": 11.3,
+    "cpu_cores": 10,
+    "performance_cores": 4,
+    "efficiency_cores": 6,
+    "gpu_cores": "10",
+    "os_version": "26.4",
+    "power_source": "ac_power",
+    "disk_available_gb": 759
+  },
+  "model": {
+    "name": "DeepSeek R1 Distill 7B",
+    "id": "deepseek-r1-distill-7b",
+    "params": "7B",
+    "quant": "Q4_K_M",
+    "file_size_gb": 4.36
+  },
+  "runtime": {
+    "name": "llama.cpp",
+    "version": "unknown"
+  },
+  "parameters": {
+    "n_gpu_layers": 99,
+    "flash_attention": true,
+    "threads": 0
+  },
+  "speed": {
+    "pp128": 195.55,
+    "pp256": 190.75,
+    "pp512": 194.1,
+    "tg128": 11.39,
+    "tg256": 12.12
+  },
+  "memory": {
+    "peak_rss_gb": 4.47
+  }
+}
