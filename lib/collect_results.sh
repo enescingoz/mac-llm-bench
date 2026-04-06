@@ -55,6 +55,7 @@ save_result() {
     local speed_json="${10}"
     local peak_mem="${11}"
     local quality_json="${12:-{}}"
+    local runtime="${13:-gguf}"
 
     python3 << PYEOF
 import json, os, re
@@ -147,7 +148,7 @@ else:
     variant = "base"
     folder_name = f"{generation}_{cpu_cores}c-{gpu_cores}g_{ram_gb}gb"
 
-output_dir = os.path.join("$ROOT_DIR", "results", generation, variant, "raw", folder_name)
+output_dir = os.path.join("$ROOT_DIR", "results", generation, variant, "raw", folder_name, "$runtime")
 os.makedirs(output_dir, exist_ok=True)
 
 filename = f"${model_id}_${quant}_ngl${n_gpu_layers}.json"
@@ -169,7 +170,7 @@ root_dir = sys.argv[1] if len(sys.argv) > 1 else "."
 results_dir = os.path.join(root_dir, "results")
 
 all_results = []
-for fp in glob.glob(os.path.join(results_dir, "*", "*", "raw", "**", "*.json"), recursive=True):
+for fp in glob.glob(os.path.join(results_dir, "**", "*.json"), recursive=True):
     try:
         with open(fp) as f:
             all_results.append(json.load(f))
@@ -177,7 +178,7 @@ for fp in glob.glob(os.path.join(results_dir, "*", "*", "raw", "**", "*.json"), 
         continue
 
 if not all_results:
-    print("  No results found. Run ./bench.sh --model <id> to generate benchmarks.")
+    print("  No results found. Run ./bench_gguf.sh --model <id> or ./bench_mlx.sh --model <id>")
     sys.exit(0)
 
 by_hw = {}

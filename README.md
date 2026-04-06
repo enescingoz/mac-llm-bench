@@ -14,7 +14,7 @@ Browse results by chip generation:
 | **Apple M2** | [View results](results/m2/) | Awaiting contributions |
 | **Apple M3** | [View results](results/m3/) | Awaiting contributions |
 | **Apple M4** | [View results](results/m4/) | Awaiting contributions |
-| **Apple M5** | [View results](results/m5/) | 1 config, 37 models |
+| **Apple M5** | [View results](results/m5/) | 1 config, 41 benchmarks (GGUF + MLX) |
 
 Each generation page contains separate tables for every variant (base, Pro, Max, Ultra) and hardware configuration (CPU cores, GPU cores, RAM).
 
@@ -26,34 +26,37 @@ Each generation page contains separate tables for every variant (base, Pro, Max,
 git clone https://github.com/enescingoz/mac-llm-bench.git
 cd mac-llm-bench
 
-# Install dependencies
+# GGUF benchmarks (llama.cpp)
 brew install llama.cpp
 pip3 install huggingface-hub
+./bench_gguf.sh --quick                  # Quick smoke test
+./bench_gguf.sh --auto                   # All models that fit in RAM
 
-# Run a quick smoke test (~0.8GB download)
-./bench.sh --quick
+# MLX benchmarks (Apple MLX) - optional, requires Python 3.10+
+python3.12 -m venv ~/.venvs/mlx && source ~/.venvs/mlx/bin/activate
+pip install mlx-lm
+./bench_mlx.sh --repo mlx-community/Qwen3-8B-4bit
 
-# Benchmark all models that fit in your RAM
-./bench.sh --auto
-
-# Regenerate result tables after benchmarking
+# Regenerate result tables
 python3 scripts/generate_results.py
 ```
 
 ## How It Works
 
-We use **`llama-bench`** as the core benchmark — standardized, content-agnostic, and fully reproducible. It measures raw token processing and generation speed at fixed token counts (pp128, pp256, pp512, tg128, tg256). No custom prompts, no subjectivity, no need to ever re-benchmark if test cases change.
+We support two runtimes, each with its own standardized benchmark:
 
-| Metric | Source | Description |
-|--------|--------|-------------|
-| **pp128/pp256/pp512** (tok/s) | `llama-bench` | Prompt processing speed |
-| **tg128/tg256** (tok/s) | `llama-bench` | Text generation speed |
-| **Peak Memory** (GB) | `/usr/bin/time` | Maximum RAM usage |
-| **Perplexity** | `llama-perplexity` | Quality on WikiText-2 (optional) |
+| Runtime | Benchmark Tool | Script | Model Format |
+|---------|---------------|--------|-------------|
+| **GGUF** | `llama-bench` | `./bench_gguf.sh` | GGUF (llama.cpp) |
+| **MLX** | `mlx_lm.benchmark` | `./bench_mlx.sh` | MLX 4-bit (Apple MLX) |
+
+Both measure the same metrics at fixed token counts (pp128, pp256, pp512, tg128, tg256). Results are stored separately and displayed side-by-side with a Runtime column so you can compare GGUF vs MLX directly.
+
+> **Note:** Some newer models (e.g., Gemma 4) may not yet be supported by all runtimes. MLX support depends on the `mlx-lm` library version. These will be added as runtime support becomes available.
 
 ## Supported Models
 
-Currently benchmarking 10 model families (37 models total):
+Currently benchmarking 10 model families (37 GGUF + 4 MLX = 41 benchmarks):
 
 | Family | Models | Sizes |
 |--------|--------|-------|
@@ -68,7 +71,7 @@ Currently benchmarking 10 model families (37 models total):
 | **Mistral** | 4 models | 7B v0.3, Nemo 12B, Small 3.1 24B, Devstral Small 24B |
 | **Llama** (Meta) | 3 models | 3.2 1B, 3.2 3B, 3.1 8B |
 
-All ungated — no HuggingFace login required. More model families can be added via PR. Run `./bench.sh --list` to see all available models.
+All ungated — no HuggingFace login required. More model families can be added via PR. Run `./bench_gguf.sh --list` to see all available models.
 
 ## Apple Silicon Coverage
 
@@ -88,31 +91,40 @@ Results are organized by generation → variant → hardware config. See [CONTRI
 Find optimal settings for each model on your hardware:
 
 ```bash
-./bench.sh --model gemma-3-4b --sweep        # Quick sweep
-./bench.sh --model gemma-3-4b --sweep-full   # Exhaustive sweep
+./bench_gguf.sh --model gemma-3-4b --sweep        # Quick sweep
+./bench_gguf.sh --model gemma-3-4b --sweep-full   # Exhaustive sweep
 ```
 
 ## Project Structure
 
 ```
 mac-llm-bench/
-├── bench.sh                        # Main CLI
+├── bench_gguf.sh                   # GGUF benchmark (llama.cpp)
+├── bench_mlx.sh                    # MLX benchmark (mlx-lm)
 ├── models.yaml                     # Model registry
 ├── requirements.txt                # Python dependencies
-├── lib/                            # Benchmark scripts
+├── lib/
+│   ├── run_bench_gguf.sh           # llama-bench wrapper
+│   ├── run_bench_mlx.sh            # mlx_lm.benchmark wrapper
+│   ├── run_sweep_gguf.sh           # GGUF parameter sweep
+│   ├── collect_results.sh          # Shared result storage
+│   ├── detect_hardware.sh          # Hardware detection
+│   ├── download_model.sh           # HuggingFace download
+│   └── parse_yaml.py               # YAML parser
 ├── scripts/
-│   └── generate_results.py         # Generates result tables from raw data
+│   └── generate_results.py         # Generates result tables
 ├── results/
 │   ├── README.md                   # Auto-generated index
 │   ├── m1/ ... m5/                 # Per-generation results
 │   │   ├── README.md               # Auto-generated tables
-│   │   └── raw/                    # Raw JSON benchmark data
+│   │   └── {variant}/raw/
 │   │       └── {chip}_{cpu}c-{gpu}g_{ram}gb/
-│   │           └── {model}_{quant}_ngl{n}.json
+│   │           ├── gguf/           # GGUF benchmark results
+│   │           └── mlx/            # MLX benchmark results
 ├── schemas/
 │   └── result.schema.json          # Result JSON format
-├── CONTRIBUTING.md                  # How to submit results
-└── GUIDE.md                        # User guide
+├── CONTRIBUTING.md
+└── GUIDE.md
 ```
 
 ## Documentation
@@ -123,10 +135,15 @@ mac-llm-bench/
 
 ## Requirements
 
+**GGUF benchmarks:**
 - macOS on Apple Silicon (M1/M2/M3/M4/M5)
 - [llama.cpp](https://github.com/ggml-org/llama.cpp) — `brew install llama.cpp`
 - [huggingface-hub](https://pypi.org/project/huggingface-hub/) — `pip3 install huggingface-hub`
 - Python 3 (pre-installed on macOS)
+
+**MLX benchmarks (optional):**
+- Python 3.10+ (install via `brew install python@3.12`)
+- [mlx-lm](https://github.com/ml-explore/mlx-lm) — `pip install mlx-lm` (in a venv recommended)
 
 ## License
 

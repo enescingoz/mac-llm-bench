@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# run_sweep.sh — Parameter sweep using llama-bench to find optimal configurations
+# run_sweep_gguf.sh — GGUF parameter sweep using llama-bench to find optimal configurations
 # Tests different combinations of GPU layers, context sizes, batch sizes, etc.
 
 set -euo pipefail
