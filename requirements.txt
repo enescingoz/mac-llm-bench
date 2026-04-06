@@ -1,5 +1,8 @@
-# Required
-huggingface-hub>=0.20.0    # Model downloads (huggingface-cli)
+# Required (GGUF benchmarks)
+huggingface-hub>=0.20.0    # Model downloads (hf CLI)
 
-# Optional but recommended
+# Required (MLX benchmarks) - needs Python 3.10+
+mlx-lm>=0.29.0             # MLX inference and mlx_lm.benchmark
+
+# Optional
 pyyaml>=6.0                # Better YAML parsing (fallback parser works without it)

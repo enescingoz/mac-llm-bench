@@ -135,10 +135,15 @@ mac-llm-bench/
 
 ## Requirements
 
+**GGUF benchmarks:**
 - macOS on Apple Silicon (M1/M2/M3/M4/M5)
 - [llama.cpp](https://github.com/ggml-org/llama.cpp) — `brew install llama.cpp`
 - [huggingface-hub](https://pypi.org/project/huggingface-hub/) — `pip3 install huggingface-hub`
 - Python 3 (pre-installed on macOS)
+
+**MLX benchmarks (optional):**
+- Python 3.10+ (install via `brew install python@3.12`)
+- [mlx-lm](https://github.com/ml-explore/mlx-lm) — `pip install mlx-lm` (in a venv recommended)
 
 ## License
 

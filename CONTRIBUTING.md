@@ -19,14 +19,14 @@ Every contribution helps build the benchmark database. Whether it's results from
 git clone https://github.com/enescingoz/mac-llm-bench.git
 cd mac-llm-bench
 
-# Option A: All models that fit in RAM (recommended)
-./bench_gguf.sh --auto
+# GGUF benchmarks (llama.cpp)
+./bench_gguf.sh --auto                   # All models that fit in RAM
+./bench_gguf.sh --model gemma-3-4b       # Specific model
+./bench_gguf.sh --auto --streaming       # Low disk space mode
 
-# Option B: Specific model
-./bench_gguf.sh --model gemma-3-4b
-
-# Option C: Low disk space — download, bench, delete, repeat
-./bench_gguf.sh --auto --streaming
+# MLX benchmarks (optional, requires Python 3.10+)
+python3.12 -m venv ~/.venvs/mlx && source ~/.venvs/mlx/bin/activate && pip install mlx-lm
+./bench_mlx.sh --repo mlx-community/Qwen3-8B-4bit --cleanup
 ```
 
 ### 2. Regenerate Tables
@@ -93,26 +93,23 @@ git push origin results/your-chip-description
 results/
 ├── README.md                          ← Auto-generated index
 ├── m1/
-│   ├── README.md                      ← Auto-generated tables for all M1 variants
-│   └── raw/
-│       ├── m1_8c-7g_8gb/             ← M1, 8 CPU, 7 GPU, 8GB
-│       │   ├── gemma-3-1b_Q4_K_M_ngl99.json
-│       │   └── gemma-3-4b_Q4_K_M_ngl99.json
-│       └── m1-pro_10c-16g_32gb/      ← M1 Pro, 10 CPU, 16 GPU, 32GB
-│           └── ...
-├── m2/
+│   ├── README.md                      ← Auto-generated tables
+│   └── base/raw/
+│       └── m1_8c-7g_8gb/
+│           ├── gguf/                  ← GGUF benchmark results
+│           │   └── gemma-3-1b_Q4_K_M_ngl99.json
+│           └── mlx/                   ← MLX benchmark results
+│               └── gemma-3-1b-4bit_4bit_ngl99.json
+├── m5/
 │   ├── README.md
-│   └── raw/ ...
-├── m3/ ...
-├── m4/ ...
-└── m5/
-    ├── README.md
-    └── raw/
-        └── m5_10c-10g_32gb/
-            ├── gemma-3-1b_Q4_K_M_ngl99.json
-            ├── gemma-3-4b_Q4_K_M_ngl99.json
-            ├── gemma-3-12b_Q4_K_M_ngl99.json
-            └── gemma-3-27b_Q4_K_M_ngl99.json
+│   └── base/raw/
+│       └── m5_10c-10g_32gb/
+│           ├── gguf/
+│           │   ├── gemma-3-1b_Q4_K_M_ngl99.json
+│           │   └── ...
+│           └── mlx/
+│               ├── Qwen3-0.6B-4bit_4bit_ngl99.json
+│               └── ...
 ```
 
 ### Folder Naming Convention
@@ -130,7 +127,8 @@ This is auto-detected — the script reads your hardware and creates the right f
 
 | File | Who creates it | Committed? |
 |------|---------------|------------|
-| `results/*/raw/**/*.json` | `bench.sh` (you run it) | Yes — this is your contribution |
+| `results/**/gguf/*.json` | `bench_gguf.sh` (you run it) | Yes — your contribution |
+| `results/**/mlx/*.json` | `bench_mlx.sh` (you run it) | Yes — your contribution |
 | `results/*/README.md` | `generate_results.py` | Yes — regenerated from raw data |
 | `results/README.md` | `generate_results.py` | Yes — regenerated from raw data |
 

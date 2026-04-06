@@ -6,7 +6,8 @@ Everything you need to benchmark LLMs on your Mac.
 
 - [Prerequisites](#prerequisites)
 - [Quick Start](#quick-start)
-- [Testing Predefined Models](#testing-predefined-models)
+- [GGUF Benchmarks](#gguf-benchmarks)
+- [MLX Benchmarks](#mlx-benchmarks)
 - [Testing Custom Models](#testing-custom-models)
 - [Understanding Results](#understanding-results)
 - [Parameter Tuning](#parameter-tuning)
@@ -33,6 +34,22 @@ Everything you need to benchmark LLMs on your Mac.
    pip install huggingface-hub
    ```
 
+### MLX Benchmarks (optional)
+
+4. **Python 3.10+** (macOS ships 3.9, so install via Homebrew)
+   ```bash
+   brew install python@3.12
+   ```
+
+5. **mlx-lm** (in a virtual environment)
+   ```bash
+   python3.12 -m venv ~/.venvs/mlx
+   source ~/.venvs/mlx/bin/activate
+   pip install mlx-lm
+   ```
+
+> **Note:** Some newer models (e.g., Gemma 4) may not yet be supported by mlx-lm. Support is added as the library updates.
+
 ### Optional
 
 - **PyYAML** — better model registry parsing (fallback works without it)
@@ -55,7 +72,7 @@ All models in the initial set (Gemma 3) are **ungated** — no login required. I
 ## Quick Start
 
 ```bash
-git clone https://github.com/user/mac-llm-bench.git
+git clone https://github.com/enescingoz/mac-llm-bench.git
 cd mac-llm-bench
 
 # Verify hardware detection
@@ -70,7 +87,11 @@ cd mac-llm-bench
 
 ---
 
-## Testing Predefined Models
+## GGUF Benchmarks
+
+Uses `llama-bench` via `./bench_gguf.sh`. This is the primary benchmark method using GGUF model files.
+
+### Testing Predefined Models
 
 ### List Available Models
 
@@ -117,6 +138,40 @@ If you have a GGUF file from LM Studio or downloaded manually:
 ```bash
 ./bench_gguf.sh --scan   # Finds GGUFs in cache, LM Studio, etc.
 ```
+
+---
+
+## MLX Benchmarks
+
+Uses `mlx_lm.benchmark` via `./bench_mlx.sh`. MLX is Apple's native ML framework, optimized for Apple Silicon. Typically 2-3x faster than GGUF for text generation.
+
+### Setup
+
+```bash
+brew install python@3.12
+python3.12 -m venv ~/.venvs/mlx
+source ~/.venvs/mlx/bin/activate
+pip install mlx-lm
+```
+
+### Running MLX Benchmarks
+
+MLX models are downloaded from `mlx-community` on HuggingFace:
+
+```bash
+./bench_mlx.sh --repo mlx-community/Qwen3-8B-4bit
+./bench_mlx.sh --repo mlx-community/Qwen3.5-4B-4bit --cleanup
+./bench_mlx.sh --repo mlx-community/gemma-3-1b-it-4bit
+```
+
+Results are saved in `results/{gen}/{variant}/raw/{chip}/mlx/` and appear alongside GGUF results in the tables with a Runtime column.
+
+### GGUF vs MLX
+
+Both use standardized benchmarks measuring the same metrics (pp and tg at fixed token counts). The difference is the runtime and quantization:
+
+- **GGUF** (Q4_K_M): llama.cpp, broader model support
+- **MLX** (4-bit): Apple-native, faster on Apple Silicon, some newer models may not be supported yet
 
 ---
 
