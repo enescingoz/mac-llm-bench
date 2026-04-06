@@ -521,7 +521,9 @@ print(m.get('file_pattern','').replace('{quant}','$quant'))" 2>/dev/null)
     echo ""
     if [[ -t 0 ]]; then
         read -rp "  Proceed? [Y/n]: " choice
-        [[ "$choice" =~ [Nn] ]] && exit 0
+        if [[ "$choice" =~ [Nn] ]]; then
+            exit 0
+        fi
     fi
 }
 
