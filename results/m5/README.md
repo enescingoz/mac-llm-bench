@@ -4,7 +4,7 @@ Select your M5 chip variant:
 
 | Variant | Configurations | Models Tested | Status |
 |---------|----------------|---------------|--------|
-| [M5](base/) | 1 | 14 | 1 config(s), 14 model(s) |
+| [M5](base/) | 1 | 18 | 1 config(s), 18 model(s) |
 | [M5 Pro](pro/) | - | - | Awaiting contributions |
 | [M5 Max](max/) | - | - | Awaiting contributions |
 | [M5 Ultra](ultra/) | - | - | Awaiting contributions |

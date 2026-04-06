@@ -140,6 +140,55 @@ models:
     min_ram: 20
     tags: [qwen, large, general, moe, trending]
 
+  # ─── Microsoft Phi-4 Family ────────────────────────────────────────
+  phi-4-mini:
+    name: "Phi 4 Mini 3.8B"
+    params: "3.8B"
+    sources:
+      - repo: "bartowski/microsoft_Phi-4-mini-instruct-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
+    default_quant: Q4_K_M
+    file_pattern: "microsoft_Phi-4-mini-instruct-{quant}.gguf"
+    min_ram: 4
+    tags: [microsoft, small, general, trending]
+
+  phi-4-mini-reasoning:
+    name: "Phi 4 Mini Reasoning 3.8B"
+    params: "3.8B"
+    sources:
+      - repo: "bartowski/microsoft_Phi-4-mini-reasoning-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
+    default_quant: Q4_K_M
+    file_pattern: "microsoft_Phi-4-mini-reasoning-{quant}.gguf"
+    min_ram: 4
+    tags: [microsoft, small, reasoning, trending]
+
+  phi-4:
+    name: "Phi 4 14B"
+    params: "14B"
+    sources:
+      - repo: "bartowski/phi-4-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
+    default_quant: Q4_K_M
+    file_pattern: "phi-4-{quant}.gguf"
+    min_ram: 12
+    tags: [microsoft, medium, general, trending]
+
+  phi-4-reasoning:
+    name: "Phi 4 Reasoning Plus 14B"
+    params: "14B"
+    sources:
+      - repo: "bartowski/microsoft_Phi-4-reasoning-plus-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
+    default_quant: Q4_K_M
+    file_pattern: "microsoft_Phi-4-reasoning-plus-{quant}.gguf"
+    min_ram: 12
+    tags: [microsoft, medium, reasoning, trending]
+
   # ─── DeepSeek R1 Distill Family ────────────────────────────────────
   deepseek-r1-distill-7b:
     name: "DeepSeek R1 Distill 7B"

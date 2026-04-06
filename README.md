@@ -14,7 +14,7 @@ Browse results by chip generation:
 | **Apple M2** | [View results](results/m2/) | Awaiting contributions |
 | **Apple M3** | [View results](results/m3/) | Awaiting contributions |
 | **Apple M4** | [View results](results/m4/) | Awaiting contributions |
-| **Apple M5** | [View results](results/m5/) | 1 config, 14 models |
+| **Apple M5** | [View results](results/m5/) | 1 config, 18 models |
 
 Each generation page contains separate tables for every variant (base, Pro, Max, Ultra) and hardware configuration (CPU cores, GPU cores, RAM).
 
@@ -53,13 +53,14 @@ We use **`llama-bench`** as the core benchmark — standardized, content-agnosti
 
 ## Supported Models
 
-Currently benchmarking 3 model families (14 models total):
+Currently benchmarking 4 model families (18 models total):
 
 | Family | Models | Sizes |
 |--------|--------|-------|
 | **Gemma 3** (Google) | 4 models | 1B, 4B, 12B, 27B |
 | **Qwen 3** (Alibaba) | 7 models | 0.6B, 1.7B, 4B, 8B, 14B, 32B, 30B-A3B MoE |
 | **DeepSeek R1 Distill** | 3 models | 7B, 14B, 32B |
+| **Phi-4** (Microsoft) | 4 models | Mini 3.8B, Mini Reasoning 3.8B, 14B, Reasoning Plus 14B |
 
 All ungated — no HuggingFace login required. More model families can be added via PR. Run `./bench.sh --list` to see all available models.
 
