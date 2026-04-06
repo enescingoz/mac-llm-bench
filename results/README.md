@@ -29,7 +29,7 @@ Best `tg128` (text generation, tok/s) per generation:
 | Gemma 4 26B-A4B MoE | - | - | - | - | 16.2 |
 | Gemma 4 31B | - | - | - | - | 5.5 |
 | Gemma 4 E2B | - | - | - | - | 29.2 |
-| Gemma 4 E4B | - | - | - | - | 7.6 |
+| Gemma 4 E4B | - | - | - | - | 36.7 |
 | Llama 3.1 8B Instruct | - | - | - | - | 10.8 |
 | Llama 3.2 1B Instruct | - | - | - | - | 59.4 |
 | Llama 3.2 3B Instruct | - | - | - | - | 24.1 |
