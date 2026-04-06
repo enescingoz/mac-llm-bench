@@ -14,7 +14,7 @@ Browse results by chip generation:
 | **Apple M2** | [View results](results/m2/) | Awaiting contributions |
 | **Apple M3** | [View results](results/m3/) | Awaiting contributions |
 | **Apple M4** | [View results](results/m4/) | Awaiting contributions |
-| **Apple M5** | [View results](results/m5/) | 1 config, 4 models |
+| **Apple M5** | [View results](results/m5/) | 1 config, 11 models |
 
 Each generation page contains separate tables for every variant (base, Pro, Max, Ultra) and hardware configuration (CPU cores, GPU cores, RAM).
 
