@@ -55,6 +55,91 @@ models:
     min_ram: 16
     tags: [google, gemma, large]
 
+  # ─── Qwen 3 Family ─────────────────────────────────────────────────
+  qwen3-0.6b:
+    name: "Qwen 3 0.6B"
+    params: "0.6B"
+    sources:
+      - repo: "bartowski/Qwen_Qwen3-0.6B-GGUF"
+        gated: false
+    quants: [Q4_K_M, Q6_K, Q8_0]
+    default_quant: Q4_K_M
+    file_pattern: "Qwen_Qwen3-0.6B-{quant}.gguf"
+    min_ram: 4
+    tags: [qwen, tiny, general, trending]
+
+  qwen3-1.7b:
+    name: "Qwen 3 1.7B"
+    params: "1.7B"
+    sources:
+      - repo: "bartowski/Qwen_Qwen3-1.7B-GGUF"
+        gated: false
+    quants: [Q4_K_M, Q5_K_M, Q6_K, Q8_0]
+    default_quant: Q4_K_M
+    file_pattern: "Qwen_Qwen3-1.7B-{quant}.gguf"
+    min_ram: 4
+    tags: [qwen, tiny, general, trending]
+
+  qwen3-4b:
+    name: "Qwen 3 4B"
+    params: "4B"
+    sources:
+      - repo: "bartowski/Qwen_Qwen3-4B-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
+    default_quant: Q4_K_M
+    file_pattern: "Qwen_Qwen3-4B-{quant}.gguf"
+    min_ram: 4
+    tags: [qwen, small, general, trending]
+
+  qwen3-8b:
+    name: "Qwen 3 8B"
+    params: "8B"
+    sources:
+      - repo: "bartowski/Qwen_Qwen3-8B-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
+    default_quant: Q4_K_M
+    file_pattern: "Qwen_Qwen3-8B-{quant}.gguf"
+    min_ram: 8
+    tags: [qwen, medium, general, trending]
+
+  qwen3-14b:
+    name: "Qwen 3 14B"
+    params: "14B"
+    sources:
+      - repo: "bartowski/Qwen_Qwen3-14B-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
+    default_quant: Q4_K_M
+    file_pattern: "Qwen_Qwen3-14B-{quant}.gguf"
+    min_ram: 12
+    tags: [qwen, medium, general, trending]
+
+  qwen3-32b:
+    name: "Qwen 3 32B"
+    params: "32B"
+    sources:
+      - repo: "bartowski/Qwen_Qwen3-32B-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K]
+    default_quant: Q4_K_M
+    file_pattern: "Qwen_Qwen3-32B-{quant}.gguf"
+    min_ram: 20
+    tags: [qwen, large, general, trending]
+
+  qwen3-30b-a3b:
+    name: "Qwen 3 30B-A3B MoE"
+    params: "30B"
+    sources:
+      - repo: "bartowski/Qwen_Qwen3-30B-A3B-GGUF"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
+    default_quant: Q4_K_M
+    file_pattern: "Qwen_Qwen3-30B-A3B-{quant}.gguf"
+    min_ram: 20
+    tags: [qwen, large, general, moe, trending]
+
 # ─── Quantization Reference ─────────────────────────────────────────
 # Q2_K   — 2-bit, smallest, lowest quality. For testing if a model loads at all.
 # Q3_K_M — 3-bit medium. Significant quality loss but much faster.

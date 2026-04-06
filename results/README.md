@@ -10,7 +10,7 @@ Browse by chip generation, then select your variant (base, Pro, Max, Ultra).
 | **M2** | - | - | - | [Awaiting contributions](m2/) |
 | **M3** | - | - | - | [Awaiting contributions](m3/) |
 | **M4** | - | - | - | [Awaiting contributions](m4/) |
-| **M5** | 1 | 1 | 4 | [View results](m5/) |
+| **M5** | 1 | 1 | 11 | [View results](m5/) |
 
 ## Quick Comparison
 
@@ -22,6 +22,13 @@ Best `tg128` (text generation, tok/s) per generation:
 | Gemma 3 1B | - | - | - | - | 46.6 |
 | Gemma 3 27B | - | - | - | - | 3.0 |
 | Gemma 3 4B | - | - | - | - | 16.5 |
+| Qwen 3 0.6B | - | - | - | - | 91.9 |
+| Qwen 3 1.7B | - | - | - | - | 37.3 |
+| Qwen 3 14B | - | - | - | - | 5.8 |
+| Qwen 3 30B-A3B MoE | - | - | - | - | 23.1 |
+| Qwen 3 32B | - | - | - | - | 2.5 |
+| Qwen 3 4B | - | - | - | - | 16.5 |
+| Qwen 3 8B | - | - | - | - | 9.1 |
 
 *Best tg128 across all variants within each generation.*
 
