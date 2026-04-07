@@ -7,7 +7,7 @@ Browse by chip generation, then select your variant (base, Pro, Max, Ultra).
 | Generation | Variants with Data | Total Configs | Total Models | Link |
 |------------|--------------------|---------------|--------------|------|
 | **M1** | - | - | - | [Awaiting contributions](m1/) |
-| **M2** | - | - | - | [Awaiting contributions](m2/) |
+| **M2** | 1 | 1 | 38 | [View results](m2/) |
 | **M3** | - | - | - | [Awaiting contributions](m3/) |
 | **M4** | - | - | - | [Awaiting contributions](m4/) |
 | **M5** | 1 | 1 | 62 | [View results](m5/) |

@@ -1,0 +1,43 @@
+{
+  "version": "2.0",
+  "timestamp": "2026-04-07T09:32:47Z",
+  "hardware": {
+    "model": "MacBook Pro",
+    "chip": "Apple M2 Max",
+    "total_ram_gb": 32,
+    "available_ram_gb": 16.5,
+    "cpu_cores": 12,
+    "performance_cores": 8,
+    "efficiency_cores": 4,
+    "gpu_cores": "30",
+    "os_version": "26.3.1",
+    "power_source": "ac_power",
+    "disk_available_gb": 267
+  },
+  "model": {
+    "name": "Gemma 3 1B",
+    "id": "gemma-3-1b",
+    "params": "1B",
+    "quant": "Q4_K_M",
+    "file_size_gb": 0.75
+  },
+  "runtime": {
+    "name": "llama.cpp",
+    "version": "unknown"
+  },
+  "parameters": {
+    "n_gpu_layers": 99,
+    "flash_attention": true,
+    "threads": 0
+  },
+  "speed": {
+    "pp128": 3286.02,
+    "pp256": 3976.51,
+    "pp512": 4136.97,
+    "tg128": 151.27,
+    "tg256": 150.99
+  },
+  "memory": {
+    "peak_rss_gb": 0.85
+  }
+}

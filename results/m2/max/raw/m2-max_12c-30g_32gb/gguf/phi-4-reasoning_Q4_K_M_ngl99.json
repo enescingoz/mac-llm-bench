@@ -1,0 +1,43 @@
+{
+  "version": "2.0",
+  "timestamp": "2026-04-07T10:22:47Z",
+  "hardware": {
+    "model": "MacBook Pro",
+    "chip": "Apple M2 Max",
+    "total_ram_gb": 32,
+    "available_ram_gb": 14.0,
+    "cpu_cores": 12,
+    "performance_cores": 8,
+    "efficiency_cores": 4,
+    "gpu_cores": "30",
+    "os_version": "26.3.1",
+    "power_source": "ac_power",
+    "disk_available_gb": 267
+  },
+  "model": {
+    "name": "Phi 4 Reasoning Plus 14B",
+    "id": "phi-4-reasoning",
+    "params": "14B",
+    "quant": "Q4_K_M",
+    "file_size_gb": 8.43
+  },
+  "runtime": {
+    "name": "llama.cpp",
+    "version": "unknown"
+  },
+  "parameters": {
+    "n_gpu_layers": 99,
+    "flash_attention": true,
+    "threads": 0
+  },
+  "speed": {
+    "pp128": 229.46,
+    "pp256": 217.79,
+    "pp512": 219.97,
+    "tg128": 19.43,
+    "tg256": 19.31
+  },
+  "memory": {
+    "peak_rss_gb": 8.56
+  }
+}
