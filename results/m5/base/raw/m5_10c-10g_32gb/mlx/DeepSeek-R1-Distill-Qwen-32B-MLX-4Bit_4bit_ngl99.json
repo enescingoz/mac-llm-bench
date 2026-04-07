@@ -1,0 +1,43 @@
+{
+  "version": "2.0",
+  "timestamp": "2026-04-07T21:24:10Z",
+  "hardware": {
+    "model": "MacBook Air",
+    "chip": "Apple M5",
+    "total_ram_gb": 32,
+    "available_ram_gb": 23.5,
+    "cpu_cores": 10,
+    "performance_cores": 4,
+    "efficiency_cores": 6,
+    "gpu_cores": "10",
+    "os_version": "26.4",
+    "power_source": "ac_power",
+    "disk_available_gb": 600
+  },
+  "model": {
+    "name": "DeepSeek-R1-Distill-Qwen-32B-MLX-4Bit",
+    "id": "DeepSeek-R1-Distill-Qwen-32B-MLX-4Bit",
+    "params": "32B",
+    "quant": "4bit",
+    "file_size_gb": 0
+  },
+  "runtime": {
+    "name": "llama.cpp",
+    "version": "unknown"
+  },
+  "parameters": {
+    "n_gpu_layers": 99,
+    "flash_attention": true,
+    "threads": 0
+  },
+  "speed": {
+    "pp128": 76.25,
+    "tg128": 4.84,
+    "tg256": 4.83,
+    "pp256": 86.04,
+    "pp512": 94.53
+  },
+  "memory": {
+    "peak_rss_gb": 18.955
+  }
+}

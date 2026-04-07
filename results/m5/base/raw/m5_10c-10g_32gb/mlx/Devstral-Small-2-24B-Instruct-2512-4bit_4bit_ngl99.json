@@ -1,0 +1,43 @@
+{
+  "version": "2.0",
+  "timestamp": "2026-04-07T20:02:49Z",
+  "hardware": {
+    "model": "MacBook Air",
+    "chip": "Apple M5",
+    "total_ram_gb": 32,
+    "available_ram_gb": 20.8,
+    "cpu_cores": 10,
+    "performance_cores": 4,
+    "efficiency_cores": 6,
+    "gpu_cores": "10",
+    "os_version": "26.4",
+    "power_source": "ac_power",
+    "disk_available_gb": 654
+  },
+  "model": {
+    "name": "Devstral-Small-2-24B-Instruct-2512-4bit",
+    "id": "Devstral-Small-2-24B-Instruct-2512-4bit",
+    "params": "24B",
+    "quant": "4bit",
+    "file_size_gb": 0
+  },
+  "runtime": {
+    "name": "llama.cpp",
+    "version": "unknown"
+  },
+  "parameters": {
+    "n_gpu_layers": 99,
+    "flash_attention": true,
+    "threads": 0
+  },
+  "speed": {
+    "pp128": 115.93,
+    "tg128": 6.59,
+    "tg256": 6.39,
+    "pp256": 105.94,
+    "pp512": 124.57
+  },
+  "memory": {
+    "peak_rss_gb": 13.796
+  }
+}
