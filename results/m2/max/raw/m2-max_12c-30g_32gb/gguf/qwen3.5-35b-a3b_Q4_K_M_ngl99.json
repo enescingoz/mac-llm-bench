@@ -1,0 +1,43 @@
+{
+  "version": "2.0",
+  "timestamp": "2026-04-07T11:08:10Z",
+  "hardware": {
+    "model": "MacBook Pro",
+    "chip": "Apple M2 Max",
+    "total_ram_gb": 32,
+    "available_ram_gb": 17.1,
+    "cpu_cores": 12,
+    "performance_cores": 8,
+    "efficiency_cores": 4,
+    "gpu_cores": "30",
+    "os_version": "26.3.1",
+    "power_source": "ac_power",
+    "disk_available_gb": 267
+  },
+  "model": {
+    "name": "Qwen 3.5 35B-A3B MoE",
+    "id": "qwen3.5-35b-a3b",
+    "params": "35B",
+    "quant": "Q4_K_M",
+    "file_size_gb": 20.5
+  },
+  "runtime": {
+    "name": "llama.cpp",
+    "version": "unknown"
+  },
+  "parameters": {
+    "n_gpu_layers": 99,
+    "flash_attention": true,
+    "threads": 0
+  },
+  "speed": {
+    "pp128": 522.2,
+    "pp256": 687.16,
+    "pp512": 726.3,
+    "tg128": 45.42,
+    "tg256": 45.2
+  },
+  "memory": {
+    "peak_rss_gb": 20.72
+  }
+}
