@@ -7,6 +7,8 @@
 
 set -euo pipefail
 
+export PATH="$PATH:/usr/sbin"
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LIB_DIR="$SCRIPT_DIR/lib"
 
@@ -412,7 +414,7 @@ bench_single_model() {
     if mem_output=$(/usr/bin/time -l llama-bench \
         -m "$model_path" -ngl "$N_GPU_LAYERS" \
         -p "32" -n "1" 2>&1); then
-        peak_mem=$(echo "$mem_output" | awk '/maximum resident set size/ {printf "%.2f", $1/1073741824}')
+        peak_mem=$(echo "$mem_output" | LC_NUMERIC=C awk '/maximum resident set size/ {printf "%.2f", $1/1073741824}')
     fi
     log_ok "Peak memory: ${peak_mem} GB"
 

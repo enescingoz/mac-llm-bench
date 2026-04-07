@@ -1,0 +1,43 @@
+{
+  "version": "2.0",
+  "timestamp": "2026-04-07T19:43:56Z",
+  "hardware": {
+    "model": "MacBook Air",
+    "chip": "Apple M5",
+    "total_ram_gb": 32,
+    "available_ram_gb": 21.1,
+    "cpu_cores": 10,
+    "performance_cores": 4,
+    "efficiency_cores": 6,
+    "gpu_cores": "10",
+    "os_version": "26.4",
+    "power_source": "ac_power",
+    "disk_available_gb": 667
+  },
+  "model": {
+    "name": "Mistral-Small-3.1-Text-24B-Instruct-2503-4bit",
+    "id": "Mistral-Small-3.1-Text-24B-Instruct-2503-4bit",
+    "params": "24B",
+    "quant": "4bit",
+    "file_size_gb": 0
+  },
+  "runtime": {
+    "name": "llama.cpp",
+    "version": "unknown"
+  },
+  "parameters": {
+    "n_gpu_layers": 99,
+    "flash_attention": true,
+    "threads": 0
+  },
+  "speed": {
+    "pp128": 98.88,
+    "tg128": 6.9,
+    "tg256": 6.96,
+    "pp256": 118.0,
+    "pp512": 131.89
+  },
+  "memory": {
+    "peak_rss_gb": 13.796
+  }
+}
