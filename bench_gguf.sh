@@ -7,8 +7,22 @@
 
 set -euo pipefail
 
+export PATH="$PATH:/usr/sbin"
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LIB_DIR="$SCRIPT_DIR/lib"
+
+# ─── Source lib scripts (they overwrite SCRIPT_DIR, so save/restore) ──
+_source_script_dir="$SCRIPT_DIR"
+source "$LIB_DIR/run_bench_gguf.sh"
+SCRIPT_DIR="$_source_script_dir"
+source "$LIB_DIR/run_sweep_gguf.sh"
+SCRIPT_DIR="$_source_script_dir"
+source "$LIB_DIR/collect_results.sh"
+SCRIPT_DIR="$_source_script_dir"
+source "$LIB_DIR/download_model.sh"
+SCRIPT_DIR="$_source_script_dir"
+unset _source_script_dir
 
 # ─── Colors ────────────────────────────────────────────────────────
 RED='\033[0;31m'
@@ -412,7 +426,7 @@ bench_single_model() {
     if mem_output=$(/usr/bin/time -l llama-bench \
         -m "$model_path" -ngl "$N_GPU_LAYERS" \
         -p "32" -n "1" 2>&1); then
-        peak_mem=$(echo "$mem_output" | awk '/maximum resident set size/ {printf "%.2f", $1/1073741824}')
+        peak_mem=$(echo "$mem_output" | LC_NUMERIC=C awk '/maximum resident set size/ {printf "%.2f", $1/1073741824}')
     fi
     log_ok "Peak memory: ${peak_mem} GB"
 
@@ -421,7 +435,6 @@ bench_single_model() {
     if [[ "$RUN_QUALITY" == "true" ]]; then
         echo ""
         log_info "Phase 3/3: Quality benchmark (perplexity on WikiText-2)"
-        source "$LIB_DIR/run_bench_gguf.sh"
         quality_json=$(run_perplexity "$model_path" "$N_GPU_LAYERS" "$FLASH_ATTENTION" 2>/dev/null || echo "{}")
     else
         echo ""
@@ -432,7 +445,6 @@ bench_single_model() {
     local hw_json
     hw_json=$(bash "$LIB_DIR/detect_hardware.sh" --json)
 
-    source "$LIB_DIR/collect_results.sh"
     local result_path
     result_path=$(save_result \
         "$hw_json" "$model_id" "$model_name" "$model_params" "$quant" "$model_path" \
@@ -557,7 +569,6 @@ run_benchmarks() {
 
         # Sweep or bench
         if [[ -n "$SWEEP_MODE" ]]; then
-            source "$LIB_DIR/run_sweep_gguf.sh"
             run_parameter_sweep "$model_path" "$SWEEP_MODE"
         else
             bench_single_model "$model_id" "$model_path" "$quant" "$model_name" "$model_params"
@@ -619,22 +630,18 @@ main() {
             list_models "$TAG" "$MAX_PARAMS"
             ;;
         scan)
-            source "$LIB_DIR/download_model.sh"
             scan_local_models
             ;;
         cache_info)
-            source "$LIB_DIR/download_model.sh"
             cache_info
             ;;
         cache_clear)
-            source "$LIB_DIR/download_model.sh"
             cache_clear
             ;;
         hardware)
             bash "$LIB_DIR/detect_hardware.sh" --summary
             ;;
         results)
-            source "$LIB_DIR/collect_results.sh"
             print_results_summary
             ;;
         quick)
