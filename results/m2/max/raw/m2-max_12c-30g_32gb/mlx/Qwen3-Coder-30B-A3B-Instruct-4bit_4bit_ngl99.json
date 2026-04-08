@@ -1,0 +1,43 @@
+{
+  "version": "2.0",
+  "timestamp": "2026-04-08T20:56:02Z",
+  "hardware": {
+    "model": "MacBook Pro",
+    "chip": "Apple M2 Max",
+    "total_ram_gb": 32,
+    "available_ram_gb": 25.7,
+    "cpu_cores": 12,
+    "performance_cores": 8,
+    "efficiency_cores": 4,
+    "gpu_cores": "30",
+    "os_version": "26.3.1",
+    "power_source": "ac_power",
+    "disk_available_gb": 226
+  },
+  "model": {
+    "name": "Qwen3-Coder-30B-A3B-Instruct-4bit",
+    "id": "Qwen3-Coder-30B-A3B-Instruct-4bit",
+    "params": "30B",
+    "quant": "4bit",
+    "file_size_gb": 0
+  },
+  "runtime": {
+    "name": "llama.cpp",
+    "version": "unknown"
+  },
+  "parameters": {
+    "n_gpu_layers": 99,
+    "flash_attention": true,
+    "threads": 0
+  },
+  "speed": {
+    "pp128": 275.15,
+    "tg128": 77.99,
+    "tg256": 77.42,
+    "pp256": 359.85,
+    "pp512": 441.34
+  },
+  "memory": {
+    "peak_rss_gb": 17.774
+  }
+}
