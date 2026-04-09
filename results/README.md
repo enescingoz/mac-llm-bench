@@ -7,7 +7,7 @@ Browse by chip generation, then select your variant (base, Pro, Max, Ultra).
 | Generation | Variants with Data | Total Configs | Total Models | Link |
 |------------|--------------------|---------------|--------------|------|
 | **M1** | - | - | - | [Awaiting contributions](m1/) |
-| **M2** | 1 | 1 | 38 | [View results](m2/) |
+| **M2** | 1 | 1 | 39 | [View results](m2/) |
 | **M3** | - | - | - | [Awaiting contributions](m3/) |
 | **M4** | - | - | - | [Awaiting contributions](m4/) |
 | **M5** | 1 | 1 | 62 | [View results](m5/) |
@@ -72,6 +72,7 @@ Best `tg128` (text generation, tok/s) per generation:
 | Qwen2.5-Coder-7B-Instruct-4bit | - | - | - | - | 23.5 |
 | Qwen3-0.6B-4bit | - | - | - | - | 259.1 |
 | Qwen3-8B-4bit | - | 48.1 | - | - | 24.0 |
+| Qwen3-Coder-30B-A3B-Instruct-4bit | - | 78.0 | - | - | - |
 | Qwen3.5-35B-A3B-4bit | - | - | - | - | 58.8 |
 | Qwen3.5-4B-4bit | - | - | - | - | 48.7 |
 | Qwen3.5-9B-MLX-4bit | - | - | - | - | 21.5 |
