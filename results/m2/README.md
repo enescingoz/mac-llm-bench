@@ -6,7 +6,7 @@ Select your M2 chip variant:
 |---------|----------------|---------------|--------|
 | [M2](base/) | - | - | Awaiting contributions |
 | [M2 Pro](pro/) | - | - | Awaiting contributions |
-| [M2 Max](max/) | - | - | Awaiting contributions |
+| [M2 Max](max/) | 1 | 39 | 1 config(s), 39 model(s) |
 | [M2 Ultra](ultra/) | - | - | Awaiting contributions |
 
 See [CONTRIBUTING.md](../../CONTRIBUTING.md) for how to add your results.

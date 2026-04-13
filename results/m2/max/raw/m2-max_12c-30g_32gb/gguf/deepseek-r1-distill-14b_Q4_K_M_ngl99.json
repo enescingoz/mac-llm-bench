@@ -1,0 +1,43 @@
+{
+  "version": "2.0",
+  "timestamp": "2026-04-07T09:10:10Z",
+  "hardware": {
+    "model": "MacBook Pro",
+    "chip": "Apple M2 Max",
+    "total_ram_gb": 32,
+    "available_ram_gb": 13.7,
+    "cpu_cores": 12,
+    "performance_cores": 8,
+    "efficiency_cores": 4,
+    "gpu_cores": "30",
+    "os_version": "26.3.1",
+    "power_source": "ac_power",
+    "disk_available_gb": 266
+  },
+  "model": {
+    "name": "DeepSeek R1 Distill 14B",
+    "id": "deepseek-r1-distill-14b",
+    "params": "14B",
+    "quant": "Q4_K_M",
+    "file_size_gb": 8.37
+  },
+  "runtime": {
+    "name": "llama.cpp",
+    "version": "unknown"
+  },
+  "parameters": {
+    "n_gpu_layers": 99,
+    "flash_attention": true,
+    "threads": 0
+  },
+  "speed": {
+    "pp128": 238.04,
+    "pp256": 217.4,
+    "pp512": 222.52,
+    "tg128": 18.85,
+    "tg256": 18.28
+  },
+  "memory": {
+    "peak_rss_gb": 8.51
+  }
+}

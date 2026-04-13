@@ -1,0 +1,43 @@
+{
+  "version": "2.0",
+  "timestamp": "2026-04-07T18:40:16Z",
+  "hardware": {
+    "model": "MacBook Air",
+    "chip": "Apple M5",
+    "total_ram_gb": 32,
+    "available_ram_gb": 19.1,
+    "cpu_cores": 10,
+    "performance_cores": 4,
+    "efficiency_cores": 6,
+    "gpu_cores": "10",
+    "os_version": "26.4",
+    "power_source": "ac_power",
+    "disk_available_gb": 710
+  },
+  "model": {
+    "name": "Mistral-Nemo-Instruct-2407-4bit",
+    "id": "Mistral-Nemo-Instruct-2407-4bit",
+    "params": "?",
+    "quant": "4bit",
+    "file_size_gb": 0
+  },
+  "runtime": {
+    "name": "llama.cpp",
+    "version": "unknown"
+  },
+  "parameters": {
+    "n_gpu_layers": 99,
+    "flash_attention": true,
+    "threads": 0
+  },
+  "speed": {
+    "pp128": 310.94,
+    "tg128": 13.38,
+    "tg256": 13.4,
+    "pp256": 218.36,
+    "pp512": 262.55
+  },
+  "memory": {
+    "peak_rss_gb": 7.354
+  }
+}

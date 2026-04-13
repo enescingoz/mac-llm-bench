@@ -1,0 +1,43 @@
+{
+  "version": "2.0",
+  "timestamp": "2026-04-07T10:05:09Z",
+  "hardware": {
+    "model": "MacBook Pro",
+    "chip": "Apple M2 Max",
+    "total_ram_gb": 32,
+    "available_ram_gb": 14.0,
+    "cpu_cores": 12,
+    "performance_cores": 8,
+    "efficiency_cores": 4,
+    "gpu_cores": "30",
+    "os_version": "26.3.1",
+    "power_source": "ac_power",
+    "disk_available_gb": 267
+  },
+  "model": {
+    "name": "Mistral Nemo 12B",
+    "id": "mistral-nemo-12b",
+    "params": "12B",
+    "quant": "Q4_K_M",
+    "file_size_gb": 6.96
+  },
+  "runtime": {
+    "name": "llama.cpp",
+    "version": "unknown"
+  },
+  "parameters": {
+    "n_gpu_layers": 99,
+    "flash_attention": true,
+    "threads": 0
+  },
+  "speed": {
+    "pp128": 281.06,
+    "pp256": 275.14,
+    "pp512": 279.2,
+    "tg128": 24.7,
+    "tg256": 24.46
+  },
+  "memory": {
+    "peak_rss_gb": 7.1
+  }
+}

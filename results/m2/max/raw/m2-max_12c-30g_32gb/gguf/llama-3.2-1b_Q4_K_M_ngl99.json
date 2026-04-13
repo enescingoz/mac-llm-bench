@@ -1,0 +1,43 @@
+{
+  "version": "2.0",
+  "timestamp": "2026-04-07T09:58:38Z",
+  "hardware": {
+    "model": "MacBook Pro",
+    "chip": "Apple M2 Max",
+    "total_ram_gb": 32,
+    "available_ram_gb": 13.2,
+    "cpu_cores": 12,
+    "performance_cores": 8,
+    "efficiency_cores": 4,
+    "gpu_cores": "30",
+    "os_version": "26.3.1",
+    "power_source": "ac_power",
+    "disk_available_gb": 267
+  },
+  "model": {
+    "name": "Llama 3.2 1B Instruct",
+    "id": "llama-3.2-1b",
+    "params": "1B",
+    "quant": "Q4_K_M",
+    "file_size_gb": 0.75
+  },
+  "runtime": {
+    "name": "llama.cpp",
+    "version": "unknown"
+  },
+  "parameters": {
+    "n_gpu_layers": 99,
+    "flash_attention": true,
+    "threads": 0
+  },
+  "speed": {
+    "pp128": 3101.96,
+    "pp256": 3260.53,
+    "pp512": 3072.36,
+    "tg128": 205.86,
+    "tg256": 198.92
+  },
+  "memory": {
+    "peak_rss_gb": 0.86
+  }
+}
