@@ -12,68 +12,68 @@ All speed values are in **tokens/second** (higher = better). Memory is peak RSS 
 
 | Model | Quant | Runtime | tg128 | HumanEval+ | Memory |
 |-------|-------|---------|------:|-----------:|-------:|
-| Qwen3-0.6B-4bit | 4bit | MLX | 259.1 | - | 0.87 |
-| gemma-3-1b-it-4bit | 4bit | MLX | 176.7 | - | 1.20 |
-| Llama-3.2-1B-Instruct-4bit | 4bit | MLX | 156.7 | - | 1.21 |
-| Qwen 3 0.6B | Q4_K_M | GGUF | 91.9 | - | 0.57 |
-| Llama-3.2-3B-Instruct-4bit | 4bit | MLX | 63.1 | - | 2.34 |
-| Llama 3.2 1B Instruct | Q4_K_M | GGUF | 59.4 | - | 0.87 |
-| Qwen3.5-35B-A3B-4bit | 4bit | MLX | 58.8 | - | 20.12 |
-| gemma-3-4b-it-4bit | 4bit | MLX | 53.3 | - | 3.15 |
-| Phi-4-mini-instruct-4bit | 4bit | MLX | 52.0 | - | 2.83 |
-| Qwen3.5-4B-4bit | 4bit | MLX | 48.7 | - | 3.16 |
+| Qwen 2.5 Coder 7B | Q4_K_M | GGUF | 11.3 | 84.2% | 4.47 |
+| DeepSeek R1 Distill 14B | Q4_K_M | GGUF | 5.6 | - | 8.52 |
+| DeepSeek R1 Distill 32B | Q4_K_M | GGUF | 2.6 | - | 18.65 |
+| DeepSeek R1 Distill 7B | Q4_K_M | GGUF | 11.4 | - | 4.47 |
+| Devstral Small 24B | Q4_K_M | GGUF | 3.5 | - | 13.50 |
+| Gemma 3 12B | Q4_K_M | GGUF | 5.7 | - | 7.00 |
 | Gemma 3 1B | Q4_K_M | GGUF | 46.6 | - | 0.86 |
-| Qwen 3 1.7B | Q4_K_M | GGUF | 37.3 | - | 1.32 |
+| Gemma 3 27B | Q4_K_M | GGUF | 3.0 | - | 15.64 |
+| Gemma 3 4B | Q4_K_M | GGUF | 16.5 | - | 2.46 |
+| Gemma 4 26B-A4B MoE | Q4_K_M | GGUF | 16.2 | - | 16.09 |
+| Gemma 4 31B | Q4_K_M | GGUF | 5.5 | - | 18.64 |
+| Gemma 4 E2B | Q4_K_M | GGUF | 29.2 | - | 3.39 |
 | Gemma 4 E4B | Q4_K_M | GGUF | 36.7 | - | 5.22 |
+| Llama 3.1 8B Instruct | Q4_K_M | GGUF | 10.8 | - | 4.72 |
+| Llama 3.2 1B Instruct | Q4_K_M | GGUF | 59.4 | - | 0.87 |
+| Llama 3.2 3B Instruct | Q4_K_M | GGUF | 24.1 | - | 2.02 |
+| Mistral 7B Instruct v0.3 | Q4_K_M | GGUF | 11.5 | - | 4.16 |
+| Mistral Nemo 12B | Q4_K_M | GGUF | 6.9 | - | 7.11 |
+| Mistral Small 3.1 24B | Q4_K_M | GGUF | 3.6 | - | 13.50 |
+| Phi 4 Mini Reasoning 3.8B | Q4_K_M | GGUF | 19.4 | - | 2.46 |
+| Phi 4 Mini 3.8B | Q4_K_M | GGUF | 19.6 | - | 2.46 |
+| Phi 4 Reasoning Plus 14B | Q4_K_M | GGUF | 5.7 | - | 8.56 |
+| Phi 4 14B | Q4_K_M | GGUF | 5.3 | - | 8.56 |
+| Qwen 2.5 Coder 14B | Q4_K_M | GGUF | 5.9 | - | 8.52 |
+| Qwen 2.5 Coder 32B | Q4_K_M | GGUF | 2.5 | - | 18.65 |
+| Qwen 3 0.6B | Q4_K_M | GGUF | 91.9 | - | 0.57 |
+| Qwen 3 1.7B | Q4_K_M | GGUF | 37.3 | - | 1.32 |
+| Qwen 3 14B | Q4_K_M | GGUF | 5.8 | - | 8.52 |
+| Qwen 3 30B-A3B MoE | Q4_K_M | GGUF | 23.1 | - | 17.48 |
+| Qwen 3 32B | Q4_K_M | GGUF | 2.5 | - | 18.57 |
+| Qwen 3 4B | Q4_K_M | GGUF | 16.5 | - | 2.46 |
+| Qwen 3 8B | Q4_K_M | GGUF | 9.1 | - | 4.81 |
+| Qwen 3.5 27B | Q4_K_M | GGUF | 4.4 | - | 15.93 |
 | Qwen 3.5 35B-A3B MoE | Q4_K_M | GGUF | 31.3 | - | 20.73 |
 | Qwen 3.5 4B | Q4_K_M | GGUF | 29.4 | - | 2.74 |
-| Gemma 4 E2B | Q4_K_M | GGUF | 29.2 | - | 3.39 |
-| Meta-Llama-3.1-8B-Instruct-4bit | 4bit | MLX | 28.3 | - | 5.06 |
-| DeepSeek-R1-Distill-Qwen-7B-4bit-mlx | 4bit | MLX | 26.2 | - | 4.71 |
-| Llama 3.2 3B Instruct | Q4_K_M | GGUF | 24.1 | - | 2.02 |
-| Qwen3-8B-4bit | 4bit | MLX | 24.0 | - | 5.12 |
-| Qwen2.5-Coder-7B-Instruct-4bit | 4bit | MLX | 23.5 | - | 4.71 |
-| Qwen 3 30B-A3B MoE | Q4_K_M | GGUF | 23.1 | - | 17.48 |
-| Mistral-7B-Instruct-v0.3-4bit | 4bit | MLX | 22.9 | - | 4.62 |
-| Qwen3.5-9B-MLX-4bit | 4bit | MLX | 21.5 | - | 5.74 |
-| Phi 4 Mini 3.8B | Q4_K_M | GGUF | 19.6 | - | 2.46 |
-| Phi 4 Mini Reasoning 3.8B | Q4_K_M | GGUF | 19.4 | - | 2.46 |
-| Gemma 3 4B | Q4_K_M | GGUF | 16.5 | - | 2.46 |
-| Qwen 3 4B | Q4_K_M | GGUF | 16.5 | - | 2.46 |
-| Gemma 4 26B-A4B MoE | Q4_K_M | GGUF | 16.2 | - | 16.09 |
-| Mistral-Nemo-Instruct-2407-4bit | 4bit | MLX | 13.4 | - | 7.35 |
 | Qwen 3.5 9B | Q4_K_M | GGUF | 13.2 | - | 5.48 |
-| gemma-3-12b-it-4bit | 4bit | MLX | 12.5 | - | 7.82 |
-| phi-4-4bit | 4bit | MLX | 11.6 | - | 8.90 |
-| Mistral 7B Instruct v0.3 | Q4_K_M | GGUF | 11.5 | - | 4.16 |
-| DeepSeek R1 Distill 7B | Q4_K_M | GGUF | 11.4 | - | 4.47 |
-| Qwen 2.5 Coder 7B | Q4_K_M | GGUF | 11.3 | - | 4.47 |
-| Qwen2.5-Coder-14B-Instruct-4bit | 4bit | MLX | 10.9 | - | 8.80 |
-| DeepSeek-R1-Distill-Qwen-14B-4bit | 4bit | MLX | 10.8 | - | 8.80 |
-| Llama 3.1 8B Instruct | Q4_K_M | GGUF | 10.8 | - | 4.72 |
-| Qwen 3 8B | Q4_K_M | GGUF | 9.1 | - | 4.81 |
-| Mistral Nemo 12B | Q4_K_M | GGUF | 6.9 | - | 7.11 |
-| Mistral-Small-3.1-Text-24B-Instruct-2503-4bit | 4bit | MLX | 6.9 | - | 13.80 |
-| Devstral-Small-2-24B-Instruct-2512-4bit | 4bit | MLX | 6.6 | - | 13.80 |
-| Qwen 2.5 Coder 14B | Q4_K_M | GGUF | 5.9 | - | 8.52 |
-| Qwen 3 14B | Q4_K_M | GGUF | 5.8 | - | 8.52 |
-| Gemma 3 12B | Q4_K_M | GGUF | 5.7 | - | 7.00 |
-| Phi 4 Reasoning Plus 14B | Q4_K_M | GGUF | 5.7 | - | 8.56 |
-| DeepSeek R1 Distill 14B | Q4_K_M | GGUF | 5.6 | - | 8.52 |
-| Gemma 4 31B | Q4_K_M | GGUF | 5.5 | - | 18.64 |
-| gemma-3-27b-it-4bit | 4bit | MLX | 5.5 | - | 16.72 |
-| Phi 4 14B | Q4_K_M | GGUF | 5.3 | - | 8.56 |
-| DeepSeek-R1-Distill-Qwen-32B-MLX-4Bit | 4bit | MLX | 4.8 | - | 18.95 |
-| Qwen2.5-Coder-32B-Instruct-4bit | 4bit | MLX | 4.8 | - | 18.95 |
-| QwQ-32B-4bit | 4bit | MLX | 4.4 | - | 18.95 |
-| Qwen 3.5 27B | Q4_K_M | GGUF | 4.4 | - | 15.93 |
-| Mistral Small 3.1 24B | Q4_K_M | GGUF | 3.6 | - | 13.50 |
-| Devstral Small 24B | Q4_K_M | GGUF | 3.5 | - | 13.50 |
-| Gemma 3 27B | Q4_K_M | GGUF | 3.0 | - | 15.64 |
-| DeepSeek R1 Distill 32B | Q4_K_M | GGUF | 2.6 | - | 18.65 |
 | QwQ 32B | Q4_K_M | GGUF | 2.6 | - | 18.65 |
-| Qwen 3 32B | Q4_K_M | GGUF | 2.5 | - | 18.57 |
-| Qwen 2.5 Coder 32B | Q4_K_M | GGUF | 2.5 | - | 18.65 |
+| DeepSeek-R1-Distill-Qwen-14B-4bit | 4bit | MLX | 10.8 | - | 8.80 |
+| DeepSeek-R1-Distill-Qwen-32B-MLX-4Bit | 4bit | MLX | 4.8 | - | 18.95 |
+| DeepSeek-R1-Distill-Qwen-7B-4bit-mlx | 4bit | MLX | 26.2 | - | 4.71 |
+| Devstral-Small-2-24B-Instruct-2512-4bit | 4bit | MLX | 6.6 | - | 13.80 |
+| Llama-3.2-1B-Instruct-4bit | 4bit | MLX | 156.7 | - | 1.21 |
+| Llama-3.2-3B-Instruct-4bit | 4bit | MLX | 63.1 | - | 2.34 |
+| Meta-Llama-3.1-8B-Instruct-4bit | 4bit | MLX | 28.3 | - | 5.06 |
+| Mistral-7B-Instruct-v0.3-4bit | 4bit | MLX | 22.9 | - | 4.62 |
+| Mistral-Nemo-Instruct-2407-4bit | 4bit | MLX | 13.4 | - | 7.35 |
+| Mistral-Small-3.1-Text-24B-Instruct-2503-4bit | 4bit | MLX | 6.9 | - | 13.80 |
+| Phi-4-mini-instruct-4bit | 4bit | MLX | 52.0 | - | 2.83 |
+| QwQ-32B-4bit | 4bit | MLX | 4.4 | - | 18.95 |
+| Qwen2.5-Coder-14B-Instruct-4bit | 4bit | MLX | 10.9 | - | 8.80 |
+| Qwen2.5-Coder-32B-Instruct-4bit | 4bit | MLX | 4.8 | - | 18.95 |
+| Qwen2.5-Coder-7B-Instruct-4bit | 4bit | MLX | 23.5 | - | 4.71 |
+| Qwen3-0.6B-4bit | 4bit | MLX | 259.1 | - | 0.87 |
+| Qwen3-8B-4bit | 4bit | MLX | 24.0 | - | 5.12 |
+| Qwen3.5-35B-A3B-4bit | 4bit | MLX | 58.8 | - | 20.12 |
+| Qwen3.5-4B-4bit | 4bit | MLX | 48.7 | - | 3.16 |
+| Qwen3.5-9B-MLX-4bit | 4bit | MLX | 21.5 | - | 5.74 |
+| gemma-3-12b-it-4bit | 4bit | MLX | 12.5 | - | 7.82 |
+| gemma-3-1b-it-4bit | 4bit | MLX | 176.7 | - | 1.20 |
+| gemma-3-27b-it-4bit | 4bit | MLX | 5.5 | - | 16.72 |
+| gemma-3-4b-it-4bit | 4bit | MLX | 53.3 | - | 3.15 |
+| phi-4-4bit | 4bit | MLX | 11.6 | - | 8.90 |
 
 ---
 

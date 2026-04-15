@@ -66,7 +66,7 @@ Best `tg128` (text generation, tok/s) per generation:
 | QwQ-32B-4bit | - | - | - | - | 4.4 | - |
 | Qwen 2.5 Coder 14B | - | 20.4 | - | - | 5.9 | - |
 | Qwen 2.5 Coder 32B | - | 8.9 | - | - | 2.5 | - |
-| Qwen 2.5 Coder 7B | - | 39.1 | - | - | 11.3 | - |
+| Qwen 2.5 Coder 7B | - | 39.1 | - | - | 11.3 | 84.2% |
 | Qwen 3 0.6B | - | 256.1 | - | - | 91.9 | - |
 | Qwen 3 1.7B | - | 144.4 | - | - | 37.3 | - |
 | Qwen 3 14B | - | 20.3 | - | - | 5.8 | - |

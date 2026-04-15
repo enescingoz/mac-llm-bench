@@ -6,9 +6,11 @@
 
 [← Back to overview](../../README.md) | [Speed Benchmarks →](../../speed/README.md)
 
-No quality benchmarks available yet for this configuration.
+## M5 - 10 CPU / 10 GPU / 32GB
 
-Run `./bench_quality.sh --model <model-id>` to generate quality results, then regenerate tables with `python3 scripts/generate_results.py`. See [GUIDE.md](../../GUIDE.md) for details.
+| Model | Quant | HumanEval+ | HumanEval (base) | Eval Framework |
+|-------|-------|----------:|----------------:|----------------|
+| Qwen 2.5 Coder 7B | Q4_K_M | 84.2% | - | EvalPlus |
 
 ---
 

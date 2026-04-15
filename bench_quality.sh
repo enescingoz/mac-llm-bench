@@ -530,6 +530,10 @@ run_quality_gguf() {
     _parse_and_save_quality_results "$model_id" "$model_name" "$model_params" \
         "$quant" "$model_path" "$DATASET" "gguf" "$output_root"
 
+    # Regenerate result tables
+    log_info "Regenerating result tables..."
+    python3 "$SCRIPT_DIR/scripts/generate_results.py" 2>/dev/null && log_ok "Tables regenerated" || log_warn "Table regeneration failed"
+
     echo ""
     echo "═══════════════════════════════════════════════════════════════"
     log_ok "Quality benchmark complete: $model_name"
@@ -597,6 +601,10 @@ run_quality_mlx() {
     # Parse and merge results
     _parse_and_save_quality_results "$model_id" "$model_name" "$model_params" \
         "4bit" "$mlx_repo" "$DATASET" "mlx" "$output_root"
+
+    # Regenerate result tables
+    log_info "Regenerating result tables..."
+    python3 "$SCRIPT_DIR/scripts/generate_results.py" 2>/dev/null && log_ok "Tables regenerated" || log_warn "Table regeneration failed"
 
     echo ""
     echo "═══════════════════════════════════════════════════════════════"
