@@ -88,18 +88,29 @@ try:
 except:
     pass
 
-# Get file size
+# Get file size (MLX uses HF repo strings, not local paths)
+import subprocess
 file_size_gb = 0
 model_path = "$model_path"
-if os.path.exists(model_path):
+runtime = "$runtime"
+if runtime != "mlx" and os.path.exists(model_path):
     file_size_gb = round(os.path.getsize(model_path) / 1073741824, 2)
 
-# Get llama.cpp version
-import subprocess
-try:
-    version = subprocess.check_output(["llama-bench", "--version"], stderr=subprocess.STDOUT, text=True).strip().split("\n")[0]
-except:
-    version = "unknown"
+# Get runtime name and version
+if runtime == "mlx":
+    runtime_name = "mlx-lm"
+    try:
+        version = subprocess.check_output(
+            ["python3", "-c", "import mlx_lm; print(mlx_lm.__version__)"],
+            stderr=subprocess.STDOUT, text=True).strip()
+    except:
+        version = "unknown"
+else:
+    runtime_name = "llama.cpp"
+    try:
+        version = subprocess.check_output(["llama-bench", "--version"], stderr=subprocess.STDOUT, text=True).strip().split("\n")[0]
+    except:
+        version = "unknown"
 
 result = {
     "version": "2.0",
@@ -113,7 +124,7 @@ result = {
         "file_size_gb": file_size_gb
     },
     "runtime": {
-        "name": "llama.cpp",
+        "name": runtime_name,
         "version": version
     },
     "parameters": {

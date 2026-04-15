@@ -13,6 +13,9 @@ models:
     sources:
       - repo: "bartowski/google_gemma-3-1b-it-GGUF"
         gated: false
+    mlx_sources:
+      - repo: "mlx-community/gemma-3-1b-it-4bit"
+        gated: false
     quants: [Q4_K_M, Q6_K, Q8_0]
     default_quant: Q4_K_M
     file_pattern: "google_gemma-3-1b-it-{quant}.gguf"
@@ -24,6 +27,9 @@ models:
     params: "4B"
     sources:
       - repo: "bartowski/google_gemma-3-4b-it-GGUF"
+        gated: false
+    mlx_sources:
+      - repo: "mlx-community/gemma-3-4b-it-4bit"
         gated: false
     quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
     default_quant: Q4_K_M
@@ -37,6 +43,9 @@ models:
     sources:
       - repo: "bartowski/google_gemma-3-12b-it-GGUF"
         gated: false
+    mlx_sources:
+      - repo: "mlx-community/gemma-3-12b-it-4bit"
+        gated: false
     quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
     default_quant: Q4_K_M
     file_pattern: "google_gemma-3-12b-it-{quant}.gguf"
@@ -48,6 +57,9 @@ models:
     params: "27B"
     sources:
       - repo: "bartowski/google_gemma-3-27b-it-GGUF"
+        gated: false
+    mlx_sources:
+      - repo: "mlx-community/gemma-3-27b-it-4bit"
         gated: false
     quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K]
     default_quant: Q4_K_M
@@ -62,6 +74,9 @@ models:
     sources:
       - repo: "bartowski/Qwen_Qwen3-0.6B-GGUF"
         gated: false
+    mlx_sources:
+      - repo: "mlx-community/Qwen3-0.6B-4bit"
+        gated: false
     quants: [Q4_K_M, Q6_K, Q8_0]
     default_quant: Q4_K_M
     file_pattern: "Qwen_Qwen3-0.6B-{quant}.gguf"
@@ -73,6 +88,9 @@ models:
     params: "1.7B"
     sources:
       - repo: "bartowski/Qwen_Qwen3-1.7B-GGUF"
+        gated: false
+    mlx_sources:
+      - repo: "mlx-community/Qwen3-1.7B-4bit"
         gated: false
     quants: [Q4_K_M, Q5_K_M, Q6_K, Q8_0]
     default_quant: Q4_K_M
@@ -86,6 +104,9 @@ models:
     sources:
       - repo: "bartowski/Qwen_Qwen3-4B-GGUF"
         gated: false
+    mlx_sources:
+      - repo: "mlx-community/Qwen3-4B-4bit"
+        gated: false
     quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
     default_quant: Q4_K_M
     file_pattern: "Qwen_Qwen3-4B-{quant}.gguf"
@@ -97,6 +118,9 @@ models:
     params: "8B"
     sources:
       - repo: "bartowski/Qwen_Qwen3-8B-GGUF"
+        gated: false
+    mlx_sources:
+      - repo: "mlx-community/Qwen3-8B-4bit"
         gated: false
     quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
     default_quant: Q4_K_M
@@ -110,6 +134,9 @@ models:
     sources:
       - repo: "bartowski/Qwen_Qwen3-14B-GGUF"
         gated: false
+    mlx_sources:
+      - repo: "mlx-community/Qwen3-14B-4bit"
+        gated: false
     quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
     default_quant: Q4_K_M
     file_pattern: "Qwen_Qwen3-14B-{quant}.gguf"
@@ -122,6 +149,9 @@ models:
     sources:
       - repo: "bartowski/Qwen_Qwen3-32B-GGUF"
         gated: false
+    mlx_sources:
+      - repo: "mlx-community/Qwen3-32B-4bit"
+        gated: false
     quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K]
     default_quant: Q4_K_M
     file_pattern: "Qwen_Qwen3-32B-{quant}.gguf"
@@ -133,6 +163,9 @@ models:
     params: "30B"
     sources:
       - repo: "bartowski/Qwen_Qwen3-30B-A3B-GGUF"
+        gated: false
+    mlx_sources:
+      - repo: "mlx-community/Qwen3-30B-A3B-4bit"
         gated: false
     quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
     default_quant: Q4_K_M
@@ -245,6 +278,9 @@ models:
     sources:
       - repo: "bartowski/Qwen2.5-Coder-7B-Instruct-GGUF"
         gated: false
+    mlx_sources:
+      - repo: "mlx-community/Qwen2.5-Coder-7B-Instruct-4bit"
+        gated: false
     quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
     default_quant: Q4_K_M
     file_pattern: "Qwen2.5-Coder-7B-Instruct-{quant}.gguf"
@@ -257,6 +293,9 @@ models:
     sources:
       - repo: "bartowski/Qwen2.5-Coder-14B-Instruct-GGUF"
         gated: false
+    mlx_sources:
+      - repo: "mlx-community/Qwen2.5-Coder-14B-Instruct-4bit"
+        gated: false
     quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
     default_quant: Q4_K_M
     file_pattern: "Qwen2.5-Coder-14B-Instruct-{quant}.gguf"
@@ -268,6 +307,9 @@ models:
     params: "32B"
     sources:
       - repo: "bartowski/Qwen2.5-Coder-32B-Instruct-GGUF"
+        gated: false
+    mlx_sources:
+      - repo: "mlx-community/Qwen2.5-Coder-32B-Instruct-4bit"
         gated: false
     quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K]
     default_quant: Q4_K_M
@@ -282,6 +324,9 @@ models:
     sources:
       - repo: "bartowski/Qwen_QwQ-32B-GGUF"
         gated: false
+    mlx_sources:
+      - repo: "mlx-community/QwQ-32B-4bit"
+        gated: false
     quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K]
     default_quant: Q4_K_M
     file_pattern: "Qwen_QwQ-32B-{quant}.gguf"
@@ -294,6 +339,9 @@ models:
     params: "3.8B"
     sources:
       - repo: "bartowski/microsoft_Phi-4-mini-instruct-GGUF"
+        gated: false
+    mlx_sources:
+      - repo: "mlx-community/phi-4-mini-instruct-4bit"
         gated: false
     quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
     default_quant: Q4_K_M
@@ -318,6 +366,9 @@ models:
     params: "14B"
     sources:
       - repo: "bartowski/phi-4-GGUF"
+        gated: false
+    mlx_sources:
+      - repo: "mlx-community/phi-4-4bit"
         gated: false
     quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
     default_quant: Q4_K_M
@@ -344,6 +395,9 @@ models:
     sources:
       - repo: "bartowski/DeepSeek-R1-Distill-Qwen-7B-GGUF"
         gated: false
+    mlx_sources:
+      - repo: "mlx-community/DeepSeek-R1-Distill-Qwen-7B-4bit"
+        gated: false
     quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
     default_quant: Q4_K_M
     file_pattern: "DeepSeek-R1-Distill-Qwen-7B-{quant}.gguf"
@@ -356,6 +410,9 @@ models:
     sources:
       - repo: "bartowski/DeepSeek-R1-Distill-Qwen-14B-GGUF"
         gated: false
+    mlx_sources:
+      - repo: "mlx-community/DeepSeek-R1-Distill-Qwen-14B-4bit"
+        gated: false
     quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
     default_quant: Q4_K_M
     file_pattern: "DeepSeek-R1-Distill-Qwen-14B-{quant}.gguf"
@@ -367,6 +424,9 @@ models:
     params: "32B"
     sources:
       - repo: "bartowski/DeepSeek-R1-Distill-Qwen-32B-GGUF"
+        gated: false
+    mlx_sources:
+      - repo: "mlx-community/DeepSeek-R1-Distill-Qwen-32B-4bit"
         gated: false
     quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K]
     default_quant: Q4_K_M
@@ -381,6 +441,9 @@ models:
     sources:
       - repo: "bartowski/Mistral-7B-Instruct-v0.3-GGUF"
         gated: false
+    mlx_sources:
+      - repo: "mlx-community/Mistral-7B-Instruct-v0.3-4bit"
+        gated: false
     quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
     default_quant: Q4_K_M
     file_pattern: "Mistral-7B-Instruct-v0.3-{quant}.gguf"
@@ -393,6 +456,9 @@ models:
     sources:
       - repo: "bartowski/Mistral-Nemo-Instruct-2407-GGUF"
         gated: false
+    mlx_sources:
+      - repo: "mlx-community/Mistral-Nemo-Instruct-2407-4bit"
+        gated: false
     quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
     default_quant: Q4_K_M
     file_pattern: "Mistral-Nemo-Instruct-2407-{quant}.gguf"
@@ -404,6 +470,9 @@ models:
     params: "24B"
     sources:
       - repo: "bartowski/mistralai_Mistral-Small-3.1-24B-Instruct-2503-GGUF"
+        gated: false
+    mlx_sources:
+      - repo: "mlx-community/Mistral-Small-3.1-24B-Instruct-2503-4bit"
         gated: false
     quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K]
     default_quant: Q4_K_M
@@ -430,6 +499,9 @@ models:
     sources:
       - repo: "bartowski/Llama-3.2-1B-Instruct-GGUF"
         gated: false
+    mlx_sources:
+      - repo: "mlx-community/Llama-3.2-1B-Instruct-4bit"
+        gated: false
     quants: [Q4_K_M, Q6_K, Q8_0]
     default_quant: Q4_K_M
     file_pattern: "Llama-3.2-1B-Instruct-{quant}.gguf"
@@ -442,6 +514,9 @@ models:
     sources:
       - repo: "bartowski/Llama-3.2-3B-Instruct-GGUF"
         gated: false
+    mlx_sources:
+      - repo: "mlx-community/Llama-3.2-3B-Instruct-4bit"
+        gated: false
     quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
     default_quant: Q4_K_M
     file_pattern: "Llama-3.2-3B-Instruct-{quant}.gguf"
@@ -453,6 +528,9 @@ models:
     params: "8B"
     sources:
       - repo: "bartowski/Meta-Llama-3.1-8B-Instruct-GGUF"
+        gated: false
+    mlx_sources:
+      - repo: "mlx-community/Meta-Llama-3.1-8B-Instruct-4bit"
         gated: false
     quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
     default_quant: Q4_K_M
