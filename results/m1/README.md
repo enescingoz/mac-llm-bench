@@ -4,7 +4,7 @@ Select your M1 chip variant:
 
 | Variant | Configurations | Models Tested | Status |
 |---------|----------------|---------------|--------|
-| [M1](base/) | - | - | Awaiting contributions |
+| [M1](base/) | 1 | 20 | 1 config(s), 20 model(s) |
 | [M1 Pro](pro/) | - | - | Awaiting contributions |
 | [M1 Max](max/) | - | - | Awaiting contributions |
 | [M1 Ultra](ultra/) | - | - | Awaiting contributions |
