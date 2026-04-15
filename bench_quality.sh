@@ -282,6 +282,11 @@ preflight() {
     bash "$LIB_DIR/detect_hardware.sh" --summary
     echo ""
 
+    # Check if project venv exists but is not activated
+    if [[ -f "$SCRIPT_DIR/.venv/bin/activate" ]] && [[ -z "${VIRTUAL_ENV:-}" ]]; then
+        log_warn "Project .venv found but not activated. Run: source .venv/bin/activate"
+    fi
+
     if [[ "$HW_POWER_SOURCE" == "battery" ]]; then
         log_warn "Running on battery — results may be inconsistent."
         log_warn "Plug in for accurate benchmarks."
@@ -495,9 +500,9 @@ run_quality_gguf() {
     # Phase 3: Code generation
     echo ""
     log_info "Phase 3/4: EvalPlus code generation..."
-    local output_dir
-    output_dir="$SCRIPT_DIR/evalplus_results/${model_id}/${DATASET}"
-    if ! output_dir=$(run_evalplus_codegen "$model_name" "$DATASET" "$PORT" "$output_dir"); then
+    local output_root="$SCRIPT_DIR/evalplus_results"
+    local samples_file
+    if ! samples_file=$(run_evalplus_codegen "$model_name" "$DATASET" "$PORT" "$output_root"); then
         log_error "Code generation failed"
         stop_server
         return 1
@@ -506,19 +511,24 @@ run_quality_gguf() {
     # Phase 4: Evaluation
     echo ""
     log_info "Phase 4/4: EvalPlus evaluation..."
-    # Find the samples file evalplus wrote
-    local samples_file=""
-    if [[ -d "$output_dir" ]]; then
-        samples_file=$(find "$output_dir" -name "*.jsonl" | head -1 2>/dev/null || true)
+    # If codegen didn't return a valid file, try to find it
+    if [[ ! -f "$samples_file" ]]; then
+        samples_file=$(find "$output_root" -name "*.jsonl" ! -name "*.raw.jsonl" | head -1 2>/dev/null || true)
     fi
-    run_evalplus_evaluate "$model_name" "$DATASET" "${samples_file:-}" || true
+    if [[ -z "$samples_file" || ! -f "$samples_file" ]]; then
+        log_error "No samples .jsonl file found in $output_root"
+        stop_server
+        return 1
+    fi
+    log_info "  Samples file: $samples_file"
+    run_evalplus_evaluate "$DATASET" "$samples_file" || true
 
     # Stop server
     stop_server
 
     # Parse and merge results
     _parse_and_save_quality_results "$model_id" "$model_name" "$model_params" \
-        "$quant" "$model_path" "$DATASET" "gguf" "$output_dir"
+        "$quant" "$model_path" "$DATASET" "gguf" "$output_root"
 
     echo ""
     echo "═══════════════════════════════════════════════════════════════"
@@ -559,9 +569,9 @@ run_quality_mlx() {
     # Phase 3: Code generation
     echo ""
     log_info "Phase 3/4: EvalPlus code generation..."
-    local output_dir
-    output_dir="$SCRIPT_DIR/evalplus_results/${model_id}/${DATASET}"
-    if ! output_dir=$(run_evalplus_codegen "$model_name" "$DATASET" "$PORT" "$output_dir"); then
+    local output_root="$SCRIPT_DIR/evalplus_results"
+    local samples_file
+    if ! samples_file=$(run_evalplus_codegen "$model_name" "$DATASET" "$PORT" "$output_root"); then
         log_error "Code generation failed"
         stop_server
         return 1
@@ -570,18 +580,23 @@ run_quality_mlx() {
     # Phase 4: Evaluation
     echo ""
     log_info "Phase 4/4: EvalPlus evaluation..."
-    local samples_file=""
-    if [[ -d "$output_dir" ]]; then
-        samples_file=$(find "$output_dir" -name "*.jsonl" | head -1 2>/dev/null || true)
+    if [[ ! -f "$samples_file" ]]; then
+        samples_file=$(find "$output_root" -name "*.jsonl" ! -name "*.raw.jsonl" | head -1 2>/dev/null || true)
     fi
-    run_evalplus_evaluate "$model_name" "$DATASET" "${samples_file:-}" || true
+    if [[ -z "$samples_file" || ! -f "$samples_file" ]]; then
+        log_error "No samples .jsonl file found in $output_root"
+        stop_server
+        return 1
+    fi
+    log_info "  Samples file: $samples_file"
+    run_evalplus_evaluate "$DATASET" "$samples_file" || true
 
     # Stop server
     stop_server
 
     # Parse and merge results
     _parse_and_save_quality_results "$model_id" "$model_name" "$model_params" \
-        "4bit" "$mlx_repo" "$DATASET" "mlx" "$output_dir"
+        "4bit" "$mlx_repo" "$DATASET" "mlx" "$output_root"
 
     echo ""
     echo "═══════════════════════════════════════════════════════════════"
@@ -612,9 +627,9 @@ _parse_and_save_quality_results() {
     log_info "Parsing EvalPlus results..."
     local quality_json
     quality_json=$(python3 "$parse_script" \
-        --model "$model_id" \
+        --model "$model_name" \
         --dataset "$dataset" \
-        --output-dir "$output_dir" 2>/dev/null || echo "{}")
+        --results-dir "$output_dir" 2>&1 || echo "{}")
 
     if [[ -z "$quality_json" || "$quality_json" == "{}" ]]; then
         log_warn "No quality scores parsed from EvalPlus output"
@@ -630,13 +645,34 @@ _parse_and_save_quality_results() {
     fi
 
     log_info "Merging quality results into benchmark JSON..."
+
+    # Find the existing speed result JSON to merge into
+    # Pattern: results/{gen}/{variant}/raw/{chip_folder}/{runtime}/{model_id}_{quant}_ngl*.json
+    local result_file=""
+    result_file=$(find "$SCRIPT_DIR/results" -path "*/${runtime}/${model_id}_${quant}_ngl*.json" 2>/dev/null | head -1)
+
+    if [[ -z "$result_file" ]]; then
+        # Try broader search
+        result_file=$(find "$SCRIPT_DIR/results" -name "${model_id}_${quant}_*.json" -path "*/${runtime}/*" 2>/dev/null | head -1)
+    fi
+
+    if [[ -z "$result_file" ]]; then
+        log_warn "No existing speed result found for ${model_id} ${quant} (${runtime}). Saving standalone quality result."
+        # Create a path for standalone quality results
+        local hw_info
+        hw_info=$(bash "$LIB_DIR/detect_hardware.sh" --shell 2>/dev/null)
+        eval "$hw_info" 2>/dev/null || true
+        local gen="${HW_CHIP_GEN:-m5}"
+        local variant="${HW_CHIP_VARIANT:-base}"
+        local folder="${HW_FOLDER_NAME:-unknown}"
+        result_file="$SCRIPT_DIR/results/${gen}/${variant}/raw/${folder}/${runtime}/${model_id}_${quant}_ngl99.json"
+    fi
+
+    log_info "  Result file: $result_file"
     python3 "$merge_script" \
-        --model-id "$model_id" \
-        --quant "$quant" \
-        --runtime "$runtime" \
-        --quality-json "$quality_json" \
-        --results-dir "$SCRIPT_DIR/results" 2>/dev/null || \
-        log_warn "Could not merge quality results (no prior speed benchmark for this model?)"
+        --result-file "$result_file" \
+        --quality-json "$quality_json" || \
+        log_warn "Could not merge quality results"
 }
 
 # ─── Run GGUF quality benchmark by model ID ──────────────────────

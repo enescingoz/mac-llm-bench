@@ -82,12 +82,12 @@ wait_for_server() {
 
 # ─── Run EvalPlus code generation ────────────────────────────────
 # Usage: run_evalplus_codegen <model_name> <dataset> <port> <output_dir>
-# Writes generated samples to <output_dir>. Returns the output directory path.
+# Writes generated samples to <output_dir>. Returns the path to the samples .jsonl file.
 run_evalplus_codegen() {
     local model_name="$1"
     local dataset="${2:-humaneval}"
     local port="${3:-8080}"
-    local output_dir="${4:-evalplus_results/${model_name}/${dataset}}"
+    local output_dir="${4:-evalplus_results}"
 
     mkdir -p "$output_dir"
 
@@ -97,20 +97,30 @@ run_evalplus_codegen() {
     log_info "  Server:  http://localhost:${port}/v1"
     log_info "  Output:  $output_dir"
 
+    # evalplus.codegen positional args: MODEL DATASET
+    # --root sets the base output directory
+    # Output lands at: {root}/{dataset}/{model_name}_openai_temp_0.0.jsonl
     local cmd=(python3 -m evalplus.codegen
-        --model "$model_name"
-        --dataset "$dataset"
+        "$model_name"
+        "$dataset"
         --backend openai
         --base-url "http://localhost:${port}/v1"
         --greedy
-        --save-path "$output_dir"
+        --root "$output_dir"
     )
 
     log_info "  Command: ${cmd[*]}"
 
     if "${cmd[@]}"; then
-        log_ok "Code generation complete: $output_dir"
-        echo "$output_dir"
+        # Find the generated samples .jsonl file
+        local samples_file
+        samples_file=$(find "$output_dir" -name "*.jsonl" ! -name "*.raw.jsonl" -newer "$output_dir" 2>/dev/null | head -1)
+        if [[ -z "$samples_file" ]]; then
+            # Fallback: try the expected path pattern
+            samples_file="${output_dir}/${dataset}/${model_name}_openai_temp_0.0.jsonl"
+        fi
+        log_ok "Code generation complete: $samples_file"
+        echo "$samples_file"
         return 0
     else
         log_error "evalplus.codegen failed"
@@ -119,28 +129,26 @@ run_evalplus_codegen() {
 }
 
 # ─── Run EvalPlus evaluation ─────────────────────────────────────
-# Usage: run_evalplus_evaluate <model_name> <dataset> <samples_path>
+# Usage: run_evalplus_evaluate <dataset> <samples_jsonl_path>
 # Returns exit code of evalplus.evaluate.
 run_evalplus_evaluate() {
-    local model_name="$1"
-    local dataset="${2:-humaneval}"
-    local samples_path="${3:-}"
+    local dataset="${1:-humaneval}"
+    local samples_path="${2:-}"
 
     # macOS setrlimit workaround
     export EVALPLUS_MAX_MEMORY_BYTES=-1
 
     log_info "Running EvalPlus evaluation..."
-    log_info "  Model:   $model_name"
     log_info "  Dataset: $dataset"
+    log_info "  Samples: $samples_path"
 
+    # evalplus.evaluate positional arg: DATASET
+    # --samples points to the .jsonl file from codegen
     local cmd=(python3 -m evalplus.evaluate
-        --model "$model_name"
         --dataset "$dataset"
+        --samples "$samples_path"
+        --i-just-wanna-run
     )
-
-    if [[ -n "$samples_path" ]]; then
-        cmd+=(--samples "$samples_path")
-    fi
 
     log_info "  Command: ${cmd[*]}"
 

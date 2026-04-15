@@ -15,7 +15,12 @@ from pathlib import Path
 
 
 def find_eval_results(results_dir: Path) -> Path | None:
-    """Recursively search for eval_results.json under results_dir."""
+    """Recursively search for *_eval_results.json under results_dir."""
+    for root, _dirs, files in os.walk(results_dir):
+        for f in files:
+            if f.endswith("_eval_results.json"):
+                return Path(root) / f
+    # Fallback: exact name
     for root, _dirs, files in os.walk(results_dir):
         if "eval_results.json" in files:
             return Path(root) / "eval_results.json"
@@ -25,16 +30,38 @@ def find_eval_results(results_dir: Path) -> Path | None:
 def extract_pass1(data: dict, dataset: str) -> tuple[float | None, float | None]:
     """Extract humaneval_plus_pass1 and humaneval_base_pass1 from eval_results data.
 
-    Tries multiple possible structures that EvalPlus versions may produce.
+    EvalPlus v0.3.x stores per-task results in {"eval": {"HumanEval/0": [{...}], ...}}
+    with base_status and plus_status fields. We compute pass@1 from these.
+    Also tries summary-based structures for forward compatibility.
     Returns (plus_pass1, base_pass1).
     """
     plus_pass1 = None
     base_pass1 = None
 
-    # Structure 1 (most common): {"eval": {"humaneval": {...}, "humaneval_plus": {...}}}
     eval_section = data.get("eval", {})
+
+    # Structure 1 (EvalPlus v0.3.x): per-task results with base_status/plus_status
+    # {"eval": {"HumanEval/0": [{"base_status": "pass", "plus_status": "pass", ...}], ...}}
     if eval_section:
-        # Try humaneval_plus / humaneval_plus keys
+        first_val = next(iter(eval_section.values()), None)
+        if isinstance(first_val, list) and first_val and isinstance(first_val[0], dict):
+            if "base_status" in first_val[0] or "plus_status" in first_val[0]:
+                total = 0
+                base_passed = 0
+                plus_passed = 0
+                for task_results in eval_section.values():
+                    for result in task_results:
+                        total += 1
+                        if result.get("base_status") == "pass":
+                            base_passed += 1
+                        if result.get("plus_status") == "pass":
+                            plus_passed += 1
+                if total > 0:
+                    base_pass1 = base_passed / total
+                    plus_pass1 = plus_passed / total
+
+    # Structure 2 (summary format): {"eval": {"humaneval_plus": {"pass@1": 0.84}, ...}}
+    if plus_pass1 is None and eval_section:
         for plus_key in ("humaneval_plus", "humaneval+", "plus"):
             if plus_key in eval_section:
                 val = eval_section[plus_key]
@@ -45,6 +72,7 @@ def extract_pass1(data: dict, dataset: str) -> tuple[float | None, float | None]
                 if plus_pass1 is not None:
                     break
 
+    if base_pass1 is None and eval_section:
         for base_key in ("humaneval", "base"):
             if base_key in eval_section:
                 val = eval_section[base_key]
@@ -55,33 +83,11 @@ def extract_pass1(data: dict, dataset: str) -> tuple[float | None, float | None]
                 if base_pass1 is not None:
                     break
 
-    # Structure 2: flat top-level keys
-    if plus_pass1 is None:
-        for key in ("humaneval_plus_pass1", "humaneval+_pass@1", "plus_pass@1"):
-            if key in data:
-                plus_pass1 = data[key]
-                break
-
-    if base_pass1 is None:
-        for key in ("humaneval_base_pass1", "humaneval_pass@1", "base_pass@1"):
-            if key in data:
-                base_pass1 = data[key]
-                break
-
-    # Structure 3: {"pass@1": {"base": ..., "plus": ...}} or similar nested
-    if plus_pass1 is None or base_pass1 is None:
-        pass_at_1 = data.get("pass@1", {})
-        if isinstance(pass_at_1, dict):
-            if plus_pass1 is None:
-                plus_pass1 = pass_at_1.get("plus") or pass_at_1.get("humaneval_plus")
-            if base_pass1 is None:
-                base_pass1 = pass_at_1.get("base") or pass_at_1.get("humaneval")
-
-    # Coerce to float
+    # Coerce to float and round
     if plus_pass1 is not None:
-        plus_pass1 = float(plus_pass1)
+        plus_pass1 = round(float(plus_pass1), 4)
     if base_pass1 is not None:
-        base_pass1 = float(base_pass1)
+        base_pass1 = round(float(base_pass1), 4)
 
     return plus_pass1, base_pass1
 
