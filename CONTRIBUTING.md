@@ -27,7 +27,12 @@ cd mac-llm-bench
 # MLX benchmarks (optional, requires Python 3.10+)
 python3.12 -m venv ~/.venvs/mlx && source ~/.venvs/mlx/bin/activate && pip install mlx-lm
 ./bench_mlx.sh --repo mlx-community/Qwen3-8B-4bit --cleanup
+
+# Optional: Quality benchmarks (coding models only)
+./bench_quality.sh --model qwen2.5-coder-7b
 ```
+
+> **Note:** Quality benchmarks (HumanEval+) are optional. Speed results are always required.
 
 ### 2. Regenerate Tables
 
@@ -35,7 +40,10 @@ python3.12 -m venv ~/.venvs/mlx && source ~/.venvs/mlx/bin/activate && pip insta
 python3 scripts/generate_results.py
 ```
 
-This reads all raw JSON files and regenerates the README.md tables in each `results/{generation}/` folder.
+This reads all raw JSON files and regenerates all README.md files under `results/`. For each variant it produces:
+- `results/{gen}/{variant}/README.md` — combined speed + quality overview
+- `results/{gen}/{variant}/speed/README.md` — speed-only leaderboard
+- `results/{gen}/{variant}/quality/coding/README.md` — HumanEval+ results (if any)
 
 ### 3. Check Results
 
@@ -45,13 +53,14 @@ This reads all raw JSON files and regenerates the README.md tables in each `resu
 
 Your results are saved as JSON in:
 ```
-results/{generation}/raw/{chip}_{cpu}c-{gpu}g_{ram}gb/
+results/{generation}/{variant}/raw/{chip}_{cpu}c-{gpu}g_{ram}gb/{runtime}/
 ```
 
 For example:
 ```
-results/m5/raw/m5_10c-10g_32gb/gemma-3-4b_Q4_K_M_ngl99.json
-results/m4/raw/m4-pro_14c-20g_48gb/gemma-3-12b_Q4_K_M_ngl99.json
+results/m5/base/raw/m5_10c-10g_32gb/gguf/gemma-3-4b_Q4_K_M_ngl99.json
+results/m4/pro/raw/m4-pro_14c-20g_48gb/gguf/gemma-3-12b_Q4_K_M_ngl99.json
+results/m5/base/raw/m5_10c-10g_32gb/mlx/Qwen3-8B-4bit_4bit_ngl99.json
 ```
 
 The folder name is auto-detected from your hardware — you don't need to name it manually.
@@ -83,6 +92,11 @@ git push origin results/your-chip-description
 - gemma-3-4b Q4_K_M
 - gemma-3-12b Q4_K_M
 - gemma-3-27b Q4_K_M
+
+### Quality Scores (optional — coding models only)
+| Model | HumanEval+ pass@1 |
+|-------|------------------|
+| qwen2.5-coder-7b Q4_K_M | 0.xx |
 ```
 
 ---
@@ -93,23 +107,38 @@ git push origin results/your-chip-description
 results/
 ├── README.md                          ← Auto-generated index
 ├── m1/
-│   ├── README.md                      ← Auto-generated tables
-│   └── base/raw/
-│       └── m1_8c-7g_8gb/
-│           ├── gguf/                  ← GGUF benchmark results
-│           │   └── gemma-3-1b_Q4_K_M_ngl99.json
-│           └── mlx/                   ← MLX benchmark results
-│               └── gemma-3-1b-4bit_4bit_ngl99.json
+│   ├── README.md                      ← Auto-generated generation overview
+│   └── base/
+│       ├── README.md                  ← Combined speed + quality overview
+│       ├── speed/
+│       │   └── README.md              ← Speed-only leaderboard
+│       ├── quality/
+│       │   ├── coding/
+│       │   │   └── README.md          ← HumanEval+ results
+│       │   ├── reasoning/
+│       │   │   └── README.md          ← Placeholder (coming soon)
+│       │   └── general/
+│       │       └── README.md          ← Placeholder (coming soon)
+│       └── raw/
+│           └── m1_8c-7g_8gb/
+│               ├── gguf/              ← GGUF benchmark results
+│               │   └── gemma-3-1b_Q4_K_M_ngl99.json
+│               └── mlx/               ← MLX benchmark results
+│                   └── gemma-3-1b-4bit_4bit_ngl99.json
 ├── m5/
 │   ├── README.md
-│   └── base/raw/
-│       └── m5_10c-10g_32gb/
-│           ├── gguf/
-│           │   ├── gemma-3-1b_Q4_K_M_ngl99.json
-│           │   └── ...
-│           └── mlx/
-│               ├── Qwen3-0.6B-4bit_4bit_ngl99.json
-│               └── ...
+│   └── base/
+│       ├── README.md
+│       ├── speed/README.md
+│       ├── quality/coding/README.md
+│       └── raw/
+│           └── m5_10c-10g_32gb/
+│               ├── gguf/
+│               │   ├── gemma-3-1b_Q4_K_M_ngl99.json
+│               │   └── ...
+│               └── mlx/
+│                   ├── Qwen3-0.6B-4bit_4bit_ngl99.json
+│                   └── ...
 ```
 
 ### Folder Naming Convention
@@ -127,10 +156,13 @@ This is auto-detected — the script reads your hardware and creates the right f
 
 | File | Who creates it | Committed? |
 |------|---------------|------------|
-| `results/**/gguf/*.json` | `bench_gguf.sh` (you run it) | Yes — your contribution |
-| `results/**/mlx/*.json` | `bench_mlx.sh` (you run it) | Yes — your contribution |
-| `results/*/README.md` | `generate_results.py` | Yes — regenerated from raw data |
-| `results/README.md` | `generate_results.py` | Yes — regenerated from raw data |
+| `results/**/raw/**/gguf/*.json` | `bench_gguf.sh` (you run it) | Yes — your contribution |
+| `results/**/raw/**/mlx/*.json` | `bench_mlx.sh` (you run it) | Yes — your contribution |
+| `results/{gen}/{variant}/README.md` | `generate_results.py` | Yes — regenerated |
+| `results/{gen}/{variant}/speed/README.md` | `generate_results.py` | Yes — regenerated |
+| `results/{gen}/{variant}/quality/*/README.md` | `generate_results.py` | Yes — regenerated |
+| `results/{gen}/README.md` | `generate_results.py` | Yes — regenerated |
+| `results/README.md` | `generate_results.py` | Yes — regenerated |
 
 **Never edit README.md files in `results/` manually** — they get overwritten by the generator.
 

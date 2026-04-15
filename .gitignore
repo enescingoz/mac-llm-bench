@@ -28,3 +28,9 @@ venv/
 # Node (if web dashboard added later)
 node_modules/
 .claude/
+
+# EvalPlus output — generated samples and evaluation artifacts
+evalplus_results/
+
+# Exported HuggingFace dataset artifacts
+dataset/

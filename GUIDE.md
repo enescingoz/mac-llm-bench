@@ -12,7 +12,7 @@ Everything you need to benchmark LLMs on your Mac.
 - [Understanding Results](#understanding-results)
 - [Parameter Tuning](#parameter-tuning)
 - [Parameter Sweep](#parameter-sweep)
-- [Quality Benchmark](#quality-benchmark)
+- [Quality Benchmarks](#quality-benchmarks)
 - [Managing Disk Space](#managing-disk-space)
 - [Troubleshooting](#troubleshooting)
 
@@ -57,10 +57,15 @@ Everything you need to benchmark LLMs on your Mac.
   pip install pyyaml
   ```
 
-- **llama-perplexity** — for quality benchmarks (build llama.cpp from source)
+- **llama-perplexity** — for perplexity quality benchmarks (build llama.cpp from source)
   ```bash
   git clone https://github.com/ggml-org/llama.cpp
   cd llama.cpp && cmake -B build && cmake --build build --config Release
+  ```
+
+- **evalplus** — for HumanEval+ code quality benchmarks
+  ```bash
+  pip install evalplus
   ```
 
 ### HuggingFace Login
@@ -273,9 +278,13 @@ The sweep reports:
 
 ---
 
-## Quality Benchmark
+## Quality Benchmarks
 
-Speed is easy to measure. Quality (how good the model's output is) is harder. We use **perplexity on WikiText-2** — a standard metric where lower = better.
+Speed is easy to measure. Quality (how good the model's output is) is harder. We support two quality metrics:
+
+### Perplexity (WikiText-2)
+
+Measures how much quality is lost from quantization. Lower = better.
 
 ```bash
 ./bench_gguf.sh --model gemma-3-4b --quality
@@ -288,8 +297,6 @@ This:
 
 **Requires** `llama-perplexity` (build llama.cpp from source).
 
-### Why Perplexity?
-
 It tells you how much quality you lose from quantization:
 
 ```
@@ -298,6 +305,49 @@ gemma-3-4b Q8_0:   PPL = 6.3   (barely any loss)
 gemma-3-4b Q4_K_M: PPL = 6.8   (small loss, much faster)
 gemma-3-4b Q2_K:   PPL = 9.1   (significant loss)
 ```
+
+### Code Quality (HumanEval+)
+
+Measures actual code generation correctness using [EvalPlus](https://github.com/evalplus/evalplus) — a stricter variant of OpenAI's HumanEval benchmark with more test cases. Unlike perplexity, this tests whether the model can write working code.
+
+**Metric:** pass@1 — fraction of problems solved correctly on the first attempt (0.0–1.0, higher is better).
+
+**Prerequisites:**
+
+```bash
+pip install evalplus
+```
+
+**Running a single model (GGUF):**
+
+```bash
+./bench_quality.sh --model qwen2.5-coder-7b
+```
+
+**Running with MLX runtime:**
+
+```bash
+./bench_quality.sh --model qwen3-8b --runtime mlx
+```
+
+**Batch mode — all coding-tagged models:**
+
+```bash
+./bench_quality.sh --tag coding
+```
+
+**Interpreting pass@1 scores:**
+
+| Score | Interpretation |
+|-------|---------------|
+| 0.80+ | Excellent — state-of-the-art for open models |
+| 0.60–0.80 | Good — competitive with GPT-3.5 class |
+| 0.40–0.60 | Moderate — usable for simple tasks |
+| <0.40 | Weak — struggles with standard problems |
+
+**Expected runtime:** 15–25 minutes per 7–14B model (164 HumanEval problems).
+
+> **macOS note:** EvalPlus sets memory limits via `setrlimit`. On macOS this requires `EVALPLUS_MAX_MEMORY_BYTES=-1` to disable the limit — `bench_quality.sh` sets this automatically.
 
 ---
 
@@ -360,3 +410,31 @@ The model is too large. Options:
 - Close other apps (browsers, Docker, IDEs)
 - Wait for thermal cooldown between runs
 - Run multiple times — some variance is normal
+
+### "Port 8080 already in use" (quality benchmarks)
+A previous server process may still be running:
+```bash
+lsof -i :8080
+kill <PID>
+```
+Or use a different port: `./bench_quality.sh --model ... --port 8081`
+
+### "Server health check timed out" (quality benchmarks)
+The model server didn't start in time. Try:
+- A smaller model or lower quant
+- Increase context: this check waits 120s for GGUF, 300s for MLX (MLX downloads the model)
+- Check if `llama-server` / `mlx_lm.server` is already running on that port
+
+### "EvalPlus setrlimit error"
+EvalPlus tries to set memory limits which macOS restricts. This is handled automatically by `bench_quality.sh` via `EVALPLUS_MAX_MEMORY_BYTES=-1`. If you run evalplus directly, set that env var manually:
+```bash
+EVALPLUS_MAX_MEMORY_BYTES=-1 python -m evalplus.evaluate ...
+```
+
+### Incomplete results after Ctrl+C (quality benchmarks)
+Partial EvalPlus output may be saved in `evalplus_results/`. Check for orphan server processes:
+```bash
+ps aux | grep llama-server
+ps aux | grep mlx_lm.server
+```
+Kill any lingering processes before re-running.
