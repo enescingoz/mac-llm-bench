@@ -24,48 +24,34 @@ Everything you need to benchmark LLMs on your Mac.
 
 1. **Apple Silicon Mac** (M1/M2/M3/M4/M5)
 
-2. **llama.cpp**
-   ```bash
-   brew install llama.cpp
-   ```
-
-3. **huggingface-cli**
-   ```bash
-   pip install huggingface-hub
-   ```
-
-### MLX Benchmarks (optional)
-
-4. **Python 3.10+** (macOS ships 3.9, so install via Homebrew)
+2. **Python 3.10+** (macOS ships 3.9, so install via Homebrew)
    ```bash
    brew install python@3.12
    ```
 
-5. **mlx-lm** (in a virtual environment)
+3. **Project virtual environment** — all Python packages go here
    ```bash
-   python3.12 -m venv ~/.venvs/mlx
-   source ~/.venvs/mlx/bin/activate
-   pip install mlx-lm
+   python3 -m venv .venv
+   source .venv/bin/activate
+   pip install -r requirements.txt
+   ```
+   This installs: `mlx-lm`, `evalplus`, `huggingface-hub`, `pyyaml`, `pandas`, `pyarrow`.
+
+   > Always activate the venv before running any bench scripts: `source .venv/bin/activate`
+
+4. **llama.cpp** (for GGUF benchmarks)
+   ```bash
+   brew install llama.cpp
    ```
 
 > **Note:** Some newer models (e.g., Gemma 4) may not yet be supported by mlx-lm. Support is added as the library updates.
 
 ### Optional
 
-- **PyYAML** — better model registry parsing (fallback works without it)
-  ```bash
-  pip install pyyaml
-  ```
-
 - **llama-perplexity** — for perplexity quality benchmarks (build llama.cpp from source)
   ```bash
   git clone https://github.com/ggml-org/llama.cpp
   cd llama.cpp && cmake -B build && cmake --build build --config Release
-  ```
-
-- **evalplus** — for HumanEval+ code quality benchmarks
-  ```bash
-  pip install evalplus
   ```
 
 ### HuggingFace Login
@@ -153,11 +139,11 @@ Uses `mlx_lm.benchmark` via `./bench_mlx.sh`. MLX is Apple's native ML framework
 ### Setup
 
 ```bash
-brew install python@3.12
-python3.12 -m venv ~/.venvs/mlx
-source ~/.venvs/mlx/bin/activate
-pip install mlx-lm
+# Activate the project venv (if not already active)
+source .venv/bin/activate
 ```
+
+`mlx-lm` is included in `requirements.txt` and installed during the initial setup.
 
 ### Running MLX Benchmarks
 
@@ -314,8 +300,9 @@ Measures actual code generation correctness using [EvalPlus](https://github.com/
 
 **Prerequisites:**
 
+`evalplus` is included in `requirements.txt`. Make sure your `.venv` is activated:
 ```bash
-pip install evalplus
+source .venv/bin/activate
 ```
 
 **Running a single model (GGUF):**

@@ -26,15 +26,21 @@ Each generation page contains separate tables for every variant (base, Pro, Max,
 git clone https://github.com/enescingoz/mac-llm-bench.git
 cd mac-llm-bench
 
-# GGUF benchmarks (llama.cpp)
+# Create and activate virtual environment
+python3 -m venv .venv
+source .venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# For GGUF benchmarks, also install llama.cpp
 brew install llama.cpp
-pip3 install huggingface-hub
+
+# GGUF benchmarks
 ./bench_gguf.sh --quick                  # Quick smoke test
 ./bench_gguf.sh --auto                   # All models that fit in RAM
 
-# MLX benchmarks (Apple MLX) - optional, requires Python 3.10+
-python3.12 -m venv ~/.venvs/mlx && source ~/.venvs/mlx/bin/activate
-pip install mlx-lm
+# MLX benchmarks (Apple MLX)
 ./bench_mlx.sh --repo mlx-community/Qwen3-8B-4bit
 
 # Quality benchmark (HumanEval+ code evaluation)
@@ -43,6 +49,8 @@ pip install mlx-lm
 # Regenerate result tables
 python3 scripts/generate_results.py
 ```
+
+> **Note:** Always activate the virtual environment (`source .venv/bin/activate`) before running any bench scripts.
 
 ## How It Works
 
@@ -157,18 +165,13 @@ mac-llm-bench/
 
 ## Requirements
 
-**GGUF benchmarks:**
+**All benchmarks:**
 - macOS on Apple Silicon (M1/M2/M3/M4/M5)
+- Python 3.10+ — `brew install python@3.12`
+- Project `.venv` with `pip install -r requirements.txt` (includes mlx-lm, evalplus, huggingface-hub, pyyaml, pandas, pyarrow)
+
+**GGUF benchmarks:**
 - [llama.cpp](https://github.com/ggml-org/llama.cpp) — `brew install llama.cpp`
-- [huggingface-hub](https://pypi.org/project/huggingface-hub/) — `pip3 install huggingface-hub`
-- Python 3 (pre-installed on macOS)
-
-**MLX benchmarks (optional):**
-- Python 3.10+ (install via `brew install python@3.12`)
-- [mlx-lm](https://github.com/ml-explore/mlx-lm) — `pip install mlx-lm` (in a venv recommended)
-
-**Quality benchmarks (optional):**
-- [evalplus](https://github.com/evalplus/evalplus) — `pip install evalplus`
 
 ## License
 
