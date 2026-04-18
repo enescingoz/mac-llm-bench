@@ -142,17 +142,13 @@ run_evalplus_evaluate() {
     log_info "  Dataset: $dataset"
     log_info "  Samples: $samples_path"
 
-    # evalplus.evaluate positional arg: DATASET
-    # --samples points to the .jsonl file from codegen
-    local cmd=(python3 -m evalplus.evaluate
-        --dataset "$dataset"
-        --samples "$samples_path"
-        --i-just-wanna-run
-    )
+    # evalplus.evaluate: --samples points to the .jsonl file from codegen
+    # Pipe 'y' to handle interactive overwrite prompt (EOFError in background)
+    local cmd="python3 -m evalplus.evaluate --dataset $dataset --samples \"$samples_path\" --i-just-wanna-run"
 
-    log_info "  Command: ${cmd[*]}"
+    log_info "  Command: $cmd"
 
-    if "${cmd[@]}"; then
+    if yes | eval "$cmd"; then
         log_ok "Evaluation complete"
         return 0
     else

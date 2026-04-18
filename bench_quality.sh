@@ -500,7 +500,7 @@ run_quality_gguf() {
     # Phase 3: Code generation
     echo ""
     log_info "Phase 3/4: EvalPlus code generation..."
-    local output_root="$SCRIPT_DIR/evalplus_results"
+    local output_root="$SCRIPT_DIR/evalplus_results/${model_id}"
     local samples_file
     if ! samples_file=$(run_evalplus_codegen "$model_name" "$DATASET" "$PORT" "$output_root"); then
         log_error "Code generation failed"
@@ -573,7 +573,7 @@ run_quality_mlx() {
     # Phase 3: Code generation
     echo ""
     log_info "Phase 3/4: EvalPlus code generation..."
-    local output_root="$SCRIPT_DIR/evalplus_results"
+    local output_root="$SCRIPT_DIR/evalplus_results/${model_id}"
     local samples_file
     if ! samples_file=$(run_evalplus_codegen "$model_name" "$DATASET" "$PORT" "$output_root"); then
         log_error "Code generation failed"
