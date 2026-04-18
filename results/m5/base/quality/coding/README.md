@@ -10,7 +10,19 @@
 
 | Model | Quant | HumanEval+ | HumanEval (base) | Eval Framework |
 |-------|-------|----------:|----------------:|----------------|
+| Qwen 2.5 Coder 32B | Q4_K_M | 87.2% | - | EvalPlus |
+| Qwen 2.5 Coder 14B | Q4_K_M | 86.6% | - | EvalPlus |
 | Qwen 2.5 Coder 7B | Q4_K_M | 84.2% | - | EvalPlus |
+| Phi 4 14B | Q4_K_M | 82.3% | - | EvalPlus |
+| Gemma 3 27B | Q4_K_M | 78.7% | - | EvalPlus |
+| Gemma 3 12B | Q4_K_M | 75.6% | - | EvalPlus |
+| Phi 4 Mini 3.8B | Q4_K_M | 70.7% | - | EvalPlus |
+| Gemma 3 4B | Q4_K_M | 64.6% | - | EvalPlus |
+| Llama 3.1 8B Instruct | Q4_K_M | 61.0% | - | EvalPlus |
+| Llama 3.2 3B Instruct | Q4_K_M | 60.4% | - | EvalPlus |
+| Gemma 3 1B | Q4_K_M | 34.2% | - | EvalPlus |
+| Llama 3.2 1B Instruct | Q4_K_M | 32.9% | - | EvalPlus |
+| Gemma 4 E2B | Q4_K_M | 9.2% | - | EvalPlus |
 
 ---
 

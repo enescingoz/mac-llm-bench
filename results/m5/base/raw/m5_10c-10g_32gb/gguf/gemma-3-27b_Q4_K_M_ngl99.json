@@ -1,5 +1,5 @@
 {
-  "version": "2.0",
+  "version": "2.1",
   "timestamp": "2026-04-05T17:20:41Z",
   "hardware": {
     "model": "MacBook Air",
@@ -39,5 +39,14 @@
   },
   "memory": {
     "peak_rss_gb": 15.64
+  },
+  "quality": {
+    "humaneval_plus_pass1": 0.7866,
+    "humaneval_base_pass1": 0.8659,
+    "eval_framework": "evalplus",
+    "eval_framework_version": "0.3.1",
+    "eval_dataset": "humaneval",
+    "eval_temperature": 0.0,
+    "eval_num_samples": 1
   }
 }
