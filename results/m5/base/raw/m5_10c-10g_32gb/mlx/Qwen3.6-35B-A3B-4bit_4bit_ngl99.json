@@ -1,0 +1,43 @@
+{
+  "version": "2.0",
+  "timestamp": "2026-04-20T09:02:14Z",
+  "hardware": {
+    "model": "MacBook Air",
+    "chip": "Apple M5",
+    "total_ram_gb": 32,
+    "available_ram_gb": 23.3,
+    "cpu_cores": 10,
+    "performance_cores": 4,
+    "efficiency_cores": 6,
+    "gpu_cores": "10",
+    "os_version": "26.4",
+    "power_source": "ac_power",
+    "disk_available_gb": 428
+  },
+  "model": {
+    "name": "Qwen3.6-35B-A3B-4bit",
+    "id": "Qwen3.6-35B-A3B-4bit",
+    "params": "35B",
+    "quant": "4bit",
+    "file_size_gb": 0
+  },
+  "runtime": {
+    "name": "mlx-lm",
+    "version": "0.31.2"
+  },
+  "parameters": {
+    "n_gpu_layers": 99,
+    "flash_attention": true,
+    "threads": 0
+  },
+  "speed": {
+    "pp128": 130.03,
+    "tg128": 20.29,
+    "tg256": 20.3,
+    "pp256": 215.58,
+    "pp512": 277.67
+  },
+  "memory": {
+    "peak_rss_gb": 20.13
+  }
+}

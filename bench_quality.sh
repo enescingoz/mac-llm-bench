@@ -38,6 +38,7 @@ CONTEXT=4096
 DATASET="humaneval"
 N_GPU_LAYERS=99
 CLEANUP=false
+NO_THINK=false
 CACHE_DIR="${MAC_LLM_CACHE_DIR:-$HOME/.cache/mac-llm-bench}"
 
 # Hardware vars (populated by load_hardware)
@@ -89,6 +90,7 @@ usage() {
 
   EVAL OPTIONS:
     --dataset humaneval|mbpp   Eval dataset (default: humaneval)
+    --no-think                 Disable reasoning/thinking mode (for Qwen3, Qwen3.5, Qwen3.6, DeepSeek-R1 models)
 
   DISK MANAGEMENT:
     --cleanup             Delete GGUF model after benchmark
@@ -486,7 +488,7 @@ run_quality_gguf() {
     # Phase 1: Start server
     echo ""
     log_info "Phase 1/4: Starting llama-server..."
-    start_llama_server "$model_path" "$PORT" "$CONTEXT" "$N_GPU_LAYERS"
+    start_llama_server "$model_path" "$PORT" "$CONTEXT" "$N_GPU_LAYERS" "$NO_THINK"
 
     # Phase 2: Wait for server ready
     echo ""
@@ -559,7 +561,7 @@ run_quality_mlx() {
     # Phase 1: Start server
     echo ""
     log_info "Phase 1/4: Starting mlx_lm.server..."
-    start_mlx_server "$mlx_repo" "$PORT"
+    start_mlx_server "$mlx_repo" "$PORT" "$NO_THINK"
 
     # Phase 2: Wait for server ready (longer timeout — MLX downloads model)
     echo ""
@@ -767,6 +769,7 @@ parse_args() {
             --port)       PORT="$2"; shift 2 ;;
             --context)    CONTEXT="$2"; shift 2 ;;
             --dataset)    DATASET="$2"; shift 2 ;;
+            --no-think)   NO_THINK=true; shift ;;
             --all)        ACTION="bench_all"; shift ;;
             --auto)       ACTION="bench_auto"; shift ;;
             --tag)        TAG="$2"; ACTION="bench_tag"; shift 2 ;;
@@ -792,6 +795,12 @@ parse_args() {
     if [[ "$DATASET" != "humaneval" && "$DATASET" != "mbpp" ]]; then
         log_error "Invalid --dataset: $DATASET (must be 'humaneval' or 'mbpp')"
         exit 1
+    fi
+
+    # Reasoning models need more context for <think> + code output
+    if [[ "$NO_THINK" == "true" && "$CONTEXT" -eq 4096 ]]; then
+        CONTEXT=8192
+        log_warn "--no-think: bumping default context to 8192 for reasoning model"
     fi
 }
 

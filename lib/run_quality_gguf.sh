@@ -15,13 +15,15 @@ log_warn()  { echo -e "${YELLOW}[WARN]${NC} $*"; }
 log_error() { echo -e "${RED}[ERROR]${NC} $*" >&2; }
 
 # ─── Start llama-server in background ─────────────────────────────
-# Usage: start_llama_server <model_path> <port> <context_size> <ngl>
+# Usage: start_llama_server <model_path> <port> <context_size> <ngl> [no_think]
 # Sets SERVER_PID in the calling shell (SERVER_PID must be declared there).
+# When no_think="true", passes --reasoning-budget 0 to disable <think> output.
 start_llama_server() {
     local model_path="$1"
     local port="${2:-8080}"
     local context_size="${3:-4096}"
     local ngl="${4:-99}"
+    local no_think="${5:-false}"
 
     local cmd=(llama-server
         -m "$model_path"
@@ -30,6 +32,11 @@ start_llama_server() {
         -ngl "$ngl"
         -np 1
     )
+
+    if [[ "$no_think" == "true" ]]; then
+        cmd+=(--reasoning-budget 0)
+        log_info "  --no-think: adding --reasoning-budget 0"
+    fi
 
     log_info "Starting llama-server..."
     log_info "  Command: ${cmd[*]}"

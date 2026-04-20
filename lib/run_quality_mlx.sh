@@ -45,11 +45,15 @@ _find_mlx_server() {
 }
 
 # ─── Start mlx_lm.server in background ───────────────────────────
-# Usage: start_mlx_server <mlx_repo> <port>
+# Usage: start_mlx_server <mlx_repo> <port> [no_think]
 # Sets SERVER_PID in the calling shell (SERVER_PID must be declared there).
+# Note: mlx_lm.server has no --reasoning-budget equivalent. When no_think="true",
+# a warning is logged. The model will still emit <think> tokens; suppress them
+# by including "/no_think" or "/nothink" in the system prompt at the EvalPlus level.
 start_mlx_server() {
     local mlx_repo="$1"
     local port="${2:-8080}"
+    local no_think="${3:-false}"
 
     local mlx_server_bin
     if ! mlx_server_bin=$(_find_mlx_server); then
@@ -59,6 +63,12 @@ start_mlx_server() {
     fi
 
     local cmd=("$mlx_server_bin" --model "$mlx_repo" --port "$port")
+
+    if [[ "$no_think" == "true" ]]; then
+        log_warn "--no-think: mlx_lm.server does not support --reasoning-budget."
+        log_warn "  Thinking tokens will still appear in model output."
+        log_warn "  To suppress thinking, include '/no_think' in your system prompt."
+    fi
 
     log_info "Starting mlx_lm.server..."
     log_info "  Command: ${cmd[*]}"
