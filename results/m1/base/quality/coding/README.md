@@ -6,4 +6,10 @@
 
 [← Back to overview](../../README.md) | [Speed Benchmarks →](../../speed/README.md)
 
-No benchmark results yet for this chip variant.
+No quality benchmarks available yet for this configuration.
+
+Run `./bench_quality.sh --model <model-id>` to generate quality results, then regenerate tables with `python3 scripts/generate_results.py`. See [GUIDE.md](../../GUIDE.md) for details.
+
+---
+
+*Auto-generated from raw benchmark data. Run `python3 scripts/generate_results.py` to regenerate.*

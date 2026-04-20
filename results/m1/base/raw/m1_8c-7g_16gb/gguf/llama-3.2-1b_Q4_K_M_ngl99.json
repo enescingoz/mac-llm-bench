@@ -1,0 +1,43 @@
+{
+  "version": "2.0",
+  "timestamp": "2026-04-07T09:04:28Z",
+  "hardware": {
+    "model": "MacBook Air",
+    "chip": "Apple M1",
+    "total_ram_gb": 16,
+    "available_ram_gb": 5.7,
+    "cpu_cores": 8,
+    "performance_cores": 4,
+    "efficiency_cores": 4,
+    "gpu_cores": "7",
+    "os_version": "26.3.1",
+    "power_source": "ac_power",
+    "disk_available_gb": 25
+  },
+  "model": {
+    "name": "Llama 3.2 1B Instruct",
+    "id": "llama-3.2-1b",
+    "params": "1B",
+    "quant": "Q4_K_M",
+    "file_size_gb": 0.75
+  },
+  "runtime": {
+    "name": "llama.cpp",
+    "version": "unknown"
+  },
+  "parameters": {
+    "n_gpu_layers": 99,
+    "flash_attention": true,
+    "threads": 0
+  },
+  "speed": {
+    "pp128": 753.71,
+    "pp256": 776.93,
+    "pp512": 772.9,
+    "tg128": 64.83,
+    "tg256": 65.13
+  },
+  "memory": {
+    "peak_rss_gb": 0.86
+  }
+}

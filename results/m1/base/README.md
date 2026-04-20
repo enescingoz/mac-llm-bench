@@ -6,8 +6,33 @@ Combined speed and quality overview. Use the links below for dedicated leaderboa
 
 **[Speed Benchmarks](speed/README.md)** | **[Code Quality](quality/coding/README.md)** | [Reasoning](quality/reasoning/README.md) | [General Knowledge](quality/general/README.md)
 
-No benchmark results yet for this chip variant.
+All speed values are in **tokens/second** (higher = better). Memory is peak RSS in GB.
 
-**Your contribution is welcome!** Run the benchmarks on your M1 and submit the results.
+## M1 - 8 CPU / 7 GPU / 16GB
 
-See [GUIDE.md](../../GUIDE.md) for how to run benchmarks and [CONTRIBUTING.md](../../CONTRIBUTING.md) for how to submit results.
+| Model | Quant | Runtime | tg128 | HumanEval+ | Memory |
+|-------|-------|---------|------:|-----------:|-------:|
+| Qwen3-0.6B-4bit | 4bit | MLX | 114.7 | - | 0.82 |
+| Qwen 3 0.6B | Q4_K_M | GGUF | 83.3 | - | 0.57 |
+| gemma-3-1b-it-4bit | 4bit | MLX | 81.4 | - | 1.08 |
+| Llama 3.2 1B Instruct | Q4_K_M | GGUF | 64.8 | - | 0.86 |
+| Qwen 3 1.7B | Q4_K_M | GGUF | 43.4 | - | 1.31 |
+| Gemma 3 1B | Q4_K_M | GGUF | 42.0 | - | 0.85 |
+| Gemma 4 E2B | Q4_K_M | GGUF | 27.4 | - | 3.39 |
+| Llama 3.2 3B Instruct | Q4_K_M | GGUF | 27.0 | - | 2.01 |
+| Qwen3.5-4B-4bit | 4bit | MLX | 23.2 | - | 3.16 |
+| Gemma 3 4B | Q4_K_M | GGUF | 21.3 | - | 2.45 |
+| Phi 4 Mini 3.8B | Q4_K_M | GGUF | 20.8 | - | 2.45 |
+| Qwen 3 4B | Q4_K_M | GGUF | 20.4 | - | 2.45 |
+| Phi 4 Mini Reasoning 3.8B | Q4_K_M | GGUF | 19.9 | - | 2.45 |
+| Gemma 4 E4B | Q4_K_M | GGUF | 15.9 | - | 5.21 |
+| Qwen 3.5 4B | Q4_K_M | GGUF | 14.1 | - | 2.74 |
+| Qwen3-8B-4bit | 4bit | MLX | 12.5 | - | 5.12 |
+| DeepSeek R1 Distill 7B | Q4_K_M | GGUF | 11.5 | - | 4.47 |
+| Qwen 3 8B | Q4_K_M | GGUF | 11.0 | - | 4.81 |
+| Qwen 3.5 9B | Q4_K_M | GGUF | 8.3 | - | 5.48 |
+| Gemma 3 12B | Q4_K_M | GGUF | 6.7 | - | 6.99 |
+
+---
+
+*Auto-generated from raw benchmark data in [`raw/`](raw/). Run `python3 scripts/generate_results.py` to regenerate.*

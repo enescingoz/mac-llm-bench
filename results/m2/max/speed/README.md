@@ -16,6 +16,7 @@ All speed values are in **tokens/second** (higher = better). Memory is peak RSS 
 | Qwen 3 1.7B | Q4_K_M | GGUF | 2049.9 | 2165.2 | 2235.3 | 144.4 | 138.9 | 1.31 |
 | Gemma 4 E2B | Q4_K_M | GGUF | 1403.6 | 1602.3 | 1628.8 | 88.9 | 87.0 | 3.39 |
 | Llama 3.2 3B Instruct | Q4_K_M | GGUF | 1121.1 | 1097.6 | 1059.9 | 84.7 | 83.8 | 2.01 |
+| Qwen3-Coder-30B-A3B-Instruct-4bit | 4bit | MLX | 275.1 | 359.9 | 441.3 | 78.0 | 77.4 | 17.77 |
 | Phi 4 Mini Reasoning 3.8B | Q4_K_M | GGUF | 955.8 | 983.0 | 911.7 | 68.5 | 66.9 | 2.46 |
 | Phi 4 Mini 3.8B | Q4_K_M | GGUF | 959.2 | 1013.6 | 880.6 | 67.8 | 67.2 | 2.45 |
 | Qwen 3 30B-A3B MoE | Q4_K_M | GGUF | 516.7 | 647.2 | 735.4 | 66.0 | 65.3 | 17.47 |
