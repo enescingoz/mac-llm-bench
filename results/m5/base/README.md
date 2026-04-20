@@ -16,25 +16,25 @@ All speed values are in **tokens/second** (higher = better). Memory is peak RSS 
 | Qwen 2.5 Coder 14B | Q4_K_M | GGUF | 5.9 | 86.6% | 8.52 |
 | Qwen 2.5 Coder 7B | Q4_K_M | GGUF | 11.3 | 84.2% | 4.47 |
 | Phi 4 14B | Q4_K_M | GGUF | 5.3 | 82.3% | 8.56 |
+| Devstral Small 24B | Q4_K_M | GGUF | 3.5 | 81.7% | 13.50 |
 | Gemma 3 27B | Q4_K_M | GGUF | 3.0 | 78.7% | 15.64 |
 | Gemma 3 12B | Q4_K_M | GGUF | 5.7 | 75.6% | 7.00 |
+| Mistral Small 3.1 24B | Q4_K_M | GGUF | 3.6 | 75.6% | 13.50 |
 | Phi 4 Mini 3.8B | Q4_K_M | GGUF | 19.6 | 70.7% | 2.46 |
 | Gemma 3 4B | Q4_K_M | GGUF | 16.5 | 64.6% | 2.46 |
+| Mistral Nemo 12B | Q4_K_M | GGUF | 6.9 | 64.6% | 7.11 |
 | Llama 3.1 8B Instruct | Q4_K_M | GGUF | 10.8 | 61.0% | 4.72 |
 | Llama 3.2 3B Instruct | Q4_K_M | GGUF | 24.1 | 60.4% | 2.02 |
+| Mistral 7B Instruct v0.3 | Q4_K_M | GGUF | 11.5 | 37.2% | 4.16 |
 | Gemma 3 1B | Q4_K_M | GGUF | 46.6 | 34.2% | 0.86 |
 | Llama 3.2 1B Instruct | Q4_K_M | GGUF | 59.4 | 32.9% | 0.87 |
+| Gemma 4 31B | Q4_K_M | GGUF | 5.5 | 31.1% | 18.64 |
+| Gemma 4 E4B | Q4_K_M | GGUF | 36.7 | 14.6% | 5.22 |
+| Gemma 4 26B-A4B MoE | Q4_K_M | GGUF | 16.2 | 12.2% | 16.09 |
 | Gemma 4 E2B | Q4_K_M | GGUF | 29.2 | 9.2% | 3.39 |
 | DeepSeek R1 Distill 14B | Q4_K_M | GGUF | 5.6 | - | 8.52 |
 | DeepSeek R1 Distill 32B | Q4_K_M | GGUF | 2.6 | - | 18.65 |
 | DeepSeek R1 Distill 7B | Q4_K_M | GGUF | 11.4 | - | 4.47 |
-| Devstral Small 24B | Q4_K_M | GGUF | 3.5 | - | 13.50 |
-| Gemma 4 26B-A4B MoE | Q4_K_M | GGUF | 16.2 | - | 16.09 |
-| Gemma 4 31B | Q4_K_M | GGUF | 5.5 | - | 18.64 |
-| Gemma 4 E4B | Q4_K_M | GGUF | 36.7 | - | 5.22 |
-| Mistral 7B Instruct v0.3 | Q4_K_M | GGUF | 11.5 | - | 4.16 |
-| Mistral Nemo 12B | Q4_K_M | GGUF | 6.9 | - | 7.11 |
-| Mistral Small 3.1 24B | Q4_K_M | GGUF | 3.6 | - | 13.50 |
 | Phi 4 Mini Reasoning 3.8B | Q4_K_M | GGUF | 19.4 | - | 2.46 |
 | Phi 4 Reasoning Plus 14B | Q4_K_M | GGUF | 5.7 | - | 8.56 |
 | Qwen 3 0.6B | Q4_K_M | GGUF | 91.9 | - | 0.57 |

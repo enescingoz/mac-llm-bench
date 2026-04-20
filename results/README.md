@@ -35,25 +35,25 @@ Best `tg128` (text generation, tok/s) per generation:
 | DeepSeek-R1-Distill-Qwen-14B-4bit | - | - | - | - | 10.8 | - |
 | DeepSeek-R1-Distill-Qwen-32B-MLX-4Bit | - | - | - | - | 4.8 | - |
 | DeepSeek-R1-Distill-Qwen-7B-4bit-mlx | - | - | - | - | 26.2 | - |
-| Devstral Small 24B | - | 12.3 | - | - | 3.5 | - |
+| Devstral Small 24B | - | 12.3 | - | - | 3.5 | 81.7% |
 | Devstral-Small-2-24B-Instruct-2512-4bit | - | - | - | - | 6.6 | - |
 | Gemma 3 12B | - | 23.3 | - | - | 5.7 | 75.6% |
 | Gemma 3 1B | - | 151.3 | - | - | 46.6 | 34.2% |
 | Gemma 3 27B | - | 10.2 | - | - | 3.0 | 78.7% |
 | Gemma 3 4B | - | 65.0 | - | - | 16.5 | 64.6% |
-| Gemma 4 26B-A4B MoE | - | 51.6 | - | - | 16.2 | - |
-| Gemma 4 31B | - | 8.4 | - | - | 5.5 | - |
+| Gemma 4 26B-A4B MoE | - | 51.6 | - | - | 16.2 | 12.2% |
+| Gemma 4 31B | - | 8.4 | - | - | 5.5 | 31.1% |
 | Gemma 4 E2B | - | 88.9 | - | - | 29.2 | 9.2% |
-| Gemma 4 E4B | - | 50.2 | - | - | 36.7 | - |
+| Gemma 4 E4B | - | 50.2 | - | - | 36.7 | 14.6% |
 | Llama 3.1 8B Instruct | - | 37.5 | - | - | 10.8 | 61.0% |
 | Llama 3.2 1B Instruct | - | 205.9 | - | - | 59.4 | 32.9% |
 | Llama 3.2 3B Instruct | - | 84.7 | - | - | 24.1 | 60.4% |
 | Llama-3.2-1B-Instruct-4bit | - | - | - | - | 156.7 | - |
 | Llama-3.2-3B-Instruct-4bit | - | - | - | - | 63.1 | - |
 | Meta-Llama-3.1-8B-Instruct-4bit | - | - | - | - | 28.3 | - |
-| Mistral 7B Instruct v0.3 | - | 39.8 | - | - | 11.5 | - |
-| Mistral Nemo 12B | - | 24.7 | - | - | 6.9 | - |
-| Mistral Small 3.1 24B | - | 12.4 | - | - | 3.6 | - |
+| Mistral 7B Instruct v0.3 | - | 39.8 | - | - | 11.5 | 37.2% |
+| Mistral Nemo 12B | - | 24.7 | - | - | 6.9 | 64.6% |
+| Mistral Small 3.1 24B | - | 12.4 | - | - | 3.6 | 75.6% |
 | Mistral-7B-Instruct-v0.3-4bit | - | - | - | - | 22.9 | - |
 | Mistral-Nemo-Instruct-2407-4bit | - | - | - | - | 13.4 | - |
 | Mistral-Small-3.1-Text-24B-Instruct-2503-4bit | - | - | - | - | 6.9 | - |
