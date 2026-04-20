@@ -222,6 +222,22 @@ models:
     min_ram: 24
     tags: [qwen, large, general, multimodal, moe, trending]
 
+  # ─── Qwen 3.6 Family ───────────────────────────────────────────────
+  qwen3.6-35b-a3b:
+    name: "Qwen 3.6 35B-A3B"
+    params: "35B"
+    sources:
+      - repo: "bartowski/Qwen_Qwen3.6-35B-A3B-GGUF"
+        gated: false
+    mlx_sources:
+      - repo: "mlx-community/Qwen3.6-35B-A3B-4bit"
+        gated: false
+    quants: [Q3_K_M, Q4_K_M, Q5_K_M, Q6_K, Q8_0]
+    default_quant: Q4_K_M
+    file_pattern: "Qwen_Qwen3.6-35B-A3B-{quant}.gguf"
+    min_ram: 20
+    tags: [qwen, large, general, coding, reasoning, trending]
+
   # ─── Google Gemma 4 Family ────────────────────────────────────────
   gemma-4-e2b:
     name: "Gemma 4 E2B"
