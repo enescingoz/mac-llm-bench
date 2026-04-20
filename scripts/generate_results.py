@@ -216,10 +216,10 @@ def render_quality_coding_table(results):
         he_plus_raw = q.get("humaneval_plus_pass1")
         he_plus = f"{he_plus_raw * 100:.1f}%" if he_plus_raw is not None else "-"
 
-        he_base_raw = q.get("humaneval_pass1")
+        he_base_raw = q.get("humaneval_base_pass1")
         he_base = f"{he_base_raw * 100:.1f}%" if he_base_raw is not None else "-"
 
-        eval_fw = q.get("framework", "EvalPlus")
+        eval_fw = q.get("eval_framework", "EvalPlus")
 
         if show_runtime:
             lines.append(
