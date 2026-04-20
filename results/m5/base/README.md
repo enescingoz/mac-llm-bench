@@ -12,6 +12,7 @@ All speed values are in **tokens/second** (higher = better). Memory is peak RSS 
 
 | Model | Quant | Runtime | tg128 | HumanEval+ | Memory |
 |-------|-------|---------|------:|-----------:|-------:|
+| Qwen 3.6 35B-A3B | Q4_K_M | GGUF | 16.7 | 89.6% | 20.14 |
 | Qwen 2.5 Coder 32B | Q4_K_M | GGUF | 2.5 | 87.2% | 18.65 |
 | Qwen 2.5 Coder 14B | Q4_K_M | GGUF | 5.9 | 86.6% | 8.52 |
 | Qwen 2.5 Coder 7B | Q4_K_M | GGUF | 11.3 | 84.2% | 4.47 |
@@ -69,6 +70,7 @@ All speed values are in **tokens/second** (higher = better). Memory is peak RSS 
 | Qwen3.5-35B-A3B-4bit | 4bit | MLX | 58.8 | - | 20.12 |
 | Qwen3.5-4B-4bit | 4bit | MLX | 48.7 | - | 3.16 |
 | Qwen3.5-9B-MLX-4bit | 4bit | MLX | 21.5 | - | 5.74 |
+| Qwen3.6-35B-A3B-4bit | 4bit | MLX | 20.3 | - | 20.13 |
 | gemma-3-12b-it-4bit | 4bit | MLX | 12.5 | - | 7.82 |
 | gemma-3-1b-it-4bit | 4bit | MLX | 176.7 | - | 1.20 |
 | gemma-3-27b-it-4bit | 4bit | MLX | 5.5 | - | 16.72 |

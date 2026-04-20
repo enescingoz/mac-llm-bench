@@ -10,6 +10,7 @@
 
 | Model | Quant | HumanEval+ | HumanEval (base) | Eval Framework |
 |-------|-------|----------:|----------------:|----------------|
+| Qwen 3.6 35B-A3B | Q4_K_M | 89.6% | - | EvalPlus |
 | Qwen 2.5 Coder 32B | Q4_K_M | 87.2% | - | EvalPlus |
 | Qwen 2.5 Coder 14B | Q4_K_M | 86.6% | - | EvalPlus |
 | Qwen 2.5 Coder 7B | Q4_K_M | 84.2% | - | EvalPlus |

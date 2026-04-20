@@ -12,7 +12,7 @@ Browse by chip generation, then select your variant (base, Pro, Max, Ultra).
 | **M2** | 1 | 1 | 38 | [View results](m2/) |
 | **M3** | - | - | - | [Awaiting contributions](m3/) |
 | **M4** | - | - | - | [Awaiting contributions](m4/) |
-| **M5** | 1 | 1 | 62 | [View results](m5/) |
+| **M5** | 1 | 1 | 64 | [View results](m5/) |
 
 ## Sub-Leaderboards
 
@@ -78,6 +78,7 @@ Best `tg128` (text generation, tok/s) per generation:
 | Qwen 3.5 35B-A3B MoE | - | 45.4 | - | - | 31.3 | - |
 | Qwen 3.5 4B | - | 48.4 | - | - | 29.4 | - |
 | Qwen 3.5 9B | - | 30.2 | - | - | 13.2 | - |
+| Qwen 3.6 35B-A3B | - | - | - | - | 16.7 | 89.6% |
 | Qwen2.5-Coder-14B-Instruct-4bit | - | - | - | - | 10.9 | - |
 | Qwen2.5-Coder-32B-Instruct-4bit | - | - | - | - | 4.8 | - |
 | Qwen2.5-Coder-7B-Instruct-4bit | - | - | - | - | 23.5 | - |
@@ -86,6 +87,7 @@ Best `tg128` (text generation, tok/s) per generation:
 | Qwen3.5-35B-A3B-4bit | - | - | - | - | 58.8 | - |
 | Qwen3.5-4B-4bit | - | - | - | - | 48.7 | - |
 | Qwen3.5-9B-MLX-4bit | - | - | - | - | 21.5 | - |
+| Qwen3.6-35B-A3B-4bit | - | - | - | - | 20.3 | - |
 | gemma-3-12b-it-4bit | - | - | - | - | 12.5 | - |
 | gemma-3-1b-it-4bit | - | - | - | - | 176.7 | - |
 | gemma-3-27b-it-4bit | - | - | - | - | 5.5 | - |
