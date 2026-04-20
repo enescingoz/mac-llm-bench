@@ -6,3 +6,6 @@ mlx-lm>=0.29.0             # MLX inference and mlx_lm.benchmark
 
 # Optional
 pyyaml>=6.0                # Better YAML parsing (fallback parser works without it)
+evalplus>=0.3.0            # HumanEval+ code quality benchmarks (bench_quality.sh)
+pandas>=2.0.0              # HuggingFace dataset export script
+pyarrow>=14.0.0            # HuggingFace dataset export script (Parquet support)

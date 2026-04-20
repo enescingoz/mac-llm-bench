@@ -1,6 +1,6 @@
 # Mac LLM Bench
 
-Community-driven benchmark database for running LLMs locally on Apple Silicon Macs.
+Community-driven benchmark database for running LLMs locally on Apple Silicon Macs. Speed + code quality benchmarks for LLMs on Apple Silicon.
 
 **Goal:** Build a comprehensive, reproducible performance database so anyone can look up how fast a given LLM runs on their specific Mac — and find the optimal settings for it.
 
@@ -26,20 +26,31 @@ Each generation page contains separate tables for every variant (base, Pro, Max,
 git clone https://github.com/enescingoz/mac-llm-bench.git
 cd mac-llm-bench
 
-# GGUF benchmarks (llama.cpp)
+# Create and activate virtual environment
+python3 -m venv .venv
+source .venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# For GGUF benchmarks, also install llama.cpp
 brew install llama.cpp
-pip3 install huggingface-hub
+
+# GGUF benchmarks
 ./bench_gguf.sh --quick                  # Quick smoke test
 ./bench_gguf.sh --auto                   # All models that fit in RAM
 
-# MLX benchmarks (Apple MLX) - optional, requires Python 3.10+
-python3.12 -m venv ~/.venvs/mlx && source ~/.venvs/mlx/bin/activate
-pip install mlx-lm
+# MLX benchmarks (Apple MLX)
 ./bench_mlx.sh --repo mlx-community/Qwen3-8B-4bit
+
+# Quality benchmark (HumanEval+ code evaluation)
+./bench_quality.sh --model qwen2.5-coder-7b
 
 # Regenerate result tables
 python3 scripts/generate_results.py
 ```
+
+> **Note:** Always activate the virtual environment (`source .venv/bin/activate`) before running any bench scripts.
 
 ## How It Works
 
@@ -49,6 +60,7 @@ We support two runtimes, each with its own standardized benchmark:
 |---------|---------------|--------|-------------|
 | **GGUF** | `llama-bench` | `./bench_gguf.sh` | GGUF (llama.cpp) |
 | **MLX** | `mlx_lm.benchmark` | `./bench_mlx.sh` | MLX 4-bit (Apple MLX) |
+| **Quality** | EvalPlus (HumanEval+) | `./bench_quality.sh` | GGUF or MLX |
 
 Both measure the same metrics at fixed token counts (pp128, pp256, pp512, tg128, tg256). Results are stored separately and displayed side-by-side with a Runtime column so you can compare GGUF vs MLX directly.
 
@@ -72,6 +84,8 @@ Currently benchmarking 10 model families (100 total benchmarks across 2 chips):
 | **Llama** (Meta) | 3 models | 3.2 1B, 3.2 3B, 3.1 8B |
 
 All ungated — no HuggingFace login required. More model families can be added via PR. Run `./bench_gguf.sh --list` to see all available models.
+
+> **Quality benchmarks:** Models tagged `coding` (Qwen 2.5 Coder, Devstral, etc.) support HumanEval+ evaluation via `./bench_quality.sh`.
 
 ## Apple Silicon Coverage
 
@@ -101,12 +115,17 @@ Find optimal settings for each model on your hardware:
 mac-llm-bench/
 ├── bench_gguf.sh                   # GGUF benchmark (llama.cpp)
 ├── bench_mlx.sh                    # MLX benchmark (mlx-lm)
+├── bench_quality.sh                # Quality benchmark (EvalPlus HumanEval+)
 ├── models.yaml                     # Model registry
 ├── requirements.txt                # Python dependencies
 ├── lib/
 │   ├── run_bench_gguf.sh           # llama-bench wrapper
 │   ├── run_bench_mlx.sh            # mlx_lm.benchmark wrapper
 │   ├── run_sweep_gguf.sh           # GGUF parameter sweep
+│   ├── run_quality_gguf.sh         # Quality benchmark GGUF runner
+│   ├── run_quality_mlx.sh          # Quality benchmark MLX runner
+│   ├── parse_evalplus.py           # EvalPlus result parser
+│   ├── merge_quality_result.py     # Merges quality scores into result JSON
 │   ├── collect_results.sh          # Shared result storage
 │   ├── detect_hardware.sh          # Hardware detection
 │   ├── download_model.sh           # HuggingFace download
@@ -116,11 +135,22 @@ mac-llm-bench/
 ├── results/
 │   ├── README.md                   # Auto-generated index
 │   ├── m1/ ... m5/                 # Per-generation results
-│   │   ├── README.md               # Auto-generated tables
-│   │   └── {variant}/raw/
-│   │       └── {chip}_{cpu}c-{gpu}g_{ram}gb/
-│   │           ├── gguf/           # GGUF benchmark results
-│   │           └── mlx/            # MLX benchmark results
+│   │   ├── README.md               # Auto-generated generation overview
+│   │   └── {variant}/
+│   │       ├── README.md           # Combined speed + quality overview
+│   │       ├── speed/
+│   │       │   └── README.md       # Speed-only leaderboard
+│   │       ├── quality/
+│   │       │   ├── coding/
+│   │       │   │   └── README.md   # HumanEval+ results
+│   │       │   ├── reasoning/
+│   │       │   │   └── README.md   # Placeholder (GSM8K, ARC — coming soon)
+│   │       │   └── general/
+│   │       │       └── README.md   # Placeholder (MMLU, HellaSwag — coming soon)
+│   │       └── raw/
+│   │           └── {chip}_{cpu}c-{gpu}g_{ram}gb/
+│   │               ├── gguf/       # GGUF benchmark results (*.json)
+│   │               └── mlx/        # MLX benchmark results (*.json)
 ├── schemas/
 │   └── result.schema.json          # Result JSON format
 ├── CONTRIBUTING.md
@@ -135,15 +165,13 @@ mac-llm-bench/
 
 ## Requirements
 
-**GGUF benchmarks:**
+**All benchmarks:**
 - macOS on Apple Silicon (M1/M2/M3/M4/M5)
-- [llama.cpp](https://github.com/ggml-org/llama.cpp) — `brew install llama.cpp`
-- [huggingface-hub](https://pypi.org/project/huggingface-hub/) — `pip3 install huggingface-hub`
-- Python 3 (pre-installed on macOS)
+- Python 3.10+ — `brew install python@3.12`
+- Project `.venv` with `pip install -r requirements.txt` (includes mlx-lm, evalplus, huggingface-hub, pyyaml, pandas, pyarrow)
 
-**MLX benchmarks (optional):**
-- Python 3.10+ (install via `brew install python@3.12`)
-- [mlx-lm](https://github.com/ml-explore/mlx-lm) — `pip install mlx-lm` (in a venv recommended)
+**GGUF benchmarks:**
+- [llama.cpp](https://github.com/ggml-org/llama.cpp) — `brew install llama.cpp`
 
 ## License
 

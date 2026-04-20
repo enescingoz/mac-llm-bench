@@ -59,7 +59,7 @@ def parse_basic(filepath):
                 elif val == '':
                     current_list_key = key
                     models[current_model][key] = []
-                    in_sources = (key == 'sources')
+                    in_sources = (key in ('sources', 'mlx_sources'))
                     current_source = None
                 elif val in ('true', 'false'):
                     models[current_model][key] = val == 'true'
@@ -79,7 +79,7 @@ def parse_basic(filepath):
                     if v in ('true', 'false'):
                         v = v == 'true'
                     current_source = {k.strip(): v}
-                    models[current_model]['sources'].append(current_source)
+                    models[current_model][current_list_key].append(current_source)
                 continue
 
             # Source properties (indent 8)

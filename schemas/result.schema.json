@@ -8,7 +8,7 @@
     "version": {
       "type": "string",
       "description": "Schema version",
-      "const": "2.0"
+      "enum": ["2.0", "2.1"]
     },
     "timestamp": {
       "type": "string",
@@ -81,7 +81,7 @@
       "properties": {
         "name": {
           "type": "string",
-          "const": "llama.cpp"
+          "enum": ["llama.cpp", "mlx-lm"]
         },
         "version": {
           "type": "string",
@@ -140,7 +140,7 @@
     },
     "quality": {
       "type": "object",
-      "description": "Optional quality metrics from llama-perplexity on WikiText-2",
+      "description": "Optional quality metrics from llama-perplexity on WikiText-2 and code evaluation benchmarks",
       "properties": {
         "perplexity": {
           "type": "number",
@@ -149,6 +149,41 @@
         "perplexity_std": {
           "type": "number",
           "description": "Standard deviation of perplexity"
+        },
+        "humaneval_plus_pass1": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "Pass@1 on HumanEval+ (primary quality metric)"
+        },
+        "humaneval_base_pass1": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "description": "Pass@1 on original HumanEval tests"
+        },
+        "eval_framework": {
+          "type": "string",
+          "description": "Evaluation framework used (e.g. evalplus)"
+        },
+        "eval_framework_version": {
+          "type": "string",
+          "description": "Version of the evaluation framework (e.g. 0.6.0)"
+        },
+        "eval_dataset": {
+          "type": "string",
+          "enum": ["humaneval", "mbpp"],
+          "description": "Which dataset was used for evaluation"
+        },
+        "eval_temperature": {
+          "type": "number",
+          "minimum": 0.0,
+          "description": "Temperature used for generation during evaluation"
+        },
+        "eval_num_samples": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of samples generated per problem (1 for pass@1)"
         }
       }
     },

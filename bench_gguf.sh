@@ -264,6 +264,11 @@ preflight() {
     bash "$LIB_DIR/detect_hardware.sh" --summary
     echo ""
 
+    # Check if project venv exists but is not activated
+    if [[ -f "$SCRIPT_DIR/.venv/bin/activate" ]] && [[ -z "${VIRTUAL_ENV:-}" ]]; then
+        log_warn "Project .venv found but not activated. Run: source .venv/bin/activate"
+    fi
+
     if [[ "$HW_POWER_SOURCE" == "battery" ]]; then
         log_warn "Running on battery — results may be inconsistent."
         log_warn "Plug in for accurate benchmarks."
