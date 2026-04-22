@@ -56,15 +56,51 @@ python3 scripts/generate_results.py
 
 We support two runtimes, each with its own standardized benchmark:
 
-| Runtime | Benchmark Tool | Script | Model Format |
-|---------|---------------|--------|-------------|
-| **GGUF** | `llama-bench` | `./bench_gguf.sh` | GGUF (llama.cpp) |
-| **MLX** | `mlx_lm.benchmark` | `./bench_mlx.sh` | MLX 4-bit (Apple MLX) |
-| **Quality** | EvalPlus (HumanEval+) | `./bench_quality.sh` | GGUF or MLX |
+| Runtime | Benchmark Tool | Script | Model Format | Default Quant |
+|---------|---------------|--------|-------------|--------------|
+| **GGUF** | `llama-bench` | `./bench_gguf.sh` | GGUF (llama.cpp) | Q4_K_M |
+| **MLX** | `mlx_lm.benchmark` | `./bench_mlx.sh` | MLX (Apple MLX) | 4-bit |
+| **Quality** | EvalPlus (HumanEval+) | `./bench_quality.sh` | GGUF or MLX | same as above |
 
 Both measure the same metrics at fixed token counts (pp128, pp256, pp512, tg128, tg256). Results are stored separately and displayed side-by-side with a Runtime column so you can compare GGUF vs MLX directly.
 
 > **Note:** Some newer models (e.g., Gemma 4) may not yet be supported by all runtimes. MLX support depends on the `mlx-lm` library version. These will be added as runtime support becomes available.
+
+## Methodology
+
+All published results follow these fixed conditions so results are comparable across submissions.
+
+**Quantization**
+
+- GGUF models: Q4_K_M quantization via llama.cpp
+- MLX models: 4-bit quantization via mlx-lm
+
+**Speed benchmarks**
+
+- Tool: `llama-bench` (GGUF) / `mlx_lm.benchmark` (MLX)
+- Metrics: prompt processing and text generation at fixed token counts (pp128, pp256, pp512, tg128, tg256)
+- All GPU layers offloaded (`ngl=99`), flash attention enabled
+- Context window: 4096 tokens (8192 for reasoning models, with `--no-think` to disable chain-of-thought)
+
+**Quality benchmarks**
+
+- Tool: EvalPlus v0.3.1
+- Dataset: HumanEval+ (164 problems with 80x expanded test cases)
+- Metric: pass@1 (greedy decoding, temperature=0)
+- Single hardware configuration: M5 base 32GB
+
+### Library Versions
+
+Results on this repo were collected with:
+
+| Library | Version |
+|---------|---------|
+| llama.cpp | build 8680 (brew stable) |
+| mlx-lm | 0.31.2 |
+| EvalPlus | 0.3.1 |
+| Python | 3.12 |
+
+Version strings are also stored in each result JSON under `runtime.version` for full reproducibility.
 
 ## Supported Models
 
@@ -172,6 +208,14 @@ mac-llm-bench/
 
 **GGUF benchmarks:**
 - [llama.cpp](https://github.com/ggml-org/llama.cpp) — `brew install llama.cpp`
+
+## Known Limitations
+
+- **HumanEval+ scope:** HumanEval+ measures algorithmic problem-solving ability on 164 self-contained coding problems. It does not test production code quality, repo-level context handling, or architectural awareness. Scores should not be read as a measure of real-world coding assistant capability.
+- **Single quantization level:** All models are tested at Q4_K_M (GGUF) or 4-bit (MLX). Results at other quantization levels will differ, particularly for perplexity and quality scores.
+- **Gemma 4 results:** Gemma 4 models score unusually low on quality benchmarks. This is likely caused by a known tool-calling bug in llama.cpp that causes premature inference stopping, not actual model capability. Treat these results with caution until the bug is resolved.
+- **Reasoning models tested without chain-of-thought:** Qwen 3.x, QwQ, and DeepSeek R1 models are tested with `--no-think`, which disables chain-of-thought reasoning. This may understate their quality ceiling.
+- **Single hardware configuration for quality benchmarks:** Quality scores are currently collected only on M5 base 32GB. Speed results cover more hardware configurations.
 
 ## License
 
