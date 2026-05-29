@@ -12,12 +12,12 @@ All speed values are in **tokens/second** (higher = better). Memory is peak RSS 
 
 | Model | Quant | Runtime | tg128 | HumanEval+ | Memory |
 |-------|-------|---------|------:|-----------:|-------:|
-| Qwen3-0.6B-4bit | 4bit | MLX | 114.7 | - | 0.82 |
+| Qwen3-0.6B-4bit | 4bit | MLX | 113.1 | - | 0.82 |
 | Qwen 3 0.6B | Q4_K_M | GGUF | 83.3 | - | 0.57 |
 | gemma-3-1b-it-4bit | 4bit | MLX | 81.4 | - | 1.08 |
 | Llama 3.2 1B Instruct | Q4_K_M | GGUF | 64.8 | - | 0.86 |
+| Gemma 3 1B | Q4_K_M | GGUF | 47.7 | - | 0.86 |
 | Qwen 3 1.7B | Q4_K_M | GGUF | 43.4 | - | 1.31 |
-| Gemma 3 1B | Q4_K_M | GGUF | 42.0 | - | 0.85 |
 | Gemma 4 E2B | Q4_K_M | GGUF | 27.4 | - | 3.39 |
 | Llama 3.2 3B Instruct | Q4_K_M | GGUF | 27.0 | - | 2.01 |
 | Qwen3.5-4B-4bit | 4bit | MLX | 23.2 | - | 3.16 |
@@ -32,6 +32,7 @@ All speed values are in **tokens/second** (higher = better). Memory is peak RSS 
 | Qwen 3 8B | Q4_K_M | GGUF | 11.0 | - | 4.81 |
 | Qwen 3.5 9B | Q4_K_M | GGUF | 8.3 | - | 5.48 |
 | Gemma 3 12B | Q4_K_M | GGUF | 6.7 | - | 6.99 |
+| DeepSeek R1 Distill 14B | Q4_K_M | GGUF | 6.4 | - | 8.52 |
 
 ---
 

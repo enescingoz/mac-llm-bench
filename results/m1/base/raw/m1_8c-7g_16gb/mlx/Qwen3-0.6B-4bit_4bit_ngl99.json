@@ -1,18 +1,18 @@
 {
   "version": "2.0",
-  "timestamp": "2026-04-07T08:29:46Z",
+  "timestamp": "2026-05-29T11:28:27Z",
   "hardware": {
     "model": "MacBook Air",
     "chip": "Apple M1",
     "total_ram_gb": 16,
-    "available_ram_gb": 7.6,
+    "available_ram_gb": 9.6,
     "cpu_cores": 8,
     "performance_cores": 4,
     "efficiency_cores": 4,
     "gpu_cores": "7",
-    "os_version": "26.3.1",
-    "power_source": "battery",
-    "disk_available_gb": 33
+    "os_version": "26.5",
+    "power_source": "ac_power",
+    "disk_available_gb": 21
   },
   "model": {
     "name": "Qwen3-0.6B-4bit",
@@ -22,8 +22,8 @@
     "file_size_gb": 0
   },
   "runtime": {
-    "name": "llama.cpp",
-    "version": "unknown"
+    "name": "mlx-lm",
+    "version": "0.31.3"
   },
   "parameters": {
     "n_gpu_layers": 99,
@@ -31,13 +31,13 @@
     "threads": 0
   },
   "speed": {
-    "pp128": 832.2,
-    "tg128": 114.71,
-    "tg256": 120.45,
-    "pp256": 890.29,
-    "pp512": 944.75
+    "pp128": 808.7,
+    "tg128": 113.14,
+    "tg256": 119.23,
+    "pp256": 871.24,
+    "pp512": 942.17
   },
   "memory": {
-    "peak_rss_gb": 0.824
+    "peak_rss_gb": 0.823
   }
 }

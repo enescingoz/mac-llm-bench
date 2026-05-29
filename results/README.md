@@ -8,7 +8,7 @@ Browse by chip generation, then select your variant (base, Pro, Max, Ultra).
 
 | Generation | Variants with Data | Total Configs | Total Models | Link |
 |------------|--------------------|---------------|--------------|------|
-| **M1** | 1 | 1 | 20 | [View results](m1/) |
+| **M1** | 1 | 1 | 21 | [View results](m1/) |
 | **M2** | 1 | 1 | 39 | [View results](m2/) |
 | **M3** | - | - | - | [Awaiting contributions](m3/) |
 | **M4** | - | - | - | [Awaiting contributions](m4/) |
@@ -30,7 +30,7 @@ Best `tg128` (text generation, tok/s) per generation:
 
 | Model | M1 | M2 | M3 | M4 | M5 | HumanEval+ |
 |-------|------:|------:|------:|------:|------:|-----------:|
-| DeepSeek R1 Distill 14B | - | 18.9 | - | - | 5.6 | - |
+| DeepSeek R1 Distill 14B | 6.4 | 18.9 | - | - | 5.6 | - |
 | DeepSeek R1 Distill 32B | - | 8.6 | - | - | 2.6 | - |
 | DeepSeek R1 Distill 7B | 11.5 | 37.4 | - | - | 11.4 | - |
 | DeepSeek-R1-Distill-Qwen-14B-4bit | - | - | - | - | 10.8 | - |
@@ -39,7 +39,7 @@ Best `tg128` (text generation, tok/s) per generation:
 | Devstral Small 24B | - | 12.3 | - | - | 3.5 | 81.7% |
 | Devstral-Small-2-24B-Instruct-2512-4bit | - | - | - | - | 6.6 | - |
 | Gemma 3 12B | 6.7 | 23.3 | - | - | 5.7 | 75.6% |
-| Gemma 3 1B | 42.0 | 151.3 | - | - | 46.6 | 34.2% |
+| Gemma 3 1B | 47.7 | 151.3 | - | - | 46.6 | 34.2% |
 | Gemma 3 27B | - | 10.2 | - | - | 3.0 | 78.7% |
 | Gemma 3 4B | 21.3 | 65.0 | - | - | 16.5 | 64.6% |
 | Gemma 4 26B-A4B MoE | - | 51.6 | - | - | 16.2 | 12.2% |
@@ -83,7 +83,7 @@ Best `tg128` (text generation, tok/s) per generation:
 | Qwen2.5-Coder-14B-Instruct-4bit | - | - | - | - | 10.9 | - |
 | Qwen2.5-Coder-32B-Instruct-4bit | - | - | - | - | 4.8 | - |
 | Qwen2.5-Coder-7B-Instruct-4bit | - | - | - | - | 23.5 | - |
-| Qwen3-0.6B-4bit | 114.7 | - | - | - | 259.1 | - |
+| Qwen3-0.6B-4bit | 113.1 | - | - | - | 259.1 | - |
 | Qwen3-8B-4bit | 12.5 | 48.1 | - | - | 24.0 | - |
 | Qwen3-Coder-30B-A3B-Instruct-4bit | - | 78.0 | - | - | - | - |
 | Qwen3.5-35B-A3B-4bit | - | - | - | - | 58.8 | - |
