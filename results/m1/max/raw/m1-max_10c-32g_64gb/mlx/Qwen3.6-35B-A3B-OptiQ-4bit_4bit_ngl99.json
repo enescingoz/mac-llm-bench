@@ -1,0 +1,43 @@
+{
+  "version": "2.0",
+  "timestamp": "2026-08-23T02:44:08Z",
+  "hardware": {
+    "model": "Mac Studio",
+    "chip": "Apple M1 Max",
+    "total_ram_gb": 64,
+    "available_ram_gb": 49.8,
+    "cpu_cores": 10,
+    "performance_cores": 8,
+    "efficiency_cores": 2,
+    "gpu_cores": "32",
+    "os_version": "27.0",
+    "power_source": "ac_power",
+    "disk_available_gb": 664
+  },
+  "model": {
+    "name": "Qwen3.6-35B-A3B-OptiQ-4bit",
+    "id": "Qwen3.6-35B-A3B-OptiQ-4bit",
+    "params": "35B",
+    "quant": "4bit",
+    "file_size_gb": 0
+  },
+  "runtime": {
+    "name": "mlx-lm",
+    "version": "0.31.3"
+  },
+  "parameters": {
+    "n_gpu_layers": 99,
+    "flash_attention": true,
+    "threads": 0
+  },
+  "speed": {
+    "pp128": 325.07,
+    "tg128": 59.77,
+    "tg256": 60.83,
+    "pp256": 529.46,
+    "pp512": 639.61
+  },
+  "memory": {
+    "peak_rss_gb": 22.803
+  }
+}

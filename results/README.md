@@ -8,7 +8,7 @@ Browse by chip generation, then select your variant (base, Pro, Max, Ultra).
 
 | Generation | Variants with Data | Total Configs | Total Models | Link |
 |------------|--------------------|---------------|--------------|------|
-| **M1** | 1 | 1 | 20 | [View results](m1/) |
+| **M1** | 2 | 2 | 23 | [View results](m1/) |
 | **M2** | 1 | 1 | 39 | [View results](m2/) |
 | **M3** | - | - | - | [Awaiting contributions](m3/) |
 | **M4** | - | - | - | [Awaiting contributions](m4/) |
@@ -21,6 +21,7 @@ Direct links to dedicated speed and quality leaderboards:
 | Chip | Speed | Code Quality |
 |------|-------|--------------|
 | M1 | [Speed](m1/base/speed/README.md) | [Code Quality](m1/base/quality/coding/README.md) |
+| M1 Max | [Speed](m1/max/speed/README.md) | [Code Quality](m1/max/quality/coding/README.md) |
 | M2 Max | [Speed](m2/max/speed/README.md) | [Code Quality](m2/max/quality/coding/README.md) |
 | M5 | [Speed](m5/base/speed/README.md) | [Code Quality](m5/base/quality/coding/README.md) |
 
@@ -79,7 +80,7 @@ Best `tg128` (text generation, tok/s) per generation:
 | Qwen 3.5 35B-A3B MoE | - | 45.4 | - | - | 31.3 | - |
 | Qwen 3.5 4B | 14.1 | 48.4 | - | - | 29.4 | - |
 | Qwen 3.5 9B | 8.3 | 30.2 | - | - | 13.2 | - |
-| Qwen 3.6 35B-A3B | - | - | - | - | 16.7 | 89.6% |
+| Qwen 3.6 35B-A3B | 43.3 | - | - | - | 16.7 | 89.6% |
 | Qwen2.5-Coder-14B-Instruct-4bit | - | - | - | - | 10.9 | - |
 | Qwen2.5-Coder-32B-Instruct-4bit | - | - | - | - | 4.8 | - |
 | Qwen2.5-Coder-7B-Instruct-4bit | - | - | - | - | 23.5 | - |
@@ -89,7 +90,8 @@ Best `tg128` (text generation, tok/s) per generation:
 | Qwen3.5-35B-A3B-4bit | - | - | - | - | 58.8 | - |
 | Qwen3.5-4B-4bit | 23.2 | - | - | - | 48.7 | - |
 | Qwen3.5-9B-MLX-4bit | - | - | - | - | 21.5 | - |
-| Qwen3.6-35B-A3B-4bit | - | - | - | - | 20.3 | - |
+| Qwen3.6-35B-A3B-4bit | 68.8 | - | - | - | 20.3 | - |
+| Qwen3.6-35B-A3B-OptiQ-4bit | 59.8 | - | - | - | - | - |
 | gemma-3-12b-it-4bit | - | - | - | - | 12.5 | - |
 | gemma-3-1b-it-4bit | 81.4 | - | - | - | 176.7 | - |
 | gemma-3-27b-it-4bit | - | - | - | - | 5.5 | - |

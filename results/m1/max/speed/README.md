@@ -6,6 +6,14 @@ All speed values are in **tokens/second** (higher = better). Memory is peak RSS 
 
 [← Back to overview](../README.md) | [Code Quality →](../quality/coding/README.md)
 
-No benchmark results yet for this chip variant.
+## M1 Max - 10 CPU / 32 GPU / 64GB
 
-**Your contribution is welcome!** See [GUIDE.md](../../GUIDE.md) and [CONTRIBUTING.md](../../CONTRIBUTING.md).
+| Model | Quant | Runtime | pp128 | pp256 | pp512 | tg128 | tg256 | Memory |
+|-------|-------|---------|------:|------:|------:|------:|------:|-------:|
+| Qwen3.6-35B-A3B-4bit | 4bit | MLX | 327.4 | 536.5 | 648.9 | 68.8 | 70.3 | 20.18 |
+| Qwen3.6-35B-A3B-OptiQ-4bit | 4bit | MLX | 325.1 | 529.5 | 639.6 | 59.8 | 60.8 | 22.80 |
+| Qwen 3.6 35B-A3B | Q4_K_M | GGUF | 493.0 | 669.3 | 801.9 | 43.3 | 49.4 | 20.88 |
+
+---
+
+*Auto-generated from raw benchmark data in [`../raw/`](../raw/). Run `python3 scripts/generate_results.py` to regenerate.*

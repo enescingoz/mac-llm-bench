@@ -8,7 +8,7 @@ Select your M1 chip variant:
 |---------|----------------|---------------|--------|
 | [M1](base/) | 1 | 20 | 1 config(s), 20 model(s) |
 | [M1 Pro](pro/) | - | - | Awaiting contributions |
-| [M1 Max](max/) | - | - | Awaiting contributions |
+| [M1 Max](max/) | 1 | 3 | 1 config(s), 3 model(s) |
 | [M1 Ultra](ultra/) | - | - | Awaiting contributions |
 
 See [CONTRIBUTING.md](../../CONTRIBUTING.md) for how to add your results.
