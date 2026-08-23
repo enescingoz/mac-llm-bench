@@ -1,0 +1,43 @@
+{
+  "version": "2.0",
+  "timestamp": "2026-08-23T03:20:58Z",
+  "hardware": {
+    "model": "Mac Studio",
+    "chip": "Apple M1 Max",
+    "total_ram_gb": 64,
+    "available_ram_gb": 19.6,
+    "cpu_cores": 10,
+    "performance_cores": 8,
+    "efficiency_cores": 2,
+    "gpu_cores": "32",
+    "os_version": "27.0",
+    "power_source": "ac_power",
+    "disk_available_gb": 603
+  },
+  "model": {
+    "name": "Qwen 3.6 35B-A3B",
+    "id": "qwen3.6-35b-a3b",
+    "params": "35B",
+    "quant": "Q4_K_M",
+    "file_size_gb": 20.75
+  },
+  "runtime": {
+    "name": "llama.cpp",
+    "version": "unknown"
+  },
+  "parameters": {
+    "n_gpu_layers": 99,
+    "flash_attention": true,
+    "threads": 0
+  },
+  "speed": {
+    "pp128": 493.01,
+    "pp256": 669.32,
+    "pp512": 801.92,
+    "tg128": 43.3,
+    "tg256": 49.37
+  },
+  "memory": {
+    "peak_rss_gb": 20.88
+  }
+}

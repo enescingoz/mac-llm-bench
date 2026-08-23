@@ -6,8 +6,16 @@ Combined speed and quality overview. Use the links below for dedicated leaderboa
 
 **[Speed Benchmarks](speed/README.md)** | **[Code Quality](quality/coding/README.md)** | [Reasoning](quality/reasoning/README.md) | [General Knowledge](quality/general/README.md)
 
-No benchmark results yet for this chip variant.
+All speed values are in **tokens/second** (higher = better). Memory is peak RSS in GB.
 
-**Your contribution is welcome!** Run the benchmarks on your M1 Max and submit the results.
+## M1 Max - 10 CPU / 32 GPU / 64GB
 
-See [GUIDE.md](../../GUIDE.md) for how to run benchmarks and [CONTRIBUTING.md](../../CONTRIBUTING.md) for how to submit results.
+| Model | Quant | Runtime | tg128 | HumanEval+ | Memory |
+|-------|-------|---------|------:|-----------:|-------:|
+| Qwen3.6-35B-A3B-4bit | 4bit | MLX | 68.8 | - | 20.18 |
+| Qwen3.6-35B-A3B-OptiQ-4bit | 4bit | MLX | 59.8 | - | 22.80 |
+| Qwen 3.6 35B-A3B | Q4_K_M | GGUF | 43.3 | - | 20.88 |
+
+---
+
+*Auto-generated from raw benchmark data in [`raw/`](raw/). Run `python3 scripts/generate_results.py` to regenerate.*
