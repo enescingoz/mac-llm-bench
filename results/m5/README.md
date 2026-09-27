@@ -8,7 +8,7 @@ Select your M5 chip variant:
 |---------|----------------|---------------|--------|
 | [M5](base/) | 1 | 64 | 1 config(s), 64 model(s) |
 | [M5 Pro](pro/) | - | - | Awaiting contributions |
-| [M5 Max](max/) | - | - | Awaiting contributions |
+| [M5 Max](max/) | 1 | 65 | 1 config(s), 65 model(s) |
 | [M5 Ultra](ultra/) | - | - | Awaiting contributions |
 
 See [CONTRIBUTING.md](../../CONTRIBUTING.md) for how to add your results.

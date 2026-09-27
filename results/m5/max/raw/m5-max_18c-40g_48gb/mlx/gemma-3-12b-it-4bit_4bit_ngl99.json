@@ -1,0 +1,43 @@
+{
+  "version": "2.0",
+  "timestamp": "2026-09-27T19:36:50Z",
+  "hardware": {
+    "model": "Mac Studio",
+    "chip": "Apple M5 Max",
+    "total_ram_gb": 48,
+    "available_ram_gb": 30.6,
+    "cpu_cores": 18,
+    "performance_cores": 6,
+    "efficiency_cores": 12,
+    "gpu_cores": "40",
+    "os_version": "27.0",
+    "power_source": "ac_power",
+    "disk_available_gb": 346
+  },
+  "model": {
+    "name": "gemma-3-12b-it-4bit",
+    "id": "gemma-3-12b-it-4bit",
+    "params": "?",
+    "quant": "4bit",
+    "file_size_gb": 0
+  },
+  "runtime": {
+    "name": "mlx-lm",
+    "version": "0.31.3"
+  },
+  "parameters": {
+    "n_gpu_layers": 99,
+    "flash_attention": true,
+    "threads": 0
+  },
+  "speed": {
+    "pp128": 1006.86,
+    "tg128": 66.89,
+    "tg256": 67.27,
+    "pp256": 1517.16,
+    "pp512": 1834.89
+  },
+  "memory": {
+    "peak_rss_gb": 7.921
+  }
+}

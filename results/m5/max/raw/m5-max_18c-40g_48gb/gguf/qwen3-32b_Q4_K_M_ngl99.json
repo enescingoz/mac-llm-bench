@@ -1,0 +1,43 @@
+{
+  "version": "2.0",
+  "timestamp": "2026-09-27T01:25:38Z",
+  "hardware": {
+    "model": "Mac Studio",
+    "chip": "Apple M5 Max",
+    "total_ram_gb": 48,
+    "available_ram_gb": 13.6,
+    "cpu_cores": 18,
+    "performance_cores": 6,
+    "efficiency_cores": 12,
+    "gpu_cores": "40",
+    "os_version": "27.0",
+    "power_source": "ac_power",
+    "disk_available_gb": 346
+  },
+  "model": {
+    "name": "Qwen 3 32B",
+    "id": "qwen3-32b",
+    "params": "32B",
+    "quant": "Q4_K_M",
+    "file_size_gb": 18.4
+  },
+  "runtime": {
+    "name": "llama.cpp",
+    "version": "load_backend: loaded BLAS backend from /opt/homebrew/Cellar/ggml/0.25.3/libexec/libggml-blas.so"
+  },
+  "parameters": {
+    "n_gpu_layers": 99,
+    "flash_attention": true,
+    "threads": 0
+  },
+  "speed": {
+    "pp128": 461.28,
+    "pp256": 631.47,
+    "pp512": 667.0,
+    "tg128": 26.38,
+    "tg256": 26.37
+  },
+  "memory": {
+    "peak_rss_gb": 18.59
+  }
+}

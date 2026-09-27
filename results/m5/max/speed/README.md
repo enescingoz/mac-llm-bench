@@ -6,6 +6,76 @@ All speed values are in **tokens/second** (higher = better). Memory is peak RSS 
 
 [← Back to overview](../README.md) | [Code Quality →](../quality/coding/README.md)
 
-No benchmark results yet for this chip variant.
+## M5 Max - 18 CPU / 40 GPU / 48GB
 
-**Your contribution is welcome!** See [GUIDE.md](../../GUIDE.md) and [CONTRIBUTING.md](../../CONTRIBUTING.md).
+| Model | Quant | Runtime | pp128 | pp256 | pp512 | tg128 | tg256 | Memory |
+|-------|-------|---------|------:|------:|------:|------:|------:|-------:|
+| Qwen3-0.6B-4bit | 4bit | MLX | 9042.7 | 12175.9 | 22693.8 | 570.6 | 594.1 | 0.86 |
+| Llama-3.2-1B-Instruct-4bit | 4bit | MLX | 7439.9 | 13408.6 | 17477.0 | 527.7 | 542.9 | 1.23 |
+| Qwen 3 0.6B | Q4_K_M | GGUF | 10629.6 | 18270.0 | 23288.5 | 457.1 | 456.6 | 0.60 |
+| Llama 3.2 1B Instruct | Q4_K_M | GGUF | 8884.2 | 13241.0 | 16967.9 | 439.6 | 439.2 | 0.89 |
+| gemma-3-1b-it-4bit | 4bit | MLX | 5755.3 | 9158.1 | 17261.9 | 374.4 | 373.1 | 1.26 |
+| Qwen3-1.7B-4bit | 4bit | MLX | 4806.2 | 8365.2 | 12362.2 | 366.0 | 371.8 | 1.71 |
+| Gemma 3 1B | Q4_K_M | GGUF | 7816.5 | 12611.8 | 16750.2 | 294.9 | 292.6 | 0.88 |
+| Qwen 3 1.7B | Q4_K_M | GGUF | 6190.8 | 8638.6 | 11493.0 | 288.6 | 287.0 | 1.34 |
+| Llama-3.2-3B-Instruct-4bit | 4bit | MLX | 4039.8 | 5312.3 | 7307.2 | 237.9 | 239.9 | 2.49 |
+| Llama 3.2 3B Instruct | Q4_K_M | GGUF | 3642.3 | 5149.3 | 6122.5 | 199.9 | 199.5 | 2.04 |
+| phi-4-mini-instruct-4bit | 4bit | MLX | 3728.5 | 5040.1 | 6281.4 | 190.8 | 192.3 | 2.97 |
+| Qwen3-4B-4bit | 4bit | MLX | 2990.4 | 4214.1 | 5505.7 | 186.0 | 188.5 | 2.99 |
+| gemma-3-4b-it-4bit | 4bit | MLX | 2589.0 | 3725.6 | 5550.3 | 176.2 | 178.1 | 3.27 |
+| Gemma 4 E2B | Q4_K_M | GGUF | 3508.0 | 5276.4 | 7021.2 | 173.7 | 173.1 | 3.42 |
+| Phi 4 Mini 3.8B | Q4_K_M | GGUF | 3372.7 | 4807.5 | 5416.2 | 165.0 | 164.7 | 2.48 |
+| Phi 4 Mini Reasoning 3.8B | Q4_K_M | GGUF | 3339.0 | 4803.4 | 5412.7 | 164.9 | 164.2 | 2.48 |
+| Qwen 3 4B | Q4_K_M | GGUF | 2671.0 | 3761.9 | 4972.7 | 159.7 | 159.5 | 2.48 |
+| Qwen3.6-35B-A3B-4bit | 4bit | MLX | 1179.2 | 2516.5 | 3333.4 | 151.1 | 151.0 | 20.18 |
+| Gemma 3 4B | Q4_K_M | GGUF | 3115.4 | 4418.4 | 5760.6 | 150.5 | 140.8 | 2.48 |
+| Qwen 3 30B-A3B MoE | Q4_K_M | GGUF | 1798.4 | 2669.3 | 3496.8 | 148.5 | 148.6 | 17.51 |
+| Qwen3-30B-A3B-4bit | 4bit | MLX | 1488.0 | 2626.7 | 3458.2 | 147.2 | 148.7 | 17.75 |
+| Qwen 3.5 4B | Q4_K_M | GGUF | 2443.8 | 3264.9 | 4099.7 | 135.6 | 135.2 | 2.77 |
+| Qwen 3.6 35B-A3B | Q4_K_M | GGUF | 1830.1 | 2638.0 | 3342.7 | 124.3 | 124.6 | 20.90 |
+| Qwen2.5-Coder-7B-Instruct-4bit | 4bit | MLX | 2139.3 | 2987.1 | 3362.9 | 121.8 | 122.5 | 4.85 |
+| DeepSeek-R1-Distill-Qwen-7B-4bit | 4bit | MLX | 2139.6 | 2956.6 | 3351.8 | 121.3 | 122.0 | 4.85 |
+| Mistral-7B-Instruct-v0.3-4bit | 4bit | MLX | 1944.3 | 2499.7 | 3210.4 | 120.7 | 121.2 | 4.67 |
+| Gemma 4 26B-A4B MoE | Q4_K_M | GGUF | 1888.3 | 2778.4 | 3423.2 | 116.9 | 117.4 | 16.10 |
+| Meta-Llama-3.1-8B-Instruct-4bit | 4bit | MLX | 1932.3 | 2487.9 | 3225.7 | 115.4 | 115.5 | 5.12 |
+| Qwen 3.5 35B-A3B MoE | Q4_K_M | GGUF | 1847.2 | 2667.4 | 3378.3 | 111.2 | 111.2 | 20.75 |
+| Qwen3-8B-4bit | 4bit | MLX | 1876.6 | 2405.1 | 3150.6 | 110.5 | 111.0 | 5.22 |
+| Gemma 4 E4B | Q4_K_M | GGUF | 2177.0 | 3203.5 | 4217.2 | 110.5 | 110.0 | 5.23 |
+| Mistral 7B Instruct v0.3 | Q4_K_M | GGUF | 1918.4 | 2469.0 | 2772.2 | 107.1 | 106.9 | 4.19 |
+| Qwen 2.5 Coder 7B | Q4_K_M | GGUF | 1912.3 | 2515.4 | 2901.3 | 106.0 | 105.4 | 4.50 |
+| DeepSeek R1 Distill 7B | Q4_K_M | GGUF | 1905.9 | 2514.0 | 2899.7 | 105.6 | 103.2 | 4.50 |
+| Llama 3.1 8B Instruct | Q4_K_M | GGUF | 1902.8 | 2457.1 | 2758.3 | 101.1 | 101.0 | 4.75 |
+| Qwen 3 8B | Q4_K_M | GGUF | 1848.1 | 2439.6 | 2744.7 | 97.7 | 97.8 | 4.84 |
+| Qwen 3.5 9B | Q4_K_M | GGUF | 1694.8 | 2129.8 | 2369.2 | 86.5 | 86.5 | 5.51 |
+| Mistral-Nemo-Instruct-2407-4bit | 4bit | MLX | 1317.7 | 1659.4 | 2087.2 | 75.6 | 75.8 | 7.48 |
+| Mistral Nemo 12B | Q4_K_M | GGUF | 1246.4 | 1702.0 | 1872.2 | 68.6 | 68.2 | 7.13 |
+| gemma-3-12b-it-4bit | 4bit | MLX | 1006.9 | 1517.2 | 1834.9 | 66.9 | 67.3 | 7.92 |
+| Qwen3-14B-4bit | 4bit | MLX | 1145.6 | 1393.0 | 1738.6 | 62.5 | 62.7 | 8.82 |
+| phi-4-4bit | 4bit | MLX | 1177.0 | 1469.7 | 1685.9 | 62.0 | 62.5 | 8.91 |
+| Gemma 3 12B | Q4_K_M | GGUF | 1216.2 | 1581.4 | 1721.5 | 61.5 | 61.4 | 7.02 |
+| Qwen2.5-Coder-14B-Instruct-4bit | 4bit | MLX | 1079.5 | 1358.9 | 1719.3 | 60.8 | 61.4 | 8.93 |
+| DeepSeek-R1-Distill-Qwen-14B-4bit | 4bit | MLX | 1079.8 | 1355.6 | 1714.8 | 60.7 | 61.2 | 8.93 |
+| Qwen 3 14B | Q4_K_M | GGUF | 1044.4 | 1463.6 | 1584.3 | 57.4 | 56.6 | 8.55 |
+| Phi 4 Reasoning Plus 14B | Q4_K_M | GGUF | 1068.0 | 1447.2 | 1537.5 | 56.8 | 56.7 | 8.59 |
+| DeepSeek R1 Distill 14B | Q4_K_M | GGUF | 998.6 | 1401.5 | 1547.5 | 56.5 | 56.3 | 8.54 |
+| Phi 4 14B | Q4_K_M | GGUF | 1068.4 | 1445.3 | 1534.2 | 56.3 | 56.2 | 8.59 |
+| Qwen 2.5 Coder 14B | Q4_K_M | GGUF | 997.4 | 1400.2 | 1546.0 | 56.0 | 56.0 | 8.54 |
+| Mistral-Small-3.1-24B-Instruct-2503-4bit | 4bit | MLX | 723.3 | 882.1 | 1051.0 | 41.1 | 41.1 | 13.76 |
+| Devstral Small 24B | Q4_K_M | GGUF | 681.6 | 913.0 | 978.1 | 37.6 | 37.3 | 13.52 |
+| Mistral Small 3.1 24B | Q4_K_M | GGUF | 681.0 | 911.9 | 977.1 | 37.2 | 37.1 | 13.52 |
+| gemma-3-27b-it-4bit | 4bit | MLX | 520.3 | 720.5 | 854.4 | 31.8 | 31.9 | 16.69 |
+| Gemma 3 27B | Q4_K_M | GGUF | 582.0 | 709.2 | 751.0 | 29.9 | 29.9 | 15.66 |
+| Qwen 3.5 27B | Q4_K_M | GGUF | 529.5 | 688.0 | 730.5 | 29.2 | 28.8 | 15.95 |
+| Qwen3-32B-4bit | 4bit | MLX | 491.5 | 602.5 | 730.9 | 28.4 | 28.5 | 19.15 |
+| Qwen2.5-Coder-32B-Instruct-4bit | 4bit | MLX | 493.9 | 615.8 | 734.4 | 28.4 | 28.4 | 19.12 |
+| QwQ-32B-4bit | 4bit | MLX | 493.3 | 616.5 | 734.8 | 28.4 | 28.5 | 19.12 |
+| DeepSeek-R1-Distill-Qwen-32B-4bit | 4bit | MLX | 493.4 | 616.6 | 731.4 | 28.3 | 28.4 | 19.12 |
+| DeepSeek R1 Distill 32B | Q4_K_M | GGUF | 467.3 | 640.4 | 685.5 | 26.4 | 26.3 | 18.68 |
+| Qwen 3 32B | Q4_K_M | GGUF | 461.3 | 631.5 | 667.0 | 26.4 | 26.4 | 18.59 |
+| Qwen 2.5 Coder 32B | Q4_K_M | GGUF | 467.2 | 640.9 | 685.0 | 26.3 | 26.2 | 18.68 |
+| QwQ 32B | Q4_K_M | GGUF | 467.8 | 641.7 | 685.4 | 26.3 | 26.1 | 18.68 |
+| Gemma 4 31B | Q4_K_M | GGUF | 498.6 | 594.7 | 626.5 | 25.2 | 25.1 | 18.65 |
+
+---
+
+*Auto-generated from raw benchmark data in [`../raw/`](../raw/). Run `python3 scripts/generate_results.py` to regenerate.*
