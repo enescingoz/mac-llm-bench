@@ -1,0 +1,43 @@
+{
+  "version": "2.0",
+  "timestamp": "2026-09-27T20:36:00Z",
+  "hardware": {
+    "model": "Mac Studio",
+    "chip": "Apple M5 Max",
+    "total_ram_gb": 48,
+    "available_ram_gb": 31.3,
+    "cpu_cores": 18,
+    "performance_cores": 6,
+    "efficiency_cores": 12,
+    "gpu_cores": "40",
+    "os_version": "27.0",
+    "power_source": "ac_power",
+    "disk_available_gb": 346
+  },
+  "model": {
+    "name": "Qwen3-14B-4bit",
+    "id": "Qwen3-14B-4bit",
+    "params": "14B",
+    "quant": "4bit",
+    "file_size_gb": 0
+  },
+  "runtime": {
+    "name": "mlx-lm",
+    "version": "0.31.3"
+  },
+  "parameters": {
+    "n_gpu_layers": 99,
+    "flash_attention": true,
+    "threads": 0
+  },
+  "speed": {
+    "pp128": 1145.62,
+    "tg128": 62.55,
+    "tg256": 62.71,
+    "pp256": 1393.0,
+    "pp512": 1738.59
+  },
+  "memory": {
+    "peak_rss_gb": 8.825
+  }
+}

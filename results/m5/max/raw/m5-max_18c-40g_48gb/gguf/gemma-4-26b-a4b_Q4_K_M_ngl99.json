@@ -1,0 +1,43 @@
+{
+  "version": "2.0",
+  "timestamp": "2026-09-26T23:55:27Z",
+  "hardware": {
+    "model": "Mac Studio",
+    "chip": "Apple M5 Max",
+    "total_ram_gb": 48,
+    "available_ram_gb": 14.3,
+    "cpu_cores": 18,
+    "performance_cores": 6,
+    "efficiency_cores": 12,
+    "gpu_cores": "40",
+    "os_version": "27.0",
+    "power_source": "ac_power",
+    "disk_available_gb": 346
+  },
+  "model": {
+    "name": "Gemma 4 26B-A4B MoE",
+    "id": "gemma-4-26b-a4b",
+    "params": "26B",
+    "quant": "Q4_K_M",
+    "file_size_gb": 15.87
+  },
+  "runtime": {
+    "name": "llama.cpp",
+    "version": "load_backend: loaded BLAS backend from /opt/homebrew/Cellar/ggml/0.25.3/libexec/libggml-blas.so"
+  },
+  "parameters": {
+    "n_gpu_layers": 99,
+    "flash_attention": true,
+    "threads": 0
+  },
+  "speed": {
+    "pp128": 1888.26,
+    "pp256": 2778.42,
+    "pp512": 3423.18,
+    "tg128": 116.89,
+    "tg256": 117.37
+  },
+  "memory": {
+    "peak_rss_gb": 16.1
+  }
+}
