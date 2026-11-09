@@ -1,0 +1,37 @@
+{
+  "version": "2.0",
+  "timestamp": "2026-11-09T14:01:29Z",
+  "hardware": {
+    "model": "MacBook Pro",
+    "chip": "Apple M5 Pro",
+    "total_ram_gb": 24,
+    "available_ram_gb": 13.0,
+    "cpu_cores": 18,
+    "performance_cores": 6,
+    "efficiency_cores": 12,
+    "gpu_cores": "20",
+    "os_version": "27.0.1",
+    "power_source": "ac_power",
+    "disk_available_gb": 64
+  },
+  "model": {
+    "name": "Qwen 3.5 35B-A3B MoE",
+    "id": "qwen3.5-35b-a3b",
+    "params": "35B",
+    "quant": "Q4_K_M",
+    "file_size_gb": 20.5
+  },
+  "runtime": {
+    "name": "llama.cpp",
+    "version": "load_backend: loaded BLAS backend from /opt/homebrew/Cellar/ggml/0.29.0/libexec/libggml-blas.so"
+  },
+  "parameters": {
+    "n_gpu_layers": 99,
+    "flash_attention": true,
+    "threads": 0
+  },
+  "speed": {},
+  "memory": {
+    "peak_rss_gb": 0.0
+  }
+}

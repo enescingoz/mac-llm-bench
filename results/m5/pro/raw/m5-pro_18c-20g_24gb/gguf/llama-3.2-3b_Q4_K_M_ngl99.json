@@ -1,0 +1,43 @@
+{
+  "version": "2.0",
+  "timestamp": "2026-11-09T13:05:55Z",
+  "hardware": {
+    "model": "MacBook Pro",
+    "chip": "Apple M5 Pro",
+    "total_ram_gb": 24,
+    "available_ram_gb": 11.9,
+    "cpu_cores": 18,
+    "performance_cores": 6,
+    "efficiency_cores": 12,
+    "gpu_cores": "20",
+    "os_version": "27.0.1",
+    "power_source": "ac_power",
+    "disk_available_gb": 230
+  },
+  "model": {
+    "name": "Llama 3.2 3B Instruct",
+    "id": "llama-3.2-3b",
+    "params": "3B",
+    "quant": "Q4_K_M",
+    "file_size_gb": 1.88
+  },
+  "runtime": {
+    "name": "llama.cpp",
+    "version": "load_backend: loaded BLAS backend from /opt/homebrew/Cellar/ggml/0.29.0/libexec/libggml-blas.so"
+  },
+  "parameters": {
+    "n_gpu_layers": 99,
+    "flash_attention": true,
+    "threads": 0
+  },
+  "speed": {
+    "pp128": 2751.95,
+    "pp256": 3215.62,
+    "pp512": 3351.29,
+    "tg128": 114.76,
+    "tg256": 112.99
+  },
+  "memory": {
+    "peak_rss_gb": 2.05
+  }
+}
