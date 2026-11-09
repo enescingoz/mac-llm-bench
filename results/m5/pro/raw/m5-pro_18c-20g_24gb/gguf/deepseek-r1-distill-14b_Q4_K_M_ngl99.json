@@ -1,0 +1,43 @@
+{
+  "version": "2.0",
+  "timestamp": "2026-11-09T12:28:37Z",
+  "hardware": {
+    "model": "MacBook Pro",
+    "chip": "Apple M5 Pro",
+    "total_ram_gb": 24,
+    "available_ram_gb": 5.2,
+    "cpu_cores": 18,
+    "performance_cores": 6,
+    "efficiency_cores": 12,
+    "gpu_cores": "20",
+    "os_version": "27.0.1",
+    "power_source": "ac_power",
+    "disk_available_gb": 343
+  },
+  "model": {
+    "name": "DeepSeek R1 Distill 14B",
+    "id": "deepseek-r1-distill-14b",
+    "params": "14B",
+    "quant": "Q4_K_M",
+    "file_size_gb": 8.37
+  },
+  "runtime": {
+    "name": "llama.cpp",
+    "version": "load_backend: loaded BLAS backend from /opt/homebrew/Cellar/ggml/0.29.0/libexec/libggml-blas.so"
+  },
+  "parameters": {
+    "n_gpu_layers": 99,
+    "flash_attention": true,
+    "threads": 0
+  },
+  "speed": {
+    "pp128": 706.57,
+    "pp256": 758.01,
+    "pp512": 770.09,
+    "tg128": 30.52,
+    "tg256": 30.51
+  },
+  "memory": {
+    "peak_rss_gb": 8.56
+  }
+}

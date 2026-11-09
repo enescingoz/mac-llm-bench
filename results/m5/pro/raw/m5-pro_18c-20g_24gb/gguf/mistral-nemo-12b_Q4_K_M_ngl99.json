@@ -1,0 +1,43 @@
+{
+  "version": "2.0",
+  "timestamp": "2026-11-09T13:11:12Z",
+  "hardware": {
+    "model": "MacBook Pro",
+    "chip": "Apple M5 Pro",
+    "total_ram_gb": 24,
+    "available_ram_gb": 8.9,
+    "cpu_cores": 18,
+    "performance_cores": 6,
+    "efficiency_cores": 12,
+    "gpu_cores": "20",
+    "os_version": "27.0.1",
+    "power_source": "ac_power",
+    "disk_available_gb": 219
+  },
+  "model": {
+    "name": "Mistral Nemo 12B",
+    "id": "mistral-nemo-12b",
+    "params": "12B",
+    "quant": "Q4_K_M",
+    "file_size_gb": 6.96
+  },
+  "runtime": {
+    "name": "llama.cpp",
+    "version": "load_backend: loaded BLAS backend from /opt/homebrew/Cellar/ggml/0.29.0/libexec/libggml-blas.so"
+  },
+  "parameters": {
+    "n_gpu_layers": 99,
+    "flash_attention": true,
+    "threads": 0
+  },
+  "speed": {
+    "pp128": 894.34,
+    "pp256": 924.59,
+    "pp512": 957.17,
+    "tg128": 36.85,
+    "tg256": 36.73
+  },
+  "memory": {
+    "peak_rss_gb": 7.07
+  }
+}

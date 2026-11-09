@@ -6,8 +6,51 @@ Combined speed and quality overview. Use the links below for dedicated leaderboa
 
 **[Speed Benchmarks](speed/README.md)** | **[Code Quality](quality/coding/README.md)** | [Reasoning](quality/reasoning/README.md) | [General Knowledge](quality/general/README.md)
 
-No benchmark results yet for this chip variant.
+All speed values are in **tokens/second** (higher = better). Memory is peak RSS in GB.
 
-**Your contribution is welcome!** Run the benchmarks on your M5 Pro and submit the results.
+## M5 Pro - 18 CPU / 20 GPU / 24GB
 
-See [GUIDE.md](../../GUIDE.md) for how to run benchmarks and [CONTRIBUTING.md](../../CONTRIBUTING.md) for how to submit results.
+| Model | Quant | tg128 | HumanEval+ | Memory |
+|-------|-------|------:|-----------:|-------:|
+| Qwen 3 0.6B | Q4_K_M | 356.9 | - | 0.61 |
+| Llama 3.2 1B Instruct | Q4_K_M | 272.7 | - | 0.90 |
+| Gemma 3 1B | Q4_K_M | 220.8 | - | 0.88 |
+| Qwen 3 1.7B | Q4_K_M | 191.8 | - | 1.35 |
+| Gemma 4 E2B | Q4_K_M | 122.1 | - | 3.42 |
+| Llama 3.2 3B Instruct | Q4_K_M | 114.8 | - | 2.05 |
+| Phi 4 Mini 3.8B | Q4_K_M | 97.2 | - | 2.49 |
+| Phi 4 Mini Reasoning 3.8B | Q4_K_M | 97.1 | - | 2.49 |
+| Qwen 3 4B | Q4_K_M | 94.1 | - | 2.50 |
+| Gemma 3 4B | Q4_K_M | 93.2 | - | 2.48 |
+| Qwen 3.5 4B | Q4_K_M | 78.2 | - | 2.78 |
+| Gemma 4 26B-A4B MoE | Q4_K_M | 74.6 | - | 16.11 |
+| Gemma 4 E4B | Q4_K_M | 70.2 | - | 5.22 |
+| Qwen 2.5 Coder 7B | Q4_K_M | 60.1 | - | 4.51 |
+| Mistral 7B Instruct v0.3 | Q4_K_M | 59.6 | - | 4.20 |
+| DeepSeek R1 Distill 7B | Q4_K_M | 56.9 | - | 4.51 |
+| Llama 3.1 8B Instruct | Q4_K_M | 55.8 | - | 4.70 |
+| Qwen 3 8B | Q4_K_M | 54.9 | - | 4.85 |
+| Qwen 3.5 9B | Q4_K_M | 47.3 | - | 5.44 |
+| Mistral Nemo 12B | Q4_K_M | 36.9 | - | 7.07 |
+| Gemma 3 12B | Q4_K_M | 34.8 | - | 7.03 |
+| Qwen 3 14B | Q4_K_M | 31.2 | - | 8.56 |
+| Qwen 2.5 Coder 14B | Q4_K_M | 30.9 | - | 8.56 |
+| Phi 4 Reasoning Plus 14B | Q4_K_M | 30.6 | - | 8.60 |
+| Phi 4 14B | Q4_K_M | 30.6 | - | 8.60 |
+| DeepSeek R1 Distill 14B | Q4_K_M | 30.5 | - | 8.56 |
+| Mistral Small 3.1 24B | Q4_K_M | 19.8 | - | 13.53 |
+| Devstral Small 24B | Q4_K_M | 19.6 | - | 13.47 |
+| Gemma 3 27B | Q4_K_M | 16.0 | - | 15.67 |
+| Qwen 3.5 27B | Q4_K_M | 15.9 | - | 15.68 |
+| DeepSeek R1 Distill 32B | Q4_K_M | - | - | 0.00 |
+| Gemma 4 31B | Q4_K_M | - | - | 0.00 |
+| Qwen 2.5 Coder 32B | Q4_K_M | - | - | 0.00 |
+| Qwen 3 30B-A3B MoE | Q4_K_M | - | - | 17.52 |
+| Qwen 3 32B | Q4_K_M | - | - | 0.00 |
+| Qwen 3.5 35B-A3B MoE | Q4_K_M | - | - | 0.00 |
+| Qwen 3.6 35B-A3B | Q4_K_M | - | - | 0.00 |
+| QwQ 32B | Q4_K_M | - | - | 0.00 |
+
+---
+
+*Auto-generated from raw benchmark data in [`raw/`](raw/). Run `python3 scripts/generate_results.py` to regenerate.*
